@@ -2,6 +2,7 @@ import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useMediaQuery } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import BaseRouter from './router/index';
 
 const darkTheme = createTheme({
@@ -22,16 +23,20 @@ const lightTheme = createTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = prefersDarkMode ? darkTheme : lightTheme;
 
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BaseRouter />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <BaseRouter />
+        </ThemeProvider>
+      </QueryClientProvider>
     </div>
   );
 }
