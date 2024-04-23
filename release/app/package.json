@@ -1,12 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
+  "name": "sapphire",
   "version": "0.2.0",
-  "description": "A foundation for scalable desktop apps",
+  "description": "A modern Electron boilerplate with TypeScript, React, and more.",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
+    "name": "Sapphire Team",
     "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "url": "https://github.com/sduoffline"
   },
   "main": "./dist/main/main.js",
   "scripts": {
