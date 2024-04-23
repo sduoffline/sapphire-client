@@ -13,6 +13,9 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
+import TitlebarImageList from './DetailList';
+import LeaderBoard from './LeaderBoard';
+
 function Workshop() {
   return (
     <div>
@@ -20,12 +23,14 @@ function Workshop() {
         <Stack direction="row" spacing={2}>
           <Paper
             component="form"
+            elevation={1}
             sx={{
               p: '2px 4px',
               display: 'flex',
               alignItems: 'center',
-              // width: 400,
               flex: 1,
+              // 圆角
+              borderRadius: '18px',
             }}
           >
             <Typography sx={{ ml: 1 }}>搜索</Typography>
@@ -34,7 +39,16 @@ function Workshop() {
               <SearchIcon />
             </IconButton>
           </Paper>
-          <Button variant="contained" endIcon={<AddIcon />}>
+          <Button
+            variant="contained"
+            endIcon={<AddIcon />}
+            sx={{
+              borderRadius: '14px',
+              '&:hover': {
+                shadow: 'none',
+              },
+            }}
+          >
             创建数据集
           </Button>
         </Stack>
@@ -43,27 +57,11 @@ function Workshop() {
         <Divider />
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Box
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'primary.contrastText',
-              p: 2,
-            }}
-          >
-            Primary
-          </Box>
+        <Grid item xs={9}>
+          <TitlebarImageList />
         </Grid>
-        <Grid item xs={4}>
-          <Box
-            sx={{
-              bgcolor: 'secondary.main',
-              color: 'secondary.contrastText',
-              p: 2,
-            }}
-          >
-            Secondary
-          </Box>
+        <Grid item xs={3}>
+          <LeaderBoard />
         </Grid>
       </Grid>
     </div>

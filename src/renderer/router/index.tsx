@@ -27,6 +27,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import routes from './routes';
 import NotFoundPage from '../pages/common/404';
 import Workshop from '../pages/workshop/Workshop';
+import DatasetDetail from '../pages/dataset/DatasetDetail';
 
 const drawerWidth = 240;
 
@@ -61,7 +62,7 @@ function BaseWrapper() {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar variant="dense">
           <IconButton
             onClick={toggleDrawer}
             size="large"
@@ -141,11 +142,6 @@ function BaseWrapper() {
               <ListItemText primary="关于" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="退出登录" />
-            </ListItemButton>
-          </ListItem>
         </List>
       </Drawer>
       <Container
@@ -166,8 +162,8 @@ function BaseRouter() {
         <Route path="/" element={<BaseWrapper />}>
           <Route path="/workbench" element={<div> Hello </div>} />
           <Route path="/workshop" element={<Workshop />} />
+          <Route path="/dataset/detail/:id" element={<DatasetDetail />} />
         </Route>
-
         <Route path="*" element={<BaseWrapper />}>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
