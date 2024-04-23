@@ -9,8 +9,7 @@ import {
   TimelineContent,
 } from '@mui/lab';
 import { timelineOppositeContentClasses } from '@mui/lab/TimelineOppositeContent';
-
-import DayHeatmap from '../../components/DayHeatmap';
+import DayHeatmap from '../../components/DayHeatMap';
 
 export default function ProgressTab() {
   return (
