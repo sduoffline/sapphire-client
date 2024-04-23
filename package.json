@@ -208,7 +208,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "sduonline",
+      "owner": "sduoffline",
       "repo": "sapphire-client"
     }
   },
