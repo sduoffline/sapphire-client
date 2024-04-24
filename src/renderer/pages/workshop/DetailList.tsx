@@ -74,7 +74,12 @@ export default function TitlebarImageList() {
       {isError && <div>Something went wrong...</div>}
       {isSuccess && (
         // 禁用滚动条
-        <ImageList cols={3} gap={12} sx={{ overflow: 'hidden' }}>
+        <ImageList
+          variant="masonry"
+          cols={3}
+          gap={12}
+          sx={{ overflow: 'hidden' }}
+        >
           {data.map((item) => (
             <DatasetItem key={item.id} item={item} />
           ))}

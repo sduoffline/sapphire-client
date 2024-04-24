@@ -69,9 +69,9 @@ export default function LeaderBoard() {
               </ListItemAvatar>
               <ListItemText primary={item.description} />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="info">
+                {/* <IconButton edge="end" aria-label="info">
                   <InfoIcon />
-                </IconButton>
+                </IconButton> */}
               </ListItemSecondaryAction>
             </ListItem>
           ))}
