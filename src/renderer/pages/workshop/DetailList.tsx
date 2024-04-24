@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   ImageList,
   ImageListItem,
@@ -62,7 +63,38 @@ function DatasetItem({ item }: DatasetItemProps) {
 }
 
 export default function TitlebarImageList() {
-  const { data, isPending, isError, isSuccess } = useDatasets();
+  const {
+    data: datasets,
+    isError,
+    isPending,
+    isSuccess,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useDatasets();
+
+  const handleScroll = () => {
+    // 如果正在加载下一页数据，则不再加载
+    if (isFetchingNextPage) {
+      return;
+    }
+
+    const bias = 128;
+    if (
+      // 相差一定距离时加载下一页
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - bias
+    ) {
+      return;
+    }
+    fetchNextPage();
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
 
   return (
     <div>
@@ -80,11 +112,19 @@ export default function TitlebarImageList() {
           gap={12}
           sx={{ overflow: 'hidden' }}
         >
-          {data.map((item) => (
-            <DatasetItem key={item.id} item={item} />
-          ))}
+          {datasets.pages.map((page) =>
+            page.map((item) => <DatasetItem key={item.id} item={item} />),
+          )}
         </ImageList>
       )}
+      {
+        // 加载更多
+        isFetchingNextPage && (
+          <Container sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+            <CircularProgress />
+          </Container>
+        )
+      }
     </div>
   );
 }
