@@ -27,6 +27,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import routes from './routes';
 import NotFoundPage from '../pages/common/404';
 import Workshop from '../pages/workshop/Workshop';
+import Workbench from '../pages/workbench/Workbench';
 import DatasetDetail from '../pages/dataset/DatasetDetail';
 
 const drawerWidth = 240;
@@ -160,7 +161,7 @@ function BaseRouter() {
     <Router>
       <Routes>
         <Route path="/" element={<BaseWrapper />}>
-          <Route path="/workbench" element={<div> Hello </div>} />
+          <Route path="/workbench" element={<Workbench />} />
           <Route path="/workshop" element={<Workshop />} />
           <Route path="/dataset/detail/:id" element={<DatasetDetail />} />
         </Route>
