@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Dataset } from '../types';
 
-async function getDatasets(): Promise<Dataset[]> {
+async function fetchDatasets(): Promise<Dataset[]> {
   // 延迟 3 秒，模拟网络请求
   await new Promise((resolve) => {
     setTimeout(resolve, 3000);
@@ -24,6 +24,6 @@ async function getDatasets(): Promise<Dataset[]> {
   }));
 }
 
-export default function useDataset() {
-  return useQuery({ queryKey: ['datasets'], queryFn: getDatasets });
+export default function useDatasets() {
+  return useQuery({ queryKey: ['datasets'], queryFn: fetchDatasets });
 }

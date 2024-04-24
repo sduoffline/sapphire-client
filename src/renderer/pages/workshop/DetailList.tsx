@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from '@mui/icons-material';
 
-import useDataset from '../../queries/useDataset';
+import useDatasets from '../../queries/useDatasets';
 import { Dataset } from '../../types';
 
 interface DatasetItemProps {
@@ -19,13 +19,13 @@ interface DatasetItemProps {
 function DatasetItem({ item }: DatasetItemProps) {
   const navigate = useNavigate();
 
-  const handleClick = (title: string) => {
-    navigate(`/dataset/detail/${title}`);
+  const handleClick = (id: number) => {
+    navigate(`/dataset/detail/${id}`);
   };
 
   return (
     <ImageListItem
-      onClick={() => handleClick(item.name)}
+      onClick={() => handleClick(item.id)}
       key={item.img}
       sx={{
         boxShadow: '0 0 5px 0 rgba(0, 0, 0, 0.2)',
@@ -62,7 +62,7 @@ function DatasetItem({ item }: DatasetItemProps) {
 }
 
 export default function TitlebarImageList() {
-  const { data, isPending, isError, isSuccess } = useDataset();
+  const { data, isPending, isError, isSuccess } = useDatasets();
 
   return (
     <div>

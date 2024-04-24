@@ -15,22 +15,15 @@ export default function ProgressTab() {
   return (
     <div>
       {/* 具体进度 */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-space-between',
-          alignItems: 'center',
-          m: 2,
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">采集进度</Typography>
-        <LinearProgress
-          variant="determinate"
-          value={80}
-          sx={{ ml: 2, flexGrow: 1, marginRight: 4, height: 6 }}
-        />
-      </Box>
+
+      <Typography variant="h6" sx={{ m: 2 }}>
+        采集进度
+      </Typography>
+      <LinearProgress
+        variant="determinate"
+        value={80}
+        sx={{ ml: 2, flexGrow: 1, marginRight: 4, height: 6 }}
+      />
 
       {/* 日历热力图 */}
       <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>

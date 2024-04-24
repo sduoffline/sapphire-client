@@ -8,10 +8,14 @@ import {
   Tabs,
   Tab,
   Box,
+  Skeleton,
 } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 import ProgressTab from './ProgressTab';
 import PreviewTab from './PreviewTab';
+
+import useSingleDataset from '../../queries/useSingleDataset';
 
 const tagData = ['标签1', '标签2', '标签3', '标签4', '标签5'];
 
@@ -21,10 +25,22 @@ export default function DatasetDetail() {
     setValue(newValue);
   };
 
+  const datasetId = useParams<{ id: string }>().id;
+
+  const {
+    data: dataset,
+    isLoading,
+    isError,
+  } = useSingleDataset(Number(datasetId));
+
   return (
-    <div>
+    <>
+      {isError && <div>加载失败</div>}
+
       <Paper elevation={1} sx={{ p: 2, borderRadius: 4 }}>
-        <Typography variant="h4">数据集详情</Typography>
+        <Typography variant="h4">
+          {isLoading ? <Skeleton /> : dataset?.name}
+        </Typography>
         <Stack
           spacing={2}
           sx={{ mt: 2 }}
@@ -33,17 +49,31 @@ export default function DatasetDetail() {
           {/* 限制大小 */}
           <Container sx={{ width: { xs: '100%', sm: '30%' } }}>
             {/* 封面图，包一层圆角 */}
-            <Box sx={{ borderRadius: 4, overflow: 'hidden' }}>
-              <img
-                src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
-                alt="dataset"
-                style={{ width: '100%' }}
-              />
+            <Box
+              width={{ xs: '100%', sm: 200 }}
+              height={200}
+              sx={{
+                borderRadius: 4,
+                overflow: 'hidden',
+                // 悬浮效果
+                '&:hover': {
+                  cursor: 'pointer',
+                  boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
+                  transform: 'scale(1.05)',
+                  transition: 'all 0.2s',
+                },
+              }}
+            >
+              {isLoading ? (
+                <Skeleton variant="rectangular" />
+              ) : (
+                <img src={dataset?.img} alt={dataset?.name} />
+              )}
             </Box>
           </Container>
           <Stack direction="column" spacing={2} sx={{ flexGrow: 1 }}>
             <Typography variant="body1">
-              数据集描述，这一段是数据集的描述，会比较长长长长长。
+              {isLoading ? <Skeleton variant="text" /> : dataset?.description}
             </Typography>
             {/* 一个撑开空间的div */}
             <div style={{ flexGrow: 1 }} />
@@ -78,6 +108,7 @@ export default function DatasetDetail() {
       </Tabs>
       <div>{value === 'one' && <ProgressTab />}</div>
       <div>{value === 'two' && <PreviewTab />}</div>
-    </div>
+      <div>{value === 'three' && <div>暂无Issues</div>}</div>
+    </>
   );
 }
