@@ -60,6 +60,11 @@ function BaseWrapper() {
   // 获取当前路由的子路由
   const outlet = useOutlet();
 
+  const handleClick = (path: string) => {
+    navigator(path);
+    setOpen(false);
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -127,7 +132,7 @@ function BaseWrapper() {
             <ListItem key={route.path} disablePadding>
               <ListItemButton
                 selected={route.path === location.pathname}
-                onClick={() => navigator(route.path)}
+                onClick={() => handleClick(route.path)}
               >
                 <ListItemIcon>{route.icon}</ListItemIcon>
                 <ListItemText primary={route.name} />
