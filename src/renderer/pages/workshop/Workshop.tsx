@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Button,
@@ -9,16 +9,40 @@ import {
   Grid,
   Box,
   Divider,
+  Modal,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
 import TitlebarImageList from './DetailList';
 import LeaderBoard from './LeaderBoard';
+import CreateDataset from '../dataset/CreateDataset';
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 512,
+  boxShadow: 24,
+};
 
 function Workshop() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleCreateClick = () => {
+    setModalOpen(true);
+  };
+
   return (
     <div>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <Box sx={style}>
+          <Paper sx={{ p: 2, borderRadius: 2 }}>
+            <CreateDataset />
+          </Paper>
+        </Box>
+      </Modal>
       <Box>
         <Stack direction="row" spacing={2}>
           <Paper
@@ -40,6 +64,7 @@ function Workshop() {
             </IconButton>
           </Paper>
           <Button
+            onClick={handleCreateClick}
             variant="contained"
             endIcon={<AddIcon />}
             sx={{

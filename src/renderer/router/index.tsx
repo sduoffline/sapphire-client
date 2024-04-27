@@ -30,6 +30,7 @@ import Workshop from '../pages/workshop/Workshop';
 import Workbench from '../pages/workbench/Workbench';
 import DatasetDetail from '../pages/dataset/DatasetDetail';
 import Profile from '../pages/profile/Profile';
+import CreateDataset from '../pages/dataset/CreateDataset';
 
 const drawerWidth = 240;
 
@@ -169,7 +170,10 @@ function BaseRouter() {
         <Route path="/" element={<BaseWrapper />}>
           <Route path="/workbench" element={<Workbench />} />
           <Route path="/workshop" element={<Workshop />} />
-          <Route path="/dataset/detail/:id" element={<DatasetDetail />} />
+          <Route path="dataset">
+            <Route path="detail/:id" element={<DatasetDetail />} />
+            <Route path="create" element={<CreateDataset />} />
+          </Route>
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<BaseWrapper />}>
