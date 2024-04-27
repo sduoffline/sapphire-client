@@ -31,6 +31,7 @@ import Workbench from '../pages/workbench/Workbench';
 import DatasetDetail from '../pages/dataset/DatasetDetail';
 import Profile from '../pages/profile/Profile';
 import CreateDataset from '../pages/dataset/CreateDataset';
+import Setting from '../pages/setting/Setting';
 
 const drawerWidth = 240;
 
@@ -145,6 +146,11 @@ function BaseWrapper() {
         <div style={{ flexGrow: 1 }} />
         <Divider />
         <List>
+          <ListItem disablePadding onClick={() => handleClick('/setting')}>
+            <ListItemButton>
+              <ListItemText primary="设置" />
+            </ListItemButton>
+          </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemText primary="关于" />
@@ -175,6 +181,7 @@ function BaseRouter() {
             <Route path="create" element={<CreateDataset />} />
           </Route>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/setting" element={<Setting />} />
         </Route>
         <Route path="*" element={<BaseWrapper />}>
           <Route path="*" element={<NotFoundPage />} />
