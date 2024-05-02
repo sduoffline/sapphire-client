@@ -6,6 +6,7 @@ import {
   useLocation,
   useNavigate,
   useOutlet,
+  HashRouter,
 } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -171,7 +172,7 @@ function BaseWrapper() {
 
 function BaseRouter() {
   return (
-    <Router>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<BaseWrapper />}>
           <Route path="/workbench" element={<Workbench />} />
@@ -187,7 +188,7 @@ function BaseRouter() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
-    </Router>
+    </HashRouter>
   );
 }
 

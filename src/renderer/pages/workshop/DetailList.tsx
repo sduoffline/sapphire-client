@@ -42,7 +42,7 @@ function DatasetItem({ item }: DatasetItemProps) {
     >
       <img
         srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-        src={`${item.img}?w=248&fit=crop&auto=format`}
+        src={`${item.img}`}
         alt={item.name}
         loading="lazy"
       />
@@ -73,16 +73,17 @@ export default function TitlebarImageList() {
   } = useDatasets();
 
   const handleScroll = () => {
+    console.log('scroll');
     // 如果正在加载下一页数据，则不再加载
     if (isFetchingNextPage) {
       return;
     }
 
-    const bias = 128;
+    const bias = 64;
     if (
       // 相差一定距离时加载下一页
-      window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight + bias
+      window.innerHeight + document.documentElement.scrollTop <=
+      document.documentElement.offsetHeight - bias
     ) {
       return;
     }
