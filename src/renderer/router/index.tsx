@@ -28,11 +28,12 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import routes from './routes';
 import NotFoundPage from '../pages/common/404';
 import Workshop from '../pages/workshop/Workshop';
-import Workbench from '../pages/workbench/Workbench';
+import ConsoleBoard from '../pages/consoleboard/ConsoleBoard';
 import DatasetDetail from '../pages/dataset/DatasetDetail';
 import Profile from '../pages/profile/Profile';
 import CreateDataset from '../pages/dataset/CreateDataset';
 import Setting from '../pages/setting/Setting';
+import WorkDesk from '../pages/workdesk/WorkDesk';
 
 const drawerWidth = 240;
 
@@ -162,6 +163,7 @@ function BaseWrapper() {
       <Container
         sx={{
           paddingTop: 2,
+          height:`calc(100vh - 64px)`,
         }}
       >
         {outlet}
@@ -175,8 +177,9 @@ function BaseRouter() {
     <HashRouter>
       <Routes>
         <Route path="/" element={<BaseWrapper />}>
-          <Route path="/workbench" element={<Workbench />} />
+          <Route path="/workbench" element={<ConsoleBoard />} />
           <Route path="/workshop" element={<Workshop />} />
+          <Route path="/workdesk" element={<WorkDesk />} />
           <Route path="dataset">
             <Route path="detail/:id" element={<DatasetDetail />} />
             <Route path="create" element={<CreateDataset />} />

@@ -21,8 +21,14 @@ const routes: RouteItem[] = [
     icon: <ExploreIcon />,
   },
   {
-    path: '/workbench',
+    path: '/workdesk',
     name: '工作台',
+    element: <div>WorkDesk</div>,
+    icon: <DashboardIcon />,
+  },
+  {
+    path: '/workbench',
+    name: '控制台',
     element: <div>Dashboard</div>,
     icon: <DashboardIcon />,
   },

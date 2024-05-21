@@ -1,10 +1,10 @@
-import './App.css';
+// import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useMediaQuery } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import BaseRouter from './router/index';
-
+import { useEffect } from 'react';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -28,7 +28,7 @@ const queryClient = new QueryClient();
 export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = prefersDarkMode ? darkTheme : lightTheme;
-
+ 
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
