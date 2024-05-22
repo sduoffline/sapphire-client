@@ -108,5 +108,7 @@ export interface StageProps {
   scale: modelScaleProps | null;
   hasClicked: boolean;
   setHasClicked: (e: boolean) => void;
+  handleNextImg: () => void;
+  handleLastImg: () => void;
 
 }

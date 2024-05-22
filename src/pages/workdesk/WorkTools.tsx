@@ -34,11 +34,13 @@ ort.env.wasm.wasmPaths = {
 // ort.env.webgl.pack = true;
 
 interface WorkToolsProps {
+  handleNextImg: () => void;
+  handleLastImg: () => void;
   imgUrl: string | null;
   embeddingUrl: string | null;
 }
 
-export default function WorkTools({ imgUrl, embeddingUrl }: WorkToolsProps) {
+export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddingUrl }: WorkToolsProps) {
   const {
     click: [click, setClick],
     clicks: [clicks, setClicks],
@@ -86,12 +88,12 @@ export default function WorkTools({ imgUrl, embeddingUrl }: WorkToolsProps) {
   const [modelScale, setModelScale] = useState<modelScaleProps | null>(null);
 
   useEffect(() => {
-    if (imgUrl)
-      handleSelectedImage(new URL(imgUrl), {
+    if (imgUrl && embeddingUrl)
+      handleSelectedImage(new URL(imgUrl), embeddingUrl, {
         shouldDownload: false,
         shouldNotFetchAllModel: true,
       });
-  }, [imgUrl]);
+  }, [imgUrl,embeddingUrl]);
 
   useEffect(() => {
     const initModel = async () => {
@@ -221,6 +223,7 @@ export default function WorkTools({ imgUrl, embeddingUrl }: WorkToolsProps) {
   // 使用这个函数设置一个全局的图片，当有这个图片之后，就会自动显示工作台页面
   const handleSelectedImage = async (
     data: File | URL,
+    embe: string,
     options?: { shouldNotFetchAllModel?: boolean; shouldDownload?: boolean },
   ) => {
     if (data instanceof File) {
@@ -276,7 +279,7 @@ export default function WorkTools({ imgUrl, embeddingUrl }: WorkToolsProps) {
           uploadScale,
           imgData: img,
           handleSegModelResults,
-          imgName: embeddingUrl,
+          imgName: embe,
           shouldDownload,
           shouldNotFetchAllModel,
         });
@@ -324,6 +327,8 @@ export default function WorkTools({ imgUrl, embeddingUrl }: WorkToolsProps) {
         handleImage={handleImage}
         hasClicked={hasClicked}
         setHasClicked={setHasClicked}
+        handleNextImg = {handleNextImg}
+        handleLastImg = {handleLastImg}
       />
     </div>
   );

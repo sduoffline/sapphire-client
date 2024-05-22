@@ -24,6 +24,8 @@ const Stage = ({
   handleImage,
   hasClicked,
   setHasClicked,
+  handleLastImg,
+  handleNextImg
 }: StageProps) => {
   const {
     click: [click, setClick],
@@ -572,6 +574,8 @@ const Stage = ({
         userNegClickBool={[userNegClickBool, setUserNegClickBool]}
         showGallery={[showGallery, setShowGallery]}
         hasClicked={hasClicked}
+        handleNextImg = {handleNextImg}
+        handleLastImg = {handleLastImg}
       />
       <div className="relative flex flex-col items-center justify-center flex-1 overflow-hidden md:overflow-visible md:px-12 md:py-9">
         <div

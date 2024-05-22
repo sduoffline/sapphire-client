@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import BaseRouter from './router/index';
 import { useEffect } from 'react';
 import "./assets/scss/App.scss"
+import AppContextProvider from './components/hooks/context';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -32,12 +33,15 @@ export default function App() {
 
   return (
     <div className="App">
+    <AppContextProvider>
+
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <BaseRouter />
         </ThemeProvider>
       </QueryClientProvider>
+      </AppContextProvider>
     </div>
   );
 }

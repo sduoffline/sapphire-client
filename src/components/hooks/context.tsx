@@ -54,6 +54,8 @@ const AppContextProvider = (props: {
   );
   const [isAllAnimationDone, setIsAllAnimationDone] = useState<boolean>(false);
   const [isToolBarUpload, setIsToolBarUpload] = useState<boolean>(false);
+  
+
 
   return (
     <AppContext.Provider

@@ -5,6 +5,7 @@ import * as ReactGA from "react-ga4";
 import Animate from "./hooks/Animation";
 import AppContext from "./hooks/createContext";
 import SegmentOptions from "./SegmentOptions";
+import { Button } from "@mui/material";
 
 interface SegmentDrawerProps {
   handleResetInteraction: (flag?: boolean) => void;
@@ -18,6 +19,8 @@ interface SegmentDrawerProps {
   ];
   showGallery: [showGallery: boolean, setShowGallery: (e: boolean) => void];
   hasClicked: boolean;
+  handleNextImg: () => void;
+  handleLastImg: () => void;
 
 }
 
@@ -30,6 +33,8 @@ const SegmentDrawer = ({
   userNegClickBool: [userNegClickBool, setUserNegClickBool],
   showGallery: [showGallery, setShowGallery],
   hasClicked,
+  handleNextImg,
+  handleLastImg
 }: SegmentDrawerProps) => {
   const {
     isModelLoaded: [isModelLoaded, setIsModelLoaded],
@@ -476,6 +481,8 @@ const SegmentDrawer = ({
           </div>
         </div>
       </div>
+      <Button variant="contained" sx={{margin:3}} onClick={handleLastImg}>上一张</Button>
+      <Button variant="contained" sx={{margin:3}} onClick={handleNextImg}>下一张</Button>
     </section>
   );
 };
