@@ -80,28 +80,37 @@ const Canvas = ({
     isAllAnimationDone: [isAllAnimationDone, setIsAllAnimationDone],
   } = useContext(AppContext)!;
   if (!image) return null;
+  
 
   const MAX_CANVAS_AREA = 1677721;
-  const w = scale!.width;
-  const h = scale!.height;
-  const area = w * h;
-  const canvasScale =
-    area > MAX_CANVAS_AREA ? Math.sqrt(MAX_CANVAS_AREA / (w * h)) : 1;
-  const canvasDimensions = {
-    width: Math.floor(w * canvasScale),
-    height: Math.floor(h * canvasScale),
-  };
 
-  const imageClone = new window.Image();
-  imageClone.src = image.src;
-  imageClone.width = w;
-  imageClone.height = h;
-  const resizer = canvasScaleInitializer({
-    width: canvasDimensions.width,
-    height: canvasDimensions.height,
-    containerRef,
-    shouldFitToWidth: isStandalone,
-  });
+
+    const h = scale?.height ?? 100;
+    const w = scale?.width ?? 100;
+    const area = w * h;
+    const canvasScale =
+      area > MAX_CANVAS_AREA ? Math.sqrt(MAX_CANVAS_AREA / (w * h)) : 1;
+    const canvasDimensions = {
+      width: Math.floor(w * canvasScale),
+      height: Math.floor(h * canvasScale),
+    };
+  
+    const imageClone = new window.Image();
+    imageClone.src = image.src;
+    imageClone.width = w;
+    imageClone.height = h;
+    const resizer = canvasScaleInitializer({
+      width: canvasDimensions.width,
+      height: canvasDimensions.height,
+      containerRef,
+      shouldFitToWidth: isStandalone,
+    });
+
+  // },[])
+  
+
+  
+
   const [scalingStyle, setScalingStyle] = useState(resizer.scalingStyle);
   const [scaledDimensionsStyle, setScaledDimensionsStyle] = useState(
     resizer.scaledDimensionsStyle
@@ -129,7 +138,7 @@ const Canvas = ({
         return null;
     }
   };
-  const clickColor = click ? handleClickColor(click.clickType) : null;
+  const clickColor = click ? handleClickColor(click.clickType) : null; 
 
   const resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {

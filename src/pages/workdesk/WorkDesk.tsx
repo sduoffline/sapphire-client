@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import WorkTools from './WorkTools'
 import AppContextProvider from '../../components/hooks/context'
+import AppContext from '../../components/hooks/createContext'
 const mockData = {
   dataSetId:1,//数据集id
   dataSetName:1,//数据集名称
@@ -19,12 +20,23 @@ const mockData = {
   }
 ]}
 export default function WorkDesk() {
+  const {
+    stickers:[stickers, setStickers]
+  }=useContext(AppContext)!;
+
   const [nowPos,setPos] = useState(0);
+  const upLoadData = (pos:number,data:{}[]) => {
+    /**
+     * 实现抠图数据的上传
+     */
+  }
   const handleNextImg = () => {
     console.log(nowPos);
     if(nowPos == mockData.datas.length - 1){
       return;
     }
+
+    upLoadData(nowPos,stickers.map((e) => e.stickerData))
     // setWorkImgUrl(mockData.datas[nowPos + 1].imgUrl);
     // setEmbImgUrl(mockData.datas[nowPos + 1].embeddingUrl);
     setPos(nowPos + 1);
@@ -34,8 +46,10 @@ export default function WorkDesk() {
       return;
     }
     // setWorkImgUrl(mockData.datas[nowPos - 1].imgUrl);
-    // setEmbImgUrl(mockData.datas[nowPos - 1].embeddingUrl);
     
+    // setEmbImgUrl(mockData.datas[nowPos - 1].embeddingUrl);
+    upLoadData(nowPos,stickers.map((e) => e.stickerData))
+
     setPos(nowPos - 1);
   }
 

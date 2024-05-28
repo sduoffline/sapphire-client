@@ -103,6 +103,7 @@ const Stage = ({
 
     const cropImageFromCanvasTS = (ref: any) => {
       let newCanvas = null;
+      let stickerData = null;
       try {
         const canvas = ref!.toCanvas().getContext("2d");
 
@@ -131,9 +132,24 @@ const Stage = ({
         });
         const n = pix.x.length - 1;
 
+        stickerData = {
+          center_x: ((pix.x[n] + pix.x[0]) / 2)/w,
+          center_y: ((pix.y[n] + pix.y[0]) / 2)/h,
+          w:(1 + pix.x[n] - pix.x[0])/w,
+          h:(1 + pix.y[n] - pix.y[0])/h
+        }
+        // console.log({
+        //   center_x: ((pix.x[n] + pix.x[0]) / 2)/w,
+        //   center_y: ((pix.y[n] + pix.y[0]) / 2)/h,
+        //   w:(1 + pix.x[n] - pix.x[0])/w,
+        //   h:(1 + pix.y[n] - pix.y[0])/h
+        // })
+
         w = 1 + pix.x[n] - pix.x[0];
         h = 1 + pix.y[n] - pix.y[0];
         const cut = canvas.getImageData(pix.x[0], pix.y[0], w, h);
+
+
 
         canvas.width = w;
         canvas.height = h;
@@ -146,7 +162,7 @@ const Stage = ({
         console.log(error);
         return;
       }
-      return newCanvas;
+      return {sticker:newCanvas,stickerData:stickerData}
     };
 
     const isMobile = window.innerWidth < 768;
@@ -159,7 +175,7 @@ const Stage = ({
         pathNode.attrs.visible = true;
       }
     }
-    const newStickers: HTMLCanvasElement[] = [];
+    const newStickers = [];
     let counter = 0;
     konvaClone.findOne(".annotations").hide();
     konvaClone.findOne(".animateAllSvg").hide();
@@ -559,7 +575,7 @@ const Stage = ({
   };
 
   return (
-
+    
     <div className="flex items-stretch justify-center flex-1 overflow-hidden stage">
       {showLoadingModal && (
         <LoadingModal handleResetState={handleResetState} />
@@ -582,6 +598,7 @@ const Stage = ({
           className="relative flex-1 w-full mb-3 md:my-7"
           ref={containerRef}
         >
+          {!showLoadingModal && 
           <Canvas
             konvaRef={konvaRef}
             annotations={annotations}
@@ -596,7 +613,7 @@ const Stage = ({
             setCanvasScale={setCanvasScale}
             isHoverToolTip={[isHoverToolTip, setIsHoverToolTip]}
             allText={[allText, setAllText]}
-          />
+          />}
         </div>
       </div>
     </div>

@@ -34,8 +34,8 @@ interface contextProps {
     setAllsvg: (e: { svg: string[]; point_coord: number[] }[] | null) => void
   ];
   stickers: [
-    stickers: HTMLCanvasElement[],
-    setStickers: (e: HTMLCanvasElement[]) => void
+    stickers: {sticker:HTMLCanvasElement,stickerData:{}}[],
+    setStickers: (e: {sticker:HTMLCanvasElement,stickerData:{}}[]) => void
   ];
   activeSticker: [
     activerSticker: number,

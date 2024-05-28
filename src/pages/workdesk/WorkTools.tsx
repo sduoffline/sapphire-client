@@ -64,6 +64,7 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
     predMasks: [predMasks, setPredMasks],
     predMasksHistory: [predMasksHistory, setPredMasksHistory],
     isToolBarUpload: [isToolBarUpload, setIsToolBarUpload],
+    stickers:[stickers,setStickers],
   } = useContext(AppContext)!;
   const [model, setModel] = useState<InferenceSession | null>(null);
   const [multiMaskModel, setMultiMaskModel] = useState<InferenceSession | null>(
@@ -93,7 +94,9 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
         shouldDownload: false,
         shouldNotFetchAllModel: true,
       });
+      setStickers([]);
   }, [imgUrl,embeddingUrl]);
+
 
   useEffect(() => {
     const initModel = async () => {

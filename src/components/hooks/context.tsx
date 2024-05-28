@@ -25,7 +25,7 @@ const AppContextProvider = (props: {
     boxModel: boolean;
     allModel: boolean;
   }>({ boxModel: false, allModel: false });
-  const [stickers, setStickers] = useState<HTMLCanvasElement[]>([]);
+  const [stickers, setStickers] = useState<{sticker:HTMLCanvasElement,stickerData:{}}[]>([]);
   const [activeSticker, setActiveSticker] = useState<number>(0);
   const [segmentTypes, setSegmentTypes] = useState<"Box" | "Click" | "All">(
     "Click"

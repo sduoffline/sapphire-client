@@ -58,6 +58,7 @@ const SegmentDrawer = ({
   const [isCutOut, setIsCutOut] = useState<boolean>(false);
   const handleStickerClick = (i: number) => {
     setActiveSticker(i);
+    console.log("activeSticker", stickers[i].stickerData);
   };
   const [error, setError] = useState<string>("");
   const [isClickCollapsed, setIsClickCollapsed] = useState(true);
@@ -464,13 +465,13 @@ const SegmentDrawer = ({
                 <Animate isMounted={isCutOut}>
                   <p className="my-1 text-xs text-blue-700">查看已标区域</p>
                   <div className="overflow-y-auto h-[30rem] text-center">
-                    {stickers.map((el: HTMLCanvasElement, i) => (
+                    {stickers.map((el, i) => (
                       <img
                         key={i}
                         className={`sticker m-5 max-w-[75%] max-h-20 md:max-h-24 lg:max-h-28 xl:max-h-32 cursor-pointer inline hover:opacity-100 ${i === activeSticker ? "sticker-select" : ""
                           }`}
                         alt="sticker"
-                        src={el.toDataURL()}
+                        src={el.sticker.toDataURL()}
                         onClick={(e) => handleStickerClick(i)}
                       />
                     ))}
