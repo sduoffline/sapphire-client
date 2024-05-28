@@ -51,34 +51,34 @@ export interface setParmsandQueryEraseModelProps {
   uploadScale: number;
   imgData: HTMLImageElement | null;
   mask:
-  | string[]
-  | Uint8Array
-  | Float32Array
-  | Int8Array
-  | Uint16Array
-  | Int16Array
-  | Int32Array
-  | BigInt64Array
-  | Float64Array
-  | Uint32Array
-  | BigUint64Array;
+    | string[]
+    | Uint8Array
+    | Float32Array
+    | Int8Array
+    | Uint16Array
+    | Int16Array
+    | Int32Array
+    | BigInt64Array
+    | Float64Array
+    | Uint32Array
+    | BigUint64Array;
   handlePredictedImage: (e: string) => void;
 }
 
 export interface queryEraseModelProps {
   image: Blob | string;
   mask:
-  | string[]
-  | Uint8Array
-  | Float32Array
-  | Int8Array
-  | Uint16Array
-  | Int16Array
-  | Int32Array
-  | BigInt64Array
-  | Float64Array
-  | Uint32Array
-  | BigUint64Array;
+    | string[]
+    | Uint8Array
+    | Float32Array
+    | Int8Array
+    | Uint16Array
+    | Int16Array
+    | Int32Array
+    | BigInt64Array
+    | Float64Array
+    | Uint32Array
+    | BigUint64Array;
   handlePredictedImage: (e: string) => void;
 }
 
@@ -110,5 +110,11 @@ export interface StageProps {
   setHasClicked: (e: boolean) => void;
   handleNextImg: () => void;
   handleLastImg: () => void;
-
+  info: {
+    dataSetId: number;
+    dataSetName: string;
+    taskInfo: string;
+    objectCnt: number; //目标种类数量
+    objects: string[]; //目标种类列表
+  };
 }

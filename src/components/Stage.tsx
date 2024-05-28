@@ -1,10 +1,5 @@
 import Konva from "konva";
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as _ from "underscore";
 import Canvas from "./Canvas";
 import {
@@ -15,6 +10,8 @@ import {
 import AppContext from "./hooks/createContext";
 import LoadingModal from "./LoadingModal";
 import SegmentDrawer from "./SegmentDrawer";
+import CutOut from "./CutOut";
+import { Box, Button, Paper, Typography } from "@mui/material";
 
 type Points = { sx: number; sy: number; x: number; y: number };
 
@@ -25,7 +22,8 @@ const Stage = ({
   hasClicked,
   setHasClicked,
   handleLastImg,
-  handleNextImg
+  handleNextImg,
+  info,
 }: StageProps) => {
   const {
     click: [click, setClick],
@@ -76,7 +74,6 @@ const Stage = ({
   const [allText, setAllText] = useState<
     string | React.DOMElement<React.DOMAttributes<HTMLElement>, HTMLElement>
   >("");
-
 
   const superDefer = (cb: Function) => {
     setTimeout(
@@ -133,11 +130,11 @@ const Stage = ({
         const n = pix.x.length - 1;
 
         stickerData = {
-          center_x: ((pix.x[n] + pix.x[0]) / 2)/w,
-          center_y: ((pix.y[n] + pix.y[0]) / 2)/h,
-          w:(1 + pix.x[n] - pix.x[0])/w,
-          h:(1 + pix.y[n] - pix.y[0])/h
-        }
+          center_x: (pix.x[n] + pix.x[0]) / 2 / w,
+          center_y: (pix.y[n] + pix.y[0]) / 2 / h,
+          w: (1 + pix.x[n] - pix.x[0]) / w,
+          h: (1 + pix.y[n] - pix.y[0]) / h,
+        };
         // console.log({
         //   center_x: ((pix.x[n] + pix.x[0]) / 2)/w,
         //   center_y: ((pix.y[n] + pix.y[0]) / 2)/h,
@@ -148,8 +145,6 @@ const Stage = ({
         w = 1 + pix.x[n] - pix.x[0];
         h = 1 + pix.y[n] - pix.y[0];
         const cut = canvas.getImageData(pix.x[0], pix.y[0], w, h);
-
-
 
         canvas.width = w;
         canvas.height = h;
@@ -162,7 +157,7 @@ const Stage = ({
         console.log(error);
         return;
       }
-      return {sticker:newCanvas,stickerData:stickerData}
+      return { sticker: newCanvas, stickerData: stickerData };
     };
 
     const isMobile = window.innerWidth < 768;
@@ -481,7 +476,6 @@ const Stage = ({
     }
   };
 
-
   useEffect(() => {
     if (!clicks) {
       setAnnotations([]);
@@ -575,49 +569,99 @@ const Stage = ({
   };
 
   return (
-    
-    <div className="flex items-stretch justify-center flex-1 overflow-hidden stage">
-      {showLoadingModal && (
-        <LoadingModal handleResetState={handleResetState} />
-      )
-      }
-      <SegmentDrawer
-        handleResetInteraction={handleResetInteraction}
-        handleUndoInteraction={handleUndoInteraction}
-        handleRedoInteraction={handleRedoInteraction}
-        handleCreateSticker={handleCreateSticker}
-        handleImage={handleImage}
-        userNegClickBool={[userNegClickBool, setUserNegClickBool]}
-        showGallery={[showGallery, setShowGallery]}
-        hasClicked={hasClicked}
-        handleNextImg = {handleNextImg}
-        handleLastImg = {handleLastImg}
-      />
-      <div className="relative flex flex-col items-center justify-center flex-1 overflow-hidden md:overflow-visible md:px-12 md:py-9">
-        <div
-          className="relative flex-1 w-full mb-3 md:my-7"
-          ref={containerRef}
+    <div
+      className="flex items-stretch justify-center flex-1 overflow-hidden stage"
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
+    >
+      {showLoadingModal && <LoadingModal handleResetState={handleResetState} />}
+      <Box
+        sx={{
+          width: "300px",
+          marginRight: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 2,
+            width: "92%",
+            margin: 2,
+            height: "110px",
+            overflow: "hidden",
+          }}
         >
-          {!showLoadingModal && 
-          <Canvas
-            konvaRef={konvaRef}
-            annotations={annotations}
-            newAnnotation={newAnnotation}
-            scale={scale}
-            handleMouseUp={handleMouseUp}
-            handleMouseDown={handleMouseDown}
-            handleMouseMove={handleMouseMove}
-            handleMouseOut={handleMouseOut}
-            containerRef={containerRef}
-            hasClicked={hasClicked}
-            setCanvasScale={setCanvasScale}
-            isHoverToolTip={[isHoverToolTip, setIsHoverToolTip]}
-            allText={[allText, setAllText]}
-          />}
+          <Typography>
+            任务名称:<strong>{info.dataSetName}</strong>
+          </Typography>
+          <Typography>
+            数据集ID:<strong>{info.dataSetId}</strong>
+          </Typography>
+          <Typography>任务描述:</Typography>
+          <Typography sx={{ color: "red" }} variant="body2">
+            {info.taskInfo}
+          </Typography>
+        </Paper>
+        <SegmentDrawer
+          handleResetInteraction={handleResetInteraction}
+          handleUndoInteraction={handleUndoInteraction}
+          handleRedoInteraction={handleRedoInteraction}
+          handleCreateSticker={handleCreateSticker}
+          handleImage={handleImage}
+          userNegClickBool={[userNegClickBool, setUserNegClickBool]}
+          showGallery={[showGallery, setShowGallery]}
+          hasClicked={hasClicked}
+          handleNextImg={handleNextImg}
+          handleLastImg={handleLastImg}
+        />
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column" }} flex={1}>
+        <div className="relative flex flex-col items-center justify-center flex-1 overflow-hidden md:overflow-visible md:px-12 md:py-9">
+          <div
+            className="relative flex-1 w-full mb-3 md:my-7"
+            ref={containerRef}
+          >
+            {!showLoadingModal && (
+              <Canvas
+                konvaRef={konvaRef}
+                annotations={annotations}
+                newAnnotation={newAnnotation}
+                scale={scale}
+                handleMouseUp={handleMouseUp}
+                handleMouseDown={handleMouseDown}
+                handleMouseMove={handleMouseMove}
+                handleMouseOut={handleMouseOut}
+                containerRef={containerRef}
+                hasClicked={hasClicked}
+                setCanvasScale={setCanvasScale}
+                isHoverToolTip={[isHoverToolTip, setIsHoverToolTip]}
+                allText={[allText, setAllText]}
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </div>
+      </Box>
 
+      <Box
+        sx={{
+          width: "300px",
+          marginRight: 2,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <CutOut />
+      </Box>
+    </div>
   );
 };
 

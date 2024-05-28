@@ -1,35 +1,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { InferenceSession, Tensor } from 'onnxruntime-web';
-import React, { useContext, useEffect, useState } from 'react';
+import { InferenceSession, Tensor } from "onnxruntime-web";
+import React, { useContext, useEffect, useState } from "react";
 
-import getFile from '../../components/helpers/getFile';
-import { handleImageScale } from '../../components/helpers/ImageHelper';
-import { modelScaleProps } from '../../components/helpers/Interface';
+import getFile from "../../components/helpers/getFile";
+import { handleImageScale } from "../../components/helpers/ImageHelper";
+import { modelScaleProps } from "../../components/helpers/Interface";
 import {
   rleToImage,
   traceOnnxMaskToSVG,
-} from '../../components/helpers/mask_utils';
+} from "../../components/helpers/mask_utils";
 import {
   modelData,
   setParmsandQueryModel,
-} from '../../components/helpers/modelAPI';
-import AppContext from '../../components/hooks/createContext';
-import * as ort from 'onnxruntime-web';
+} from "../../components/helpers/modelAPI";
+import AppContext from "../../components/hooks/createContext";
+import * as ort from "onnxruntime-web";
 
-import Stage from '../../components/Stage';
+import Stage from "../../components/Stage";
+import { Box, Paper } from "@mui/material";
 ort.env.debug = false;
-ort.env.logLevel = 'verbose';
+ort.env.logLevel = "verbose";
 
 ort.env.wasm.numThreads = 2;
 ort.env.wasm.simd = true;
 ort.env.wasm.wasmPaths = {
-  'ort-wasm.wasm': '/ort-wasm.wasm',
-  'ort-wasm-simd.wasm': '/ort-wasm-simd.wasm',
-  'ort-wasm-threaded.wasm': '/ort-wasm-threaded.wasm',
-  'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
+  "ort-wasm.wasm": "/ort-wasm.wasm",
+  "ort-wasm-simd.wasm": "/ort-wasm-simd.wasm",
+  "ort-wasm-threaded.wasm": "/ort-wasm-threaded.wasm",
+  "ort-wasm-simd-threaded.wasm": "/ort-wasm-simd-threaded.wasm",
 };
-
 
 // ort.env.webgl.pack = true;
 
@@ -38,9 +38,26 @@ interface WorkToolsProps {
   handleLastImg: () => void;
   imgUrl: string | null;
   embeddingUrl: string | null;
+  imgs: { imgUrl: string; embeddingUrl: string }[];
+  info: {
+    dataSetId: number;
+    dataSetName: string;
+    taskInfo: string;
+    objectCnt: number; //目标种类数量
+    objects: string[]; //目标种类列表
+  };
+  pos: [number, (e: number) => void];
 }
 
-export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddingUrl }: WorkToolsProps) {
+export default function WorkTools({
+  handleLastImg,
+  handleNextImg,
+  imgUrl,
+  embeddingUrl,
+  imgs,
+  info,
+  pos: [nowPos, setPos],
+}: WorkToolsProps) {
   const {
     click: [click, setClick],
     clicks: [clicks, setClicks],
@@ -64,11 +81,11 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
     predMasks: [predMasks, setPredMasks],
     predMasksHistory: [predMasksHistory, setPredMasksHistory],
     isToolBarUpload: [isToolBarUpload, setIsToolBarUpload],
-    stickers:[stickers,setStickers],
+    stickers: [stickers, setStickers],
   } = useContext(AppContext)!;
   const [model, setModel] = useState<InferenceSession | null>(null);
   const [multiMaskModel, setMultiMaskModel] = useState<InferenceSession | null>(
-    null,
+    null
   );
   const [tensor, setTensor] = useState<Tensor | null>(null);
   const [hasClicked, setHasClicked] = useState<boolean>(false);
@@ -94,16 +111,15 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
         shouldDownload: false,
         shouldNotFetchAllModel: true,
       });
-      setStickers([]);
-  }, [imgUrl,embeddingUrl]);
-
+    setStickers([]);
+  }, [imgUrl, embeddingUrl]);
 
   useEffect(() => {
     const initModel = async () => {
       try {
         // if (process.env.MODEL_DIR === undefined) return;
         const MODEL_DIR =
-          './interactive_module_quantized_592547_2023_03_19_sam6_long_uncertain.onnx';
+          "./interactive_module_quantized_592547_2023_03_19_sam6_long_uncertain.onnx";
         const URL: string = MODEL_DIR;
         // const URL: string = process.env.MODEL_DIR;
 
@@ -120,7 +136,7 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
         // console.log("MULTI MASK MODEL");
         // if (process.env.MULTI_MASK_MODEL_DIR === undefined) return;
         const MULTI_MASK_MODEL_DIR =
-          './interactive_module_quantized_592547_2023_03_20_sam6_long_all_masks_extra_data_with_ious.onnx';
+          "./interactive_module_quantized_592547_2023_03_20_sam6_long_all_masks_extra_data_with_ious.onnx";
         const URL2: string = MULTI_MASK_MODEL_DIR;
         // console.log("MULTI MASK MODEL URL:", URL2);
         // const URL2: string = process.env.MULTI_MASK_MODEL_DIR;
@@ -168,7 +184,7 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
         const svgStr = traceOnnxMaskToSVG(
           output.data,
           output.dims[1],
-          output.dims[0],
+          output.dims[0]
         );
         setSVG(svgStr);
         setMask(output.data);
@@ -217,7 +233,7 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
       uploadScale,
       imgData: img,
       handleSegModelResults,
-      imgName: '',
+      imgName: "",
       shouldDownload: false,
       shouldNotFetchAllModel: false,
     });
@@ -227,14 +243,14 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
   const handleSelectedImage = async (
     data: File | URL,
     embe: string,
-    options?: { shouldNotFetchAllModel?: boolean; shouldDownload?: boolean },
+    options?: { shouldNotFetchAllModel?: boolean; shouldDownload?: boolean }
   ) => {
     if (data instanceof File) {
-      console.log('GOT FILE ' + data.name);
+      console.log("GOT FILE " + data.name);
     } else if (data instanceof URL) {
-      console.log('GOT URL ' + data.pathname);
+      console.log("GOT URL " + data.pathname);
     } else {
-      console.log('GOT STRING ' + data);
+      console.log("GOT STRING " + data);
     }
 
     try {
@@ -248,7 +264,7 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
         // imgName = data.pathname;
       } else if (data instanceof String) {
         // TODO: find the right place where to replace it...
-        data = new URL(data.replace('/assets/', '/public/assets/'));
+        data = new URL(data.replace("/assets/", "/public/assets/"));
         // imgName = data.pathname;
       }
 
@@ -315,7 +331,7 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
     setIsErased(false);
     setShowLoadingModal(false);
     setIsModelLoaded({ boxModel: false, allModel: false });
-    setSegmentTypes('Click');
+    setSegmentTypes("Click");
     setIsLoading(false);
     setIsMultiMaskMode(false);
     setIsHovering(null);
@@ -324,16 +340,54 @@ export default function WorkTools({handleLastImg,handleNextImg, imgUrl, embeddin
 
   return (
     <div className={`flex flex-col h-full overflow-hidden`}>
+      <Paper
+        elevation={2}
+        sx={{
+          margin: 1,
+          padding: 2,
+          height: "100px",
+          display: "flex",
+          flexDirection: "row",
+          overflowX: "auto",
+        }}
+      >
+        {imgs.map((img, index) => {
+          return (
+            <img
+              style={{
+                height: "100%",
+                marginRight: "20px",
+                // filter: index === nowPos ? "brightness(0.5) contrast(1.2)" : "",
+                // border:
+                //   index == nowPos ? "2px solid #007bff" : "" /* 添加边框 */,
+                // boxShadow:
+                //   index == nowPos ? "0 0 5px #007bff" : "" /* 添加阴影效果 */,
+                filter:
+                  index == nowPos
+                    ? "drop-shadow(0.1rem 0.1rem 1px #db9e6f) drop-shadow(-0.1rem 0.1rem 1px #db9e6f) drop-shadow(0.1rem -0.1rem 1px #db9e6f) drop-shadow(-0.1rem -0.1rem 1px #db9e6f)"
+                    : "",
+                cursor: "pointer",
+              }}
+              key={index}
+              src={img.imgUrl}
+              alt={img.imgUrl}
+              onClick={() => {
+                setPos(index);
+              }}
+            />
+          );
+        })}
+      </Paper>
       <Stage
         scale={modelScale}
+        info={info}
         handleResetState={handleResetState}
         handleImage={handleImage}
         hasClicked={hasClicked}
         setHasClicked={setHasClicked}
-        handleNextImg = {handleNextImg}
-        handleLastImg = {handleLastImg}
+        handleNextImg={handleNextImg}
+        handleLastImg={handleLastImg}
       />
     </div>
   );
-};
-
+}

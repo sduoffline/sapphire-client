@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   MemoryRouter as Router,
   Route,
@@ -7,43 +7,44 @@ import {
   useNavigate,
   useOutlet,
   HashRouter,
-} from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Divider from '@mui/material/Divider';
-import Container from '@mui/material/Container';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { styled } from '@mui/material/styles';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+} from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Divider from "@mui/material/Divider";
+import Container from "@mui/material/Container";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { styled } from "@mui/material/styles";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Drawer from "@mui/material/Drawer";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
-import routes from './routes';
-import NotFoundPage from '../pages/common/404';
-import Workshop from '../pages/workshop/Workshop';
-import ConsoleBoard from '../pages/consoleboard/ConsoleBoard';
-import DatasetDetail from '../pages/dataset/DatasetDetail';
-import Profile from '../pages/profile/Profile';
-import CreateDataset from '../pages/dataset/CreateDataset';
-import Setting from '../pages/setting/Setting';
-import WorkDesk from '../pages/workdesk/WorkDesk';
+import routes from "./routes";
+import NotFoundPage from "../pages/common/404";
+import Workshop from "../pages/workshop/Workshop";
+import ConsoleBoard from "../pages/consoleboard/ConsoleBoard";
+import DatasetDetail from "../pages/dataset/DatasetDetail";
+import Profile from "../pages/profile/Profile";
+import CreateDataset from "../pages/dataset/CreateDataset";
+import Setting from "../pages/setting/Setting";
+import WorkDesk from "../pages/workdesk/WorkDesk";
+import { Box } from "@mui/material";
 
 const drawerWidth = 240;
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: "flex-end",
 }));
 
 // 多数页面使用的基本组件
@@ -103,9 +104,9 @@ function BaseWrapper() {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            boxSizing: 'border-box',
+            boxSizing: "border-box",
           },
         }}
         anchor="left"
@@ -119,7 +120,7 @@ function BaseWrapper() {
               // 字间距大一点
               letterSpacing: 2,
               // 字重大一点
-              fontWeight: 'bold',
+              fontWeight: "bold",
               // 水平方向加一些margin
               ml: 2,
             }}
@@ -148,7 +149,7 @@ function BaseWrapper() {
         <div style={{ flexGrow: 1 }} />
         <Divider />
         <List>
-          <ListItem disablePadding onClick={() => handleClick('/setting')}>
+          <ListItem disablePadding onClick={() => handleClick("/setting")}>
             <ListItemButton>
               <ListItemText primary="设置" />
             </ListItemButton>
@@ -160,14 +161,14 @@ function BaseWrapper() {
           </ListItem>
         </List>
       </Drawer>
-      <Container
+      <Box
         sx={{
-          paddingTop: 2,
-          height:`calc(100vh - 64px)`,
+          padding: "20px 100px 0px 100px",
+          height: `calc(100vh - 64px)`,
         }}
       >
         {outlet}
-      </Container>
+      </Box>
     </div>
   );
 }

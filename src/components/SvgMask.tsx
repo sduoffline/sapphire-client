@@ -87,9 +87,9 @@ const SvgMask = ({
         <path d={svgStr} />
       </clipPath>
       <filter id={"glow" + id} x="-50%" y="-50%" width={"200%"} height={"200%"}>
-        <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#1d85bb" />
-        <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#1d85bb" />
-        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#1d85bb" />
+        <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#cc7e26" />
+        <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#cc7e26" />
+        <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#cc7e26" />
       </filter>
       <image
         width="100%"
@@ -121,10 +121,10 @@ const SvgMask = ({
             strokeLinejoin="round"
             strokeOpacity=".8"
             fillOpacity="0"
-            stroke="#1d85bb"
+            stroke="#cc7e26"
             strokeWidth="3"
             ref={pathRef}
-            filter={`url(#glow${id})`}
+            filter={`url(#glow)`}
           />
         </>
       )}

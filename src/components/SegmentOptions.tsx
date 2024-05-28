@@ -8,7 +8,6 @@ interface SegmentOptionsProps {
   handleCreateSticker: () => void;
   handleImage: (img?: HTMLImageElement) => void;
   hasClicked: boolean;
-  isCutOut: [isCutOut: boolean, setIsCutOut: (e: boolean) => void];
 }
 
 const SegmentOptions = ({
@@ -18,7 +17,6 @@ const SegmentOptions = ({
   handleCreateSticker,
   handleImage,
   hasClicked,
-  isCutOut: [isCutOut, setIsCutOut],
 }: SegmentOptionsProps) => {
   const {
     isModelLoaded: [isModelLoaded, setIsModelLoaded],
@@ -37,8 +35,9 @@ const SegmentOptions = ({
   return (
     <>
       <div
-        className={`flex justify-between px-4 py-2 my-2 text-sm bg-gray-200 rounded-xl opacity-70 ${segmentTypes === "All" && "hidden"
-          } ${isCutOut && "hidden"}`}
+        className={`flex justify-between px-4 py-2 my-2 text-sm bg-gray-200 rounded-xl opacity-70 ${
+          segmentTypes === "All" && "hidden"
+        } `}
       >
         <button
           onClick={() => {
@@ -50,40 +49,41 @@ const SegmentOptions = ({
             setSegmentTypes("Click");
             handleResetInteraction();
           }}
-          className={`${((!svg && !svgs && !isErased) || segmentTypes === "All") &&
+          className={`${
+            ((!svg && !svgs && !isErased) || segmentTypes === "All") &&
             "disabled"
-            }`}
+          }`}
         >
           重置
         </button>
         <button
           onClick={handleUndoInteraction}
-          className={`${(!svg || segmentTypes === "All" || isMultiMaskMode) && "disabled"
-            }`}
+          className={`${
+            (!svg || segmentTypes === "All" || isMultiMaskMode) && "disabled"
+          }`}
         >
           Undo
         </button>
         <button
           onClick={handleRedoInteraction}
-          className={`${(!clicksHistory?.length || segmentTypes === "All") && "disabled"
-            }`}
+          className={`${
+            (!clicksHistory?.length || segmentTypes === "All") && "disabled"
+          }`}
         >
           Redo
         </button>
       </div>
       <div
-        className={`flex flex-col gap-3 py-3 pl-3 text-sm bg-gray-200 cursor-pointer rounded-xl ${hasClicked &&
+        className={`flex flex-col gap-3 py-3 pl-3 text-sm bg-gray-200 cursor-pointer rounded-xl ${
+          hasClicked &&
           "bg-gradient-to-r from-gray-200 to-blue-400/30 background-animate"
-          } ${isCutOut && "hidden"}`}
+        } `}
       >
-
-
         <button
           className={`flex ${!svg && segmentTypes !== "All" && "disabled"} `}
           onClick={(e) => {
             handleCreateSticker();
             e.stopPropagation();
-            setIsCutOut(true);
           }}
         >
           <svg

@@ -252,12 +252,11 @@ h6 {
 
 .sticker:hover,
 .sticker-select {
-  filter: drop-shadow(0.25rem 0.25rem 1px #2962d9)
-    drop-shadow(-0.25rem 0.25rem 1px #2962d9)
-    drop-shadow(0.25rem -0.25rem 1px #2962d9)
-    drop-shadow(-0.25rem -0.25rem 1px #2962d9);
+  filter: drop-shadow(0.25rem 0.25rem 1px #db9e6f)
+    drop-shadow(-0.25rem 0.25rem 1px #db9e6f)
+    drop-shadow(0.25rem -0.25rem 1px #db9e6f)
+    drop-shadow(-0.25rem -0.25rem 1px #db9e6f);
 }
-
 .mask-path {
   opacity: 0;
   animation: reveal 0.4s ease-in forwards;
