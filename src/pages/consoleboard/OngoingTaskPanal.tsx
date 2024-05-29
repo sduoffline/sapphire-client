@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import DataSet from "../../components/DataSet";
+import { useNavigate } from "react-router-dom";
 
 const mockData = [
   {
@@ -66,6 +67,7 @@ const mockData = [
 // }
 
 export default function OngoingTaskPanal() {
+  const navigate = useNavigate();
   return (
     <Paper sx={{ borderRadius: 2 }}>
       <Box sx={{ p: 2 }}>
@@ -79,6 +81,9 @@ export default function OngoingTaskPanal() {
               "&:hover": {
                 shadow: "none",
               },
+            }}
+            onClick={() => {
+              navigate("/datasets");
             }}
           >
             查看全部

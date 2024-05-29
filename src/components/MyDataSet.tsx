@@ -34,7 +34,6 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
           <Typography variant="caption">截止时间:{dataset.schedule}</Typography>
           <div style={{ flexGrow: 1 }} />
           <Button variant="contained">认领</Button>
-          {/* <Typography variant="caption">已认领</Typography> */}
         </Stack>
       </Stack>
     </Paper>

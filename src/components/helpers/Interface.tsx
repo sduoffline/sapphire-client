@@ -119,10 +119,12 @@ export interface DataSetProps {
   taskInfo: string;
   objectCnt: number;
   objects: string[];
+  owner?: boolean;
+  claim?: boolean;
   datas?:
     | {
         imgUrl: string;
-        embeedingUrl: string;
+        embeddingUrl: string;
         id: number;
       }[]
     | null;

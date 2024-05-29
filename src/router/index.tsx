@@ -35,6 +35,7 @@ import CreateDataset from "../pages/dataset/CreateDataset";
 import Setting from "../pages/setting/Setting";
 import WorkDesk from "../pages/workdesk/WorkDesk";
 import { Box } from "@mui/material";
+import Datasets from "../pages/datasets/Datasets";
 
 const drawerWidth = 240;
 
@@ -182,6 +183,7 @@ function BaseRouter() {
           <Route path="/workbench" element={<ConsoleBoard />} />
           <Route path="/workshop" element={<Workshop />} />
           <Route path="/workdesk" element={<WorkDesk />} />
+          <Route path="/datasets" element={<Datasets />} />
           <Route path="dataset">
             <Route path="detail/:id" element={<DatasetDetail />} />
             <Route path="create" element={<CreateDataset />} />
