@@ -1,9 +1,16 @@
-import React from "react";
-import Animate from "./hooks/Animation";
 import AppContext from "./hooks/createContext";
 import { useContext, useState } from "react";
 
-export default function CutOut() {
+export interface CutOutProps {
+  info: {
+    dataSetId: number;
+    dataSetName: string;
+    taskInfo: string;
+    objectCnt: number; //目标种类数量
+    objects: string[]; //目标种类列表
+  };
+}
+export default function CutOut({ info }: CutOutProps) {
   const {
     stickers: [stickers, setStickers],
     activeSticker: [activeSticker, setActiveSticker],
@@ -53,15 +60,18 @@ export default function CutOut() {
 
         <div className="overflow-y-auto h-[30rem] text-center">
           {stickers.map((el, i) => (
-            <img
-              key={i}
-              className={`sticker m-5 max-w-[75%] max-h-20 md:max-h-24 lg:max-h-28 xl:max-h-32 cursor-pointer inline hover:opacity-100 ${
-                i === activeSticker ? "sticker-select" : ""
-              }`}
-              alt="sticker"
-              src={el.sticker.toDataURL()}
-              onClick={(e) => handleStickerClick(i)}
-            />
+            <>
+              <img
+                key={i}
+                className={`sticker m-5 max-w-[75%] max-h-20 md:max-h-24 lg:max-h-28 xl:max-h-32 cursor-pointer inline hover:opacity-100 ${
+                  i === activeSticker ? "sticker-select" : ""
+                }`}
+                alt="sticker"
+                src={el.sticker.toDataURL()}
+                onClick={(e) => handleStickerClick(i)}
+              />
+              <p>{info.objects[el.stickerData.id]}</p>
+            </>
           ))}
         </div>
       </>

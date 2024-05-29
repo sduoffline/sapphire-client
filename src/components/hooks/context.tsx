@@ -25,7 +25,12 @@ const AppContextProvider = (props: {
     boxModel: boolean;
     allModel: boolean;
   }>({ boxModel: false, allModel: false });
-  const [stickers, setStickers] = useState<{sticker:HTMLCanvasElement,stickerData:{}}[]>([]);
+  const [stickers, setStickers] = useState<
+    {
+      sticker: HTMLCanvasElement;
+      stickerData: {};
+    }[]
+  >([]);
   const [activeSticker, setActiveSticker] = useState<number>(0);
   const [segmentTypes, setSegmentTypes] = useState<"Box" | "Click" | "All">(
     "Click"
@@ -54,8 +59,6 @@ const AppContextProvider = (props: {
   );
   const [isAllAnimationDone, setIsAllAnimationDone] = useState<boolean>(false);
   const [isToolBarUpload, setIsToolBarUpload] = useState<boolean>(false);
-  
-
 
   return (
     <AppContext.Provider

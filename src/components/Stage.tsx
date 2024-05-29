@@ -11,7 +11,19 @@ import AppContext from "./hooks/createContext";
 import LoadingModal from "./LoadingModal";
 import SegmentDrawer from "./SegmentDrawer";
 import CutOut from "./CutOut";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@mui/material";
+import { useSnackbar } from "notistack";
 
 type Points = { sx: number; sy: number; x: number; y: number };
 
@@ -134,6 +146,7 @@ const Stage = ({
           center_y: (pix.y[n] + pix.y[0]) / 2 / h,
           w: (1 + pix.x[n] - pix.x[0]) / w,
           h: (1 + pix.y[n] - pix.y[0]) / h,
+          id: 0,
         };
         // console.log({
         //   center_x: ((pix.x[n] + pix.x[0]) / 2)/w,
@@ -449,7 +462,39 @@ const Stage = ({
     yMax = yMax ? (yMax * canvasScale) / scale!.scale : yMax;
     return { xMin, yMin, xMax, yMax };
   };
+  const { enqueueSnackbar } = useSnackbar();
 
+  const handleSelectType = () => {
+    if (stickers === null || stickers.length === 0) {
+      enqueueSnackbar("请先创建一个贴纸", { variant: "error" });
+      return;
+    }
+    if (
+      activeSticker === null ||
+      activeSticker < 0 ||
+      activeSticker >= stickers!.length
+    ) {
+      enqueueSnackbar("请选择一个贴纸", { variant: "error" });
+      return;
+    }
+    setOpen(true);
+  };
+  const handleDelete = () => {
+    if (stickers === null || stickers.length === 0) {
+      enqueueSnackbar("请先创建一个贴纸", { variant: "error" });
+      return;
+    }
+    if (
+      activeSticker === null ||
+      activeSticker < 0 ||
+      activeSticker >= stickers!.length
+    ) {
+      enqueueSnackbar("请选择一个贴纸", { variant: "error" });
+      return;
+    }
+    setStickers(stickers.filter((_, index) => index !== activeSticker));
+    setActiveSticker(0);
+  };
   const handleResetInteraction = (forceFullReset?: boolean) => {
     setSVG(null);
     setSVGs(null);
@@ -568,6 +613,25 @@ const Stage = ({
     }
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (value: number) => {
+    setOpen(false);
+    setStickers(
+      stickers.map((sticker, index) => {
+        return index === activeSticker
+          ? {
+              sticker: sticker.sticker,
+              stickerData: {
+                ...sticker.stickerData,
+                id: value,
+              },
+            }
+          : sticker;
+      })
+    );
+  };
+
   return (
     <div
       className="flex items-stretch justify-center flex-1 overflow-hidden stage"
@@ -659,10 +723,66 @@ const Stage = ({
           height: "100%",
         }}
       >
-        <CutOut />
+        <CutOut info={info} />
+        <Box>
+          <Box
+            sx={{ display: "flex", justifyContent: "space-around", margin: 3 }}
+          >
+            <Button variant="contained" onClick={handleSelectType}>
+              选择类型
+            </Button>
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={handleDelete}
+            >
+              删除
+            </Button>
+          </Box>
+        </Box>
       </Box>
+      <SimpleDialog
+        selectedValue={stickers[activeSticker]?.stickerData.id}
+        open={open}
+        onClose={handleClose}
+        objects={info.objects}
+      />
     </div>
   );
 };
+
+export interface SimpleDialogProps {
+  open: boolean;
+  selectedValue: number;
+  onClose: (value: number) => void;
+  objects: string[];
+}
+
+function SimpleDialog(props: SimpleDialogProps) {
+  const { onClose, selectedValue, open, objects } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  const handleListItemClick = (value: number) => {
+    onClose(value);
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>选择类型</DialogTitle>
+      <List sx={{ pt: 0 }}>
+        {objects.map((object, index) => (
+          <ListItem disableGutters key={index}>
+            <ListItemButton onClick={() => handleListItemClick(index)}>
+              <ListItemText primary={object} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Dialog>
+  );
+}
 
 export default Stage;

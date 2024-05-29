@@ -249,7 +249,26 @@ h6 {
     drop-shadow(-0.25rem -0.25rem 5px #fff);
   transition: filter 0.3s ease-out;
 }
+/* 全局滚动条样式 */
+*::-webkit-scrollbar {
+  width: 12px; /* 垂直滚动条的宽度 */
+  height: 12px; /* 水平滚动条的高度 */
+}
 
+*::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 滚动条轨道的背景色 */
+  border-radius: 10px; /* 圆角 */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888; /* 滚动条滑块的背景色 */
+  border-radius: 10px; /* 圆角 */
+  border: 3px solid #f1f1f1; /* 滑块的边框，使其看起来更圆润 */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 悬停时滚动条滑块的背景色 */
+}
 .sticker:hover,
 .sticker-select {
   filter: drop-shadow(0.25rem 0.25rem 1px #db9e6f)

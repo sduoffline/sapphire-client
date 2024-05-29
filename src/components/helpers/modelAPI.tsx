@@ -10,8 +10,10 @@ import {
   setParmsandQueryModelProps,
 } from "./Interface";
 
-const API_ENDPOINT = "https://model-zoo.metademolab.com/predictions/segment_everything_box_model";
-const ALL_MASK_API_ENDPOINT = "https://model-zoo.metademolab.com/predictions/automatic_masks";
+const API_ENDPOINT =
+  "https://model-zoo.metademolab.com/predictions/segment_everything_box_model";
+const ALL_MASK_API_ENDPOINT =
+  "https://model-zoo.metademolab.com/predictions/automatic_masks";
 //const API_ENDPOINT = process.env.API_ENDPOINT;
 //const ALL_MASK_API_ENDPOINT = process.env.ALL_MASK_API_ENDPOINT;
 const ERASE_API_ENDPOINT = process.env.ERASE_API_ENDPOINT;
@@ -59,7 +61,6 @@ const queryModelReturnTensors = async ({
   shouldDownload,
   shouldNotFetchAllModel,
 }: queryModelReturnTensorsProps) => {
-
   // console.log("image_height, imgName, shouldDownload, shouldNotFetchAllModel:", image_height, imgName, shouldDownload, shouldNotFetchAllModel)
   // console.log("pre-queryModelReturnTensors");
   if (!API_ENDPOINT) return;
@@ -77,7 +78,6 @@ const queryModelReturnTensors = async ({
   const segRequest = fetch(`${imgName}`);
 
   segRequest.then(async (segResponse) => {
-
     const segJSON = await segResponse.json();
     const embedArr = segJSON.map((arrStr: string) => {
       const binaryString = window.atob(arrStr);
@@ -93,7 +93,6 @@ const queryModelReturnTensors = async ({
       tensor: lowResTensor,
     });
   });
-
 };
 
 const queryEraseModel = async ({
@@ -147,7 +146,6 @@ const setParmsandQueryEraseModel = ({
   });
 };
 
-
 const getPointsFromBox = (box: modelInputProps) => {
   if (box.width === null || box.height === null) return;
   const upperLeft = { x: box.x, y: box.y };
@@ -170,9 +168,9 @@ const isFirstClick = (clicks: Array<modelInputProps>) => {
 };
 
 const modelData = ({
-  clicks,
-  tensor,
-  modelScale,
+  clicks, //选择方式
+  tensor, //
+  modelScale, //选择区域
   point_coords,
   point_labels,
   last_pred_mask,
@@ -182,19 +180,7 @@ const modelData = ({
   let pointLabels;
   let pointCoordsTensor;
   let pointLabelsTensor;
-  // point_coords, point_labels params below are only truthy in text model
-  // if (point_coords && point_labels) {
-  //   pointCoords = new Float32Array(4);
-  //   pointLabels = new Float32Array(2);
-  //   pointCoords[0] = point_coords[0][0];
-  //   pointCoords[1] = point_coords[0][1];
-  //   pointLabels[0] = point_labels[0]; // UPPER_LEFT
-  //   pointCoords[2] = point_coords[1][0];
-  //   pointCoords[3] = point_coords[1][1];
-  //   pointLabels[1] = point_labels[1]; // BOTTOM_RIGHT
-  //   pointCoordsTensor = new Tensor("float32", pointCoords, [1, 2, 2]);
-  //   pointLabelsTensor = new Tensor("float32", pointLabels, [1, 2]);
-  // }
+
   // point click model check
   if (clicks) {
     let n = clicks.length;
@@ -208,8 +194,7 @@ const modelData = ({
     // Check if there is a box input
     if (clicksFromBox) {
       // For box model need to include the box clicks in the point
-      // coordinates and also don't need to include the extra
-      // negative point
+
       pointCoords = new Float32Array(2 * (n + clicksFromBox));
       pointLabels = new Float32Array(n + clicksFromBox);
       const {
@@ -231,7 +216,6 @@ const modelData = ({
       last_pred_mask = null;
     }
 
-    // Add regular clicks
     for (let i = 0; i < n; i++) {
       pointCoords[2 * (i + clicksFromBox)] = clicks[i].x / modelScale.onnxScale;
       pointCoords[2 * (i + clicksFromBox) + 1] =
@@ -239,8 +223,6 @@ const modelData = ({
       pointLabels[i + clicksFromBox] = clicks[i].clickType;
     }
 
-    // Add in the extra point/label when only clicks and no box
-    // The extra point is at (0, 0) with label -1
     if (!clicksFromBox) {
       pointCoords[2 * n] = 0.0;
       pointCoords[2 * n + 1] = 0.0;
@@ -267,13 +249,11 @@ const modelData = ({
   if (pointCoordsTensor === undefined || pointLabelsTensor === undefined)
     return;
 
-  // if there is a previous tensor, use it, otherwise we default to an empty tensor
   const lastPredMaskTensor =
     last_pred_mask && clicks && !isFirstClick(clicks)
       ? last_pred_mask
       : new Tensor("float32", new Float32Array(256 * 256), [1, 1, 256, 256]);
 
-  // +!! is javascript shorthand to convert truthy value to 1, falsey value to 0
   const hasLastPredTensor = new Tensor("float32", [
     +!!(last_pred_mask && clicks && !isFirstClick(clicks)),
   ]);

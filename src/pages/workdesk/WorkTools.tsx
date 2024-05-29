@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 import { InferenceSession, Tensor } from "onnxruntime-web";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import getFile from "../../components/helpers/getFile";
 import { handleImageScale } from "../../components/helpers/ImageHelper";
@@ -59,29 +59,29 @@ export default function WorkTools({
   pos: [nowPos, setPos],
 }: WorkToolsProps) {
   const {
-    click: [click, setClick],
-    clicks: [clicks, setClicks],
-    image: [image, setImage],
-    prevImage: [prevImage, setPrevImage],
-    svg: [, setSVG],
-    svgs: [svgs, setSVGs],
+    click: [click, setClick], //当前的点击位置（追踪鼠标位置）
+    clicks: [clicks, setClicks], //全部的点击位置数组
+    image: [image, setImage], //需要被推理的数组
+    prevImage: [prevImage, setPrevImage], //此前的图片，用于重置操作
+    svg: [, setSVG], //蒙版svg
+    svgs: [svgs, setSVGs], //全部的蒙版svg
     allsvg: [, setAllsvg],
-    isErased: [, setIsErased],
-    isModelLoaded: [, setIsModelLoaded],
-    isLoading: [, setIsLoading],
-    segmentTypes: [, setSegmentTypes],
-    maskImg: [, setMaskImg],
-    isErasing: [isErasing, setIsErasing],
+    isErased: [, setIsErased], //是否被擦除
+    isModelLoaded: [, setIsModelLoaded], //模型是否加载
+    isLoading: [, setIsLoading], //是否正在加载图片和embedding
+    segmentTypes: [, setSegmentTypes], //当前的分割类型
+    maskImg: [, setMaskImg], //蒙版图片
+    isErasing: [isErasing, setIsErasing], //是否正在擦除
     stickerTabBool: [stickerTabBool, setStickerTabBool],
-    isMultiMaskMode: [isMultiMaskMode, setIsMultiMaskMode],
+    isMultiMaskMode: [isMultiMaskMode, setIsMultiMaskMode], //
     isHovering: [isHovering, setIsHovering],
     showLoadingModal: [showLoadingModal, setShowLoadingModal],
     eraserText: [eraserText, setEraserText],
-    predMask: [predMask, setPredMask],
+    predMask: [predMask, setPredMask], //之前的蒙版
     predMasks: [predMasks, setPredMasks],
     predMasksHistory: [predMasksHistory, setPredMasksHistory],
     isToolBarUpload: [isToolBarUpload, setIsToolBarUpload],
-    stickers: [stickers, setStickers],
+    stickers: [stickers, setStickers], //所有扣完的元素
   } = useContext(AppContext)!;
   const [model, setModel] = useState<InferenceSession | null>(null);
   const [multiMaskModel, setMultiMaskModel] = useState<InferenceSession | null>(
@@ -169,13 +169,9 @@ export default function WorkTools({
         last_pred_mask: predMask,
       });
       if (feeds === undefined) return;
-      // const beforeONNX = Date.now();
       const results = await model.run(feeds);
-      // const afterONNX = Date.now();
-      // console.log(`ONNX took ${afterONNX - beforeONNX}ms`);
       const output = results[model.outputNames[0]];
       if (hasClicked) {
-        // const beforeSVG = Date.now();
         const pred_mask = results[model.outputNames[1]];
         setPredMask(pred_mask);
         if (!predMasksHistory) {
@@ -188,13 +184,8 @@ export default function WorkTools({
         );
         setSVG(svgStr);
         setMask(output.data);
-        // const afterSVG = Date.now();
-        // console.log(`SVG took ${afterSVG - beforeSVG}ms`);
       } else {
-        // const beforeMask = Date.now();
         setMaskImg(rleToImage(output.data, output.dims[0], output.dims[1]));
-        // const afterMask = Date.now();
-        // console.log(`Mask took ${afterMask - beforeMask}ms`);
       }
       setClick(null);
       setIsLoading(false);
@@ -338,10 +329,32 @@ export default function WorkTools({
     setPredMasks(null);
   };
 
+  const imgListContainer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const tabsContainer = imgListContainer.current;
+
+    const handleWheel = (event: any) => {
+      event.preventDefault();
+      tabsContainer!.scrollLeft += event.deltaY;
+    };
+
+    if (tabsContainer) {
+      tabsContainer.addEventListener("wheel", handleWheel);
+    }
+
+    return () => {
+      if (tabsContainer) {
+        tabsContainer.removeEventListener("wheel", handleWheel);
+      }
+    };
+  }, []);
+
   return (
     <div className={`flex flex-col h-full overflow-hidden`}>
       <Paper
         elevation={2}
+        ref={imgListContainer}
         sx={{
           margin: 1,
           padding: 2,
