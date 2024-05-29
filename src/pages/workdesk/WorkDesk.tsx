@@ -8,6 +8,8 @@ const mockData = {
   taskInfo: "区分颜色标出图中的所有马",
   objectCnt: 3, //目标种类数量
   objects: ["白马", "黑马", "棕马"], //目标种类列表
+  schedule: "10/40",
+
   datas: [
     {
       imgUrl:

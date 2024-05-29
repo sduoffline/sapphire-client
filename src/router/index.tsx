@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MemoryRouter as Router,
   Route,
@@ -178,6 +178,7 @@ function BaseRouter() {
     <HashRouter>
       <Routes>
         <Route path="/" element={<BaseWrapper />}>
+          <Route path="/" element={<Index />} />
           <Route path="/workbench" element={<ConsoleBoard />} />
           <Route path="/workshop" element={<Workshop />} />
           <Route path="/workdesk" element={<WorkDesk />} />
@@ -195,5 +196,11 @@ function BaseRouter() {
     </HashRouter>
   );
 }
-
+const Index = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/workshop");
+  }, []);
+  return <></>;
+};
 export default BaseRouter;

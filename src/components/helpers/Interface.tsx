@@ -110,11 +110,23 @@ export interface StageProps {
   setHasClicked: (e: boolean) => void;
   handleNextImg: () => void;
   handleLastImg: () => void;
-  info: {
-    dataSetId: number;
-    dataSetName: string;
-    taskInfo: string;
-    objectCnt: number; //目标种类数量
-    objects: string[]; //目标种类列表
-  };
+  info: DataSetProps;
+}
+
+export interface DataSetProps {
+  dataSetId: number;
+  dataSetName: string;
+  taskInfo: string;
+  objectCnt: number;
+  objects: string[];
+  datas?:
+    | {
+        imgUrl: string;
+        embeedingUrl: string;
+        id: number;
+      }[]
+    | null;
+  schedule?: string | null;
+  total?: number | null;
+  finished?: number | null;
 }
