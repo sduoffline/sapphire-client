@@ -44,7 +44,22 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
             <Button variant="contained">认领</Button>
           )}
           {dataset.owner && <Button variant="contained">编辑</Button>}
-          {dataset.claim && <Button variant="contained">开工</Button>}
+          {dataset.claim && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                localStorage.setItem(
+                  "workingDatasetId",
+                  dataset!.dataSetId.toString()
+                );
+                setTimeout(() => {
+                  navigate("/workdesk");
+                }, 500);
+              }}
+            >
+              开工
+            </Button>
+          )}
         </Stack>
       </Stack>
     </Paper>

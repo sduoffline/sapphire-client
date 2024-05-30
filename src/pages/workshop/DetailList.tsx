@@ -144,7 +144,10 @@ const mockData = [
 
 export default function TitlebarImageList() {
   const { data, isLoading, isError, error, isSuccess } = useQuery({
-    queryKey: [all_datasets_url],
+    queryKey: [
+      all_datasets_url,
+      { params: { user_id: localStorage.getItem("userId") } },
+    ],
     queryFn: queryFn,
   });
   useEffect(() => {

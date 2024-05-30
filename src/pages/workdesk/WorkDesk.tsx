@@ -391,7 +391,7 @@ export default function WorkDesk() {
     if (!tasks?.data.data || tasks?.data.data.length == 0) {
       localStorage.removeItem("workingDatasetId");
       enqueueSnackbar("当前数据集没有任务", { variant: "error" });
-      navigate("/datasets");
+      navigate("/workshop");
     }
   }, [taskSuccess]);
   const {
@@ -456,24 +456,27 @@ export default function WorkDesk() {
   return (
     <>
       {taskFetching && <Loading />}
-      {taskSuccess && infoIsSuccess && (
-        <WorkTools
-          imgs={tasks.data.data}
-          info={{
-            dataSetId: info.data.data.dataSetId,
-            dataSetName: info.data.data.dataSetName,
-            taskInfo: info.data.data.taskInfo,
-            objectCnt: info.data.data.objectCnt,
-            objects: info.data.data.objects,
-          }}
-          pos={[nowPos, setPos]}
-          handleNextImg={handleNextImg}
-          handleLastImg={handleLastImg}
-          imgUrl={tasks.data.data[nowPos].imgUrl}
-          embeddingUrl={tasks.data.data[nowPos].embeddingUrl}
-          updateData={upLoadData}
-        />
-      )}
+      {taskSuccess &&
+        infoIsSuccess &&
+        tasks.data.data &&
+        tasks.data.data.length > 0 && (
+          <WorkTools
+            imgs={tasks.data.data}
+            info={{
+              dataSetId: info.data.data.dataSetId,
+              dataSetName: info.data.data.dataSetName,
+              taskInfo: info.data.data.taskInfo,
+              objectCnt: info.data.data.objectCnt,
+              objects: info.data.data.objects,
+            }}
+            pos={[nowPos, setPos]}
+            handleNextImg={handleNextImg}
+            handleLastImg={handleLastImg}
+            imgUrl={tasks.data.data[nowPos].imgUrl}
+            embeddingUrl={tasks.data.data[nowPos].embeddingUrl}
+            updateData={upLoadData}
+          />
+        )}
     </>
   );
 }

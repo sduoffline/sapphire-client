@@ -509,7 +509,9 @@ export default function DatasetDetail() {
                       "workingDatasetId",
                       dataset!.dataSetId.toString()
                     );
-                    navigate("/workdesk");
+                    setTimeout(() => {
+                      navigate("/workdesk");
+                    }, 500);
                   }}
                 >
                   开始标注
