@@ -1,4 +1,4 @@
-import { Button, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 
 import { DataSetProps } from "./helpers/Interface";
@@ -28,12 +28,23 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
             查看
           </Button>
         </Stack>
-        <Typography variant="caption">{dataset.taskInfo}</Typography>
+        <Box sx={{ height: "20px" }}>
+          <Typography variant="caption">{dataset.taskInfo}</Typography>
+        </Box>
         <div style={{ flexGrow: 1 }} />
         <Stack direction="row" spacing={2}>
-          <Typography variant="caption">截止时间:{dataset.schedule}</Typography>
+          <Typography variant="caption">
+            截止时间:
+            {dataset.schedule == null || dataset.schedule == ""
+              ? "长期"
+              : dataset.schedule}
+          </Typography>
           <div style={{ flexGrow: 1 }} />
-          <Button variant="contained">认领</Button>
+          {!dataset.claim && !dataset.owner && (
+            <Button variant="contained">认领</Button>
+          )}
+          {dataset.owner && <Button variant="contained">编辑</Button>}
+          {dataset.claim && <Button variant="contained">开工</Button>}
         </Stack>
       </Stack>
     </Paper>

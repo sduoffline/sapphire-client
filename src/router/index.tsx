@@ -34,7 +34,7 @@ import Profile from "../pages/profile/Profile";
 import CreateDataset from "../pages/dataset/CreateDataset";
 import Setting from "../pages/setting/Setting";
 import WorkDesk from "../pages/workdesk/WorkDesk";
-import { Box } from "@mui/material";
+import { Avatar, Box, Menu, MenuItem, Tooltip } from "@mui/material";
 import Datasets from "../pages/datasets/Datasets";
 import Login from "../pages/login";
 
@@ -52,13 +52,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 // 多数页面使用的基本组件
 // 包括侧边栏、顶部栏、底部栏等
 // 根据权限、用户信息等动态渲染
-function BaseWrapper() {
+function BaseWrapper(props: any) {
   // 开关侧边栏
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  const [anchorElUser, setAnchorElUser] = useState<boolean>(false);
   // 获取当前路由
   const location = useLocation();
 
@@ -89,9 +89,70 @@ function BaseWrapper() {
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {/* 根据路由动态渲染标题 */}
-            {routes.find((route) => route.path === location.pathname)?.name}
+            {/* {routes.find((route) => route.path === location.pathname)?.name} */}
+            {props?.name}
           </Typography>
-          <IconButton
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="">
+              <IconButton
+                onClick={() => setAnchorElUser(!anchorElUser)}
+                sx={{ p: 0 }}
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  src={localStorage.getItem("avatar") as string}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              // anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={() => setAnchorElUser(false)}
+            >
+              {/* <MenuItem> */}
+              <Box sx={{ marginLeft: "10px", marginRight: "10px" }}>
+                <Typography
+                  textAlign="center"
+                  variant="body1"
+                  sx={{ fontFamily: "cursive" }}
+                >
+                  你好,{localStorage.getItem("name")}同志
+                </Typography>
+                {/* </MenuItem> */}
+
+                <MenuItem
+                  onClick={() => {
+                    setAnchorElUser(false);
+                    navigator("/profile");
+                  }}
+                >
+                  <Typography textAlign="center">个人中心</Typography>
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    localStorage.removeItem("name");
+                    localStorage.removeItem("token");
+                    navigator("/");
+                  }}
+                >
+                  <Typography textAlign="center">登出</Typography>
+                </MenuItem>
+              </Box>
+            </Menu>
+          </Box>
+          {/* <IconButton
             size="large"
             aria-label="account of current user"
             aria-controls="menu-appbar"
@@ -99,7 +160,7 @@ function BaseWrapper() {
             color="inherit"
           >
             <AccountCircle />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -169,7 +230,7 @@ function BaseWrapper() {
           height: `calc(100vh - 64px)`,
         }}
       >
-        {outlet}
+        {props.children}
       </Box>
     </div>
   );
@@ -180,17 +241,73 @@ function BaseRouter() {
     <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/" element={<BaseWrapper />}>
-          <Route path="/workbench" element={<ConsoleBoard />} />
-          <Route path="/workshop" element={<Workshop />} />
-          <Route path="/workdesk" element={<WorkDesk />} />
-          <Route path="/datasets" element={<Datasets />} />
+        <Route path="/">
+          <Route
+            path="/workbench"
+            element={
+              <Index name="控制台">
+                <ConsoleBoard />
+              </Index>
+            }
+          />
+          <Route
+            path="/workshop"
+            element={
+              <Index name="创意工坊">
+                <Workshop />
+              </Index>
+            }
+          />
+          <Route
+            path="/workdesk"
+            element={
+              <Index name="工作台">
+                <WorkDesk />
+              </Index>
+            }
+          />
+          <Route
+            path="/datasets"
+            element={
+              <Index name="我的数据集">
+                <Datasets />
+              </Index>
+            }
+          />
           <Route path="dataset">
-            <Route path="detail/:id" element={<DatasetDetail />} />
-            <Route path="create" element={<CreateDataset />} />
+            <Route
+              path="detail/:id"
+              element={
+                <Index name="任务集详情">
+                  <DatasetDetail />
+                </Index>
+              }
+            />
+            <Route
+              path="create"
+              element={
+                <Index name="创建数据集">
+                  <CreateDataset />
+                </Index>
+              }
+            />
           </Route>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/setting" element={<Setting />} />
+          <Route
+            path="/profile"
+            element={
+              <Index name="个人中心">
+                <Profile />
+              </Index>
+            }
+          />
+          <Route
+            path="/setting"
+            element={
+              <Index name="设置">
+                <Setting />
+              </Index>
+            }
+          />
         </Route>
         <Route path="*" element={<BaseWrapper />}>
           <Route path="*" element={<NotFoundPage />} />
@@ -199,11 +316,7 @@ function BaseRouter() {
     </HashRouter>
   );
 }
-const Index = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate("/workshop");
-  }, []);
-  return <></>;
+const Index = (props: any) => {
+  return <BaseWrapper name={props.name}>{props.children}</BaseWrapper>;
 };
 export default BaseRouter;

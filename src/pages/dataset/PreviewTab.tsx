@@ -6,6 +6,7 @@ import {
   ImageListItem,
   Button,
   TextField,
+  Typography,
 } from "@mui/material";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
 
@@ -52,11 +53,20 @@ export default function PreviewTab({ imgs }: PreviewTabProps) {
         {/* 下载按钮 */}
       </Stack>
       <ImageList sx={{ padding: 2 }} cols={4}>
-        {imgs!.slice(0, 8).map((item) => (
-          // <ImageListItem key={item.imgUrl}>
-          <img src={item.imgUrl} alt="" style={{ width: "300px", margin: 1 }} />
-          // </ImageListItem>
-        ))}
+        {imgs !== null &&
+          imgs !== undefined &&
+          imgs!.slice(0, 8).map((item) => (
+            // <ImageListItem key={item.imgUrl}>
+            <img
+              src={item.imgUrl}
+              alt=""
+              style={{ width: "300px", margin: 1 }}
+            />
+            // </ImageListItem>
+          ))}
+        {(imgs === null || imgs === undefined) && (
+          <Typography>暂无数据</Typography>
+        )}
       </ImageList>
     </div>
   );

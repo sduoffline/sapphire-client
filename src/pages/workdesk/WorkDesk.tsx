@@ -2,6 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import WorkTools from "./WorkTools";
 import AppContextProvider from "../../components/hooks/context";
 import AppContext from "../../components/hooks/createContext";
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import { useQuery } from "@tanstack/react-query";
+import { annotate_url, dataset_detail_url } from "../../constants/url";
+import { queryFn } from "../../queries/queryFn";
+import Loading from "../../components/loading";
 const mockData = {
   dataSetId: 1, //数据集id
   dataSetName: "抓马", //数据集名称
@@ -358,6 +364,46 @@ const mockData = {
   ],
 };
 export default function WorkDesk() {
+  const [datasetId, setDatasetId] = useState(
+    localStorage.getItem("workingDatasetId")
+  );
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  useEffect(() => {
+    if (!datasetId) {
+      enqueueSnackbar("请先选择数据集", { variant: "error" });
+      navigate("/datasets");
+    }
+  }, [datasetId]);
+
+  const {
+    isError: taskIsError,
+    isFetching: taskFetching,
+    data: tasks,
+    isSuccess: taskSuccess,
+    error: taskError,
+  } = useQuery({
+    queryKey: [annotate_url + `/${datasetId}`, { params: { size: 10 } }],
+    queryFn: queryFn,
+  });
+
+  const {
+    isSuccess: infoIsSuccess,
+    data: info,
+    isFetching: infoFetching,
+    isError: infoIsError,
+    error: infoError,
+  } = useQuery({
+    queryKey: [dataset_detail_url + "/" + datasetId],
+    queryFn: queryFn,
+  });
+
+  useEffect(() => {
+    if (infoIsSuccess) {
+      console.log(info.data.data);
+    }
+  }, [infoIsSuccess]);
+
   const {
     stickers: [stickers, setStickers],
   } = useContext(AppContext)!;
@@ -367,7 +413,12 @@ export default function WorkDesk() {
     /**
      * 实现抠图数据的上传
      */
+    console.log("上传数据", {
+      id: mockData.datas[pos].id,
+      data: data,
+    });
   };
+
   const handleNextImg = () => {
     console.log(nowPos);
     if (nowPos == mockData.datas.length - 1) {
@@ -378,17 +429,12 @@ export default function WorkDesk() {
       nowPos,
       stickers.map((e) => e.stickerData)
     );
-    // setWorkImgUrl(mockData.datas[nowPos + 1].imgUrl);
-    // setEmbImgUrl(mockData.datas[nowPos + 1].embeddingUrl);
     setPos(nowPos + 1);
   };
   const handleLastImg = () => {
     if (nowPos == 0) {
       return;
     }
-    // setWorkImgUrl(mockData.datas[nowPos - 1].imgUrl);
-
-    // setEmbImgUrl(mockData.datas[nowPos - 1].embeddingUrl);
     upLoadData(
       nowPos,
       stickers.map((e) => e.stickerData)
@@ -398,20 +444,26 @@ export default function WorkDesk() {
   };
 
   return (
-    <WorkTools
-      imgs={mockData.datas}
-      info={{
-        dataSetId: mockData.dataSetId,
-        dataSetName: mockData.dataSetName,
-        taskInfo: mockData.taskInfo,
-        objectCnt: mockData.objectCnt,
-        objects: mockData.objects,
-      }}
-      pos={[nowPos, setPos]}
-      handleNextImg={handleNextImg}
-      handleLastImg={handleLastImg}
-      imgUrl={mockData.datas[nowPos].imgUrl}
-      embeddingUrl={mockData.datas[nowPos].embeddingUrl}
-    />
+    <>
+      {taskFetching && <Loading />}
+      {taskSuccess && infoIsSuccess && (
+        <WorkTools
+          imgs={tasks.data.data}
+          info={{
+            dataSetId: info.data.data.dataSetId,
+            dataSetName: info.data.data.dataSetName,
+            taskInfo: info.data.data.taskInfo,
+            objectCnt: info.data.data.objectCnt,
+            objects: info.data.data.objects,
+          }}
+          pos={[nowPos, setPos]}
+          handleNextImg={handleNextImg}
+          handleLastImg={handleLastImg}
+          imgUrl={tasks.data.data[nowPos].imgUrl}
+          embeddingUrl={tasks.data.data[nowPos].embeddingUrl}
+          updateData={upLoadData}
+        />
+      )}
+    </>
   );
 }

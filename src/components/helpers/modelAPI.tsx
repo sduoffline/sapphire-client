@@ -75,8 +75,10 @@ const queryModelReturnTensors = async ({
   //       method: "POST",
   //       body: blob,
   //     });
+
   const segRequest = fetch(`${imgName}`);
 
+  /*
   segRequest.then(async (segResponse) => {
     const segJSON = await segResponse.json();
     const embedArr = segJSON.map((arrStr: string) => {
@@ -92,6 +94,46 @@ const queryModelReturnTensors = async ({
     handleSegModelResults({
       tensor: lowResTensor,
     });
+  });
+  */
+  segRequest.then(async (segResponse) => {
+    const arrayBuffer = await segResponse.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    // 解析 npy 文件头部
+    const magic = String.fromCharCode.apply(
+      null,
+      Array.from(uint8Array.subarray(0, 6))
+    );
+    if (magic !== "\x93NUMPY") {
+      throw new Error("Invalid npy file");
+    }
+
+    const headerLength = uint8Array[8] + uint8Array[9] * 256;
+    const headerStr = String.fromCharCode.apply(
+      null,
+      Array.from(uint8Array.subarray(10, 10 + headerLength))
+    );
+    // const header = JSON.parse(
+    //   headerStr
+    //     .replace(/'/g, '"')
+    //     .replace("False", "false")
+    //     .replace("True", "true")
+    // );
+
+    // // 检查数据类型
+    // if (header.descr !== "<f4") {
+    //   throw new Error("Only Float32 npy files are supported");
+    // }
+
+    // 提取数据部分
+    const dataOffset = 10 + headerLength;
+    const data = new Float32Array(arrayBuffer, dataOffset);
+    const lowResTensor = new Tensor("float32", data, [1, 256, 64, 64]);
+    handleSegModelResults({
+      tensor: lowResTensor,
+    });
+    return data;
   });
 };
 

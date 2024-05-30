@@ -46,6 +46,7 @@ interface WorkToolsProps {
     objectCnt: number; //目标种类数量
     objects: string[]; //目标种类列表
   };
+  updateData: (pos: number, data: {}[]) => void;
   pos: [number, (e: number) => void];
 }
 
@@ -55,9 +56,13 @@ export default function WorkTools({
   imgUrl,
   embeddingUrl,
   imgs,
+  updateData,
   info,
   pos: [nowPos, setPos],
 }: WorkToolsProps) {
+  useEffect(() => {
+    console.log(imgUrl);
+  }, []);
   const {
     click: [click, setClick], //当前的点击位置（追踪鼠标位置）
     clicks: [clicks, setClicks], //全部的点击位置数组
@@ -107,7 +112,7 @@ export default function WorkTools({
 
   useEffect(() => {
     if (imgUrl && embeddingUrl)
-      handleSelectedImage(new URL(imgUrl), embeddingUrl, {
+      handleSelectedImage(imgUrl, embeddingUrl, {
         shouldDownload: false,
         shouldNotFetchAllModel: true,
       });
@@ -232,14 +237,12 @@ export default function WorkTools({
 
   // 使用这个函数设置一个全局的图片，当有这个图片之后，就会自动显示工作台页面
   const handleSelectedImage = async (
-    data: File | URL,
+    data: File | string,
     embe: string,
     options?: { shouldNotFetchAllModel?: boolean; shouldDownload?: boolean }
   ) => {
     if (data instanceof File) {
       console.log("GOT FILE " + data.name);
-    } else if (data instanceof URL) {
-      console.log("GOT URL " + data.pathname);
     } else {
       console.log("GOT STRING " + data);
     }
@@ -255,7 +258,7 @@ export default function WorkTools({
         // imgName = data.pathname;
       } else if (data instanceof String) {
         // TODO: find the right place where to replace it...
-        data = new URL(data.replace("/assets/", "/public/assets/"));
+        // data = new URL(data.replace("/assets/", "/public/assets/"));
         // imgName = data.pathname;
       }
 
@@ -385,6 +388,10 @@ export default function WorkTools({
               src={img.imgUrl}
               alt={img.imgUrl}
               onClick={() => {
+                updateData(
+                  nowPos,
+                  stickers.map((sticker) => sticker.stickerData)
+                );
                 setPos(index);
               }}
             />

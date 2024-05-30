@@ -768,7 +768,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>选择类型</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {objects.map((object, index) => (
+        {objects?.map((object, index) => (
           <ListItem disableGutters key={index}>
             <ListItemButton onClick={() => handleListItemClick(index)}>
               <ListItemText primary={object} />

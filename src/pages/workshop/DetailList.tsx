@@ -14,6 +14,11 @@ import useDatasets from "../../queries/useDatasets";
 import { Dataset } from "../../types";
 import DataSet from "../../components/DataSet";
 import MyDataSet from "../../components/MyDataSet";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { postQueryFn } from "../../queries/postQueryFn";
+import Loading from "../../components/loading";
+import { all_datasets_url } from "../../constants/url";
+import { queryFn } from "../../queries/queryFn";
 
 interface DatasetItemProps {
   item: Dataset;
@@ -138,40 +143,15 @@ const mockData = [
 ];
 
 export default function TitlebarImageList() {
-  // const {
-  //   data: datasets,
-  //   isError,
-  //   isPending,
-  //   isSuccess,
-  //   fetchNextPage,
-  //   isFetchingNextPage,
-  // } = useDatasets();
-
-  // const handleScroll = () => {
-  //   console.log("scroll");
-  //   // 如果正在加载下一页数据，则不再加载
-  //   if (isFetchingNextPage) {
-  //     return;
-  //   }
-
-  //   const bias = 64;
-  //   if (
-  //     // 相差一定距离时加载下一页
-  //     window.innerHeight + document.documentElement.scrollTop <=
-  //     document.documentElement.offsetHeight - bias
-  //   ) {
-  //     return;
-  //   }
-  //   fetchNextPage();
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // });
-
+  const { data, isLoading, isError, error, isSuccess } = useQuery({
+    queryKey: [all_datasets_url],
+    queryFn: queryFn,
+  });
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(data.data.data);
+    }
+  }, [isSuccess]);
   return (
     <div
       style={{
@@ -180,9 +160,11 @@ export default function TitlebarImageList() {
         flexWrap: "wrap",
       }}
     >
-      {mockData.map((item) => {
-        return <MyDataSet dataset={item} />;
-      })}
+      {isSuccess &&
+        data?.data?.data?.map((item: any) => {
+          return <MyDataSet dataset={item} />;
+        })}
+      {isLoading && <Loading />}
     </div>
   );
 }

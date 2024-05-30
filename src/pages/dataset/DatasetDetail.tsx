@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Paper,
@@ -10,8 +10,9 @@ import {
   Box,
   Skeleton,
   Button,
+  Tooltip,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import ProgressTab from "./ProgressTab";
@@ -19,6 +20,10 @@ import PreviewTab from "./PreviewTab";
 import AndroidIcon from "@mui/icons-material/Android";
 import useSingleDataset from "../../queries/useSingleDataset";
 import AddIcon from "@mui/icons-material/Add";
+import { useQuery } from "@tanstack/react-query";
+import { queryFn } from "../../queries/queryFn";
+import { dataset_detail_url } from "../../constants/url";
+import { DataSetProps } from "../../components/helpers/Interface";
 // const data = {
 //   dataSetId: 1, //数据集id
 //   dataSetName: "抓马", //数据集名称
@@ -381,21 +386,33 @@ export default function DatasetDetail() {
     setValue(newValue);
   };
 
-  const datasetId = useParams<{ id: string }>().id;
+  const { id } = useParams();
+  const { isSuccess, data, isFetching, isError, error } = useQuery({
+    queryKey: [dataset_detail_url + "/" + id],
+    queryFn: queryFn,
+  });
+  const [dataset, setDataset] = useState<DataSetProps>();
+  useEffect(() => {
+    if (isSuccess) {
+      setDataset(data.data.data);
+    }
+  }, [isSuccess]);
+  // const datasetId = useParams<{ id: string }>().id;
 
-  const {
-    data: dataset,
-    isLoading,
-    isError,
-  } = useSingleDataset(Number(datasetId));
-
+  // const {
+  //   data: dataset,
+  //   isFetching,
+  //   isError,
+  // } = useSingleDataset(Number(datasetId));
+  const navigate = useNavigate();
   return (
     <>
       {isError && <div>加载失败</div>}
 
       <Paper elevation={1} sx={{ p: 2, borderRadius: 4 }}>
         <Typography variant="h4">
-          {isLoading ? <Skeleton /> : dataset?.dataSetName}
+          {isFetching && <Skeleton />}
+          {isSuccess && dataset?.dataSetName}
         </Typography>
         <Stack
           spacing={2}
@@ -420,11 +437,15 @@ export default function DatasetDetail() {
                 },
               }}
             >
-              {isLoading ? (
+              {isFetching ? (
                 <Skeleton variant="rectangular" />
               ) : (
                 <img
-                  src={dataset?.datas![0].imgUrl}
+                  src={
+                    dataset?.datas && dataset.datas.length > 0
+                      ? dataset?.datas![0]?.imgUrl
+                      : "/logo512.png"
+                  }
                   alt={dataset?.dataSetName}
                 />
               )}
@@ -432,13 +453,13 @@ export default function DatasetDetail() {
           </Container>
           <Stack direction="column" spacing={2} sx={{ flexGrow: 1 }}>
             <Typography variant="body1">
-              {isLoading ? <Skeleton variant="text" /> : dataset?.taskInfo}
+              {isFetching ? <Skeleton variant="text" /> : dataset?.taskInfo}
             </Typography>
             {/* 一个撑开空间的div */}
             <div style={{ flexGrow: 1 }} />
             {/* 一些Chip作为标签的展示 */}
             <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-              {dataset?.objects.map((tag) => (
+              {dataset?.objects?.map((tag) => (
                 <Chip
                   key={tag}
                   label={tag}
@@ -456,38 +477,65 @@ export default function DatasetDetail() {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<AndroidIcon />}
-              disabled={!dataset?.claim}
-            >
-              开始标注
-            </Button>
+            <Tooltip title="必须先认领才可标注">
+              <Box>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<AndroidIcon />}
+                  disabled={!dataset?.claim && !dataset?.owner}
+                  onClick={() => {
+                    localStorage.setItem(
+                      "workingDatasetId",
+                      dataset!.dataSetId.toString()
+                    );
+                    navigate("/workdesk");
+                  }}
+                >
+                  开始标注
+                </Button>
+              </Box>
+            </Tooltip>
 
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              sx={{ mt: 2 }}
-              startIcon={<AddIcon />}
-              disabled={dataset?.claim}
-            >
-              {dataset?.claim ? "已认领" : "认领"}
-            </Button>
-            <Button
-              sx={{ mt: 2 }}
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<DownloadIcon />}
-            >
-              下载
-            </Button>
+            {!dataset?.owner && (
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                sx={{ mt: 2 }}
+                startIcon={<AddIcon />}
+                disabled={dataset?.claim}
+              >
+                {dataset?.claim ? "已认领" : "认领"}
+              </Button>
+            )}
+            {dataset?.owner && (
+              <>
+                <Button
+                  sx={{ mt: 2 }}
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<DownloadIcon />}
+                >
+                  下载
+                </Button>
+                <Button
+                  sx={{ mt: 2 }}
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<DownloadIcon />}
+                >
+                  上传数据
+                </Button>
+              </>
+            )}
           </Box>
         </Stack>
       </Paper>

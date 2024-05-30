@@ -1,6 +1,7 @@
 import { request } from "./request";
 
 export const postQueryFn = async (param) => {
+  console.log(param);
   // param = param?.queryKey;
   const token = localStorage.getItem("token");
   const headers = {
@@ -8,7 +9,7 @@ export const postQueryFn = async (param) => {
     token: token,
   };
   const { data } = await request({
-    method: param.method ?? "get",
+    method: "get",
     headers: headers,
     ...param,
   });

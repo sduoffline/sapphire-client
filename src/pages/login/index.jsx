@@ -81,10 +81,6 @@ export default function Login() {
       enqueueSnackbar("账号密码不能为空", { variant: "warning" });
       return;
     }
-    // if (vertifyCode == "") {
-    //   enqueueSnackbar("请填写验证码", { variant: "warning" });
-    //   return;
-    // }
     loginMutate({
       url: login_url,
       method: "post",
@@ -96,7 +92,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token") !== null) {
       navigate("/workshop");
     }
   }, []);
@@ -109,7 +105,9 @@ export default function Login() {
         enqueueSnackbar(loginData.data.msg, { variant: "error" });
         return;
       } else {
-        localStorage.setItem("token", loginData.data.token);
+        console.log(loginData.data);
+        localStorage.setItem("token", loginData.data.data.token);
+        localStorage.setItem("name", loginUserName);
         navigate("/workshop");
       }
     }
