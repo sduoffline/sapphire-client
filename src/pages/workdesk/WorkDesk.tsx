@@ -387,6 +387,13 @@ export default function WorkDesk() {
     queryFn: queryFn,
   });
 
+  useEffect(() => {
+    if (!tasks?.data.data || tasks?.data.data.length == 0) {
+      localStorage.removeItem("workingDatasetId");
+      enqueueSnackbar("当前数据集没有任务", { variant: "error" });
+      navigate("/datasets");
+    }
+  }, [taskSuccess]);
   const {
     isSuccess: infoIsSuccess,
     data: info,
@@ -394,7 +401,10 @@ export default function WorkDesk() {
     isError: infoIsError,
     error: infoError,
   } = useQuery({
-    queryKey: [dataset_detail_url + "/" + datasetId],
+    queryKey: [
+      dataset_detail_url + "/" + datasetId,
+      { params: { user_id: localStorage.getItem("userId") } },
+    ],
     queryFn: queryFn,
   });
 

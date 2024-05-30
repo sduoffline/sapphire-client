@@ -114,17 +114,6 @@ const queryModelReturnTensors = async ({
       null,
       Array.from(uint8Array.subarray(10, 10 + headerLength))
     );
-    // const header = JSON.parse(
-    //   headerStr
-    //     .replace(/'/g, '"')
-    //     .replace("False", "false")
-    //     .replace("True", "true")
-    // );
-
-    // // 检查数据类型
-    // if (header.descr !== "<f4") {
-    //   throw new Error("Only Float32 npy files are supported");
-    // }
 
     // 提取数据部分
     const dataOffset = 10 + headerLength;

@@ -108,6 +108,8 @@ export default function Login() {
         console.log(loginData.data);
         localStorage.setItem("token", loginData.data.data.token);
         localStorage.setItem("name", loginUserName);
+        localStorage.setItem("userId", loginData.data.data.user.ID);
+        localStorage.setItem("avatar", loginData.data.data.user.avatar);
         navigate("/workshop");
       }
     }

@@ -20,10 +20,11 @@ import PreviewTab from "./PreviewTab";
 import AndroidIcon from "@mui/icons-material/Android";
 import useSingleDataset from "../../queries/useSingleDataset";
 import AddIcon from "@mui/icons-material/Add";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryFn } from "../../queries/queryFn";
-import { dataset_detail_url } from "../../constants/url";
+import { claim_url, dataset_detail_url } from "../../constants/url";
 import { DataSetProps } from "../../components/helpers/Interface";
+import { postQueryFn } from "../../queries/postQueryFn";
 // const data = {
 //   dataSetId: 1, //数据集id
 //   dataSetName: "抓马", //数据集名称
@@ -385,25 +386,42 @@ export default function DatasetDetail() {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const [claim, setClaim] = useState(false);
 
   const { id } = useParams();
   const { isSuccess, data, isFetching, isError, error } = useQuery({
-    queryKey: [dataset_detail_url + "/" + id],
+    queryKey: [
+      dataset_detail_url + "/" + id,
+      { params: { user_id: localStorage.getItem("userId") } },
+    ],
     queryFn: queryFn,
   });
+
   const [dataset, setDataset] = useState<DataSetProps>();
   useEffect(() => {
     if (isSuccess) {
       setDataset(data.data.data);
+      setClaim(data.data.data.claim);
     }
   }, [isSuccess]);
-  // const datasetId = useParams<{ id: string }>().id;
 
-  // const {
-  //   data: dataset,
-  //   isFetching,
-  //   isError,
-  // } = useSingleDataset(Number(datasetId));
+  const {
+    isPending: claimPending,
+    isSuccess: claimSuccess,
+    mutate: claimMutate,
+  } = useMutation({
+    mutationFn: postQueryFn,
+  });
+  const handleClaim = () => {
+    setClaim(true);
+    claimMutate({
+      url: claim_url + "/" + dataset?.dataSetId,
+      params: {
+        creator_id: localStorage.getItem("userId"),
+      },
+      method: "POST",
+    });
+  };
   const navigate = useNavigate();
   return (
     <>
@@ -485,7 +503,7 @@ export default function DatasetDetail() {
                   variant="contained"
                   tabIndex={-1}
                   startIcon={<AndroidIcon />}
-                  disabled={!dataset?.claim && !dataset?.owner}
+                  disabled={!claim && !dataset?.owner}
                   onClick={() => {
                     localStorage.setItem(
                       "workingDatasetId",
@@ -507,9 +525,10 @@ export default function DatasetDetail() {
                 tabIndex={-1}
                 sx={{ mt: 2 }}
                 startIcon={<AddIcon />}
-                disabled={dataset?.claim}
+                disabled={claim}
+                onClick={handleClaim}
               >
-                {dataset?.claim ? "已认领" : "认领"}
+                {claim ? "已认领" : "认领"}
               </Button>
             )}
             {dataset?.owner && (
