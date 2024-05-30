@@ -36,6 +36,7 @@ import Setting from "../pages/setting/Setting";
 import WorkDesk from "../pages/workdesk/WorkDesk";
 import { Box } from "@mui/material";
 import Datasets from "../pages/datasets/Datasets";
+import Login from "../pages/login";
 
 const drawerWidth = 240;
 
@@ -178,8 +179,8 @@ function BaseRouter() {
   return (
     <HashRouter>
       <Routes>
+        <Route path="/" element={<Login />} />
         <Route path="/" element={<BaseWrapper />}>
-          <Route path="/" element={<Index />} />
           <Route path="/workbench" element={<ConsoleBoard />} />
           <Route path="/workshop" element={<Workshop />} />
           <Route path="/workdesk" element={<WorkDesk />} />

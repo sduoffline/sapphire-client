@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import AppContext from "./hooks/createContext";
-
+import AddTaskIcon from "@mui/icons-material/AddTask";
 interface SegmentOptionsProps {
   handleResetInteraction: () => void;
   handleUndoInteraction: () => void;
@@ -86,7 +86,7 @@ const SegmentOptions = ({
             e.stopPropagation();
           }}
         >
-          <svg
+          {/* <svg
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -97,7 +97,8 @@ const SegmentOptions = ({
               d="M11.7895 0H13.4737V2.52632H16V4.21053H13.4737V6.73684H11.7895V4.21053H9.26316V2.52632H11.7895V0ZM3.36842 2.52632H6.73684V4.21053H3.36842C2.44211 4.21053 1.68421 4.96842 1.68421 5.89474V12.6316C1.68421 13.5663 2.44211 14.3158 3.36842 14.3158H10.1053C11.04 14.3158 11.7895 13.5663 11.7895 12.6316V9.26316H13.4737V12.6316C13.4737 14.4926 11.9663 16 10.1053 16H3.36842C1.50737 16 0 14.4926 0 12.6316V5.89474C0 4.03368 1.50737 2.52632 3.36842 2.52632Z"
               fill="black"
             />
-          </svg>
+          </svg> */}
+          <AddTaskIcon />
           <span className="pl-2 opacity-70">
             {segmentTypes === "All" ? "Cut out all objects" : "确认"}
           </span>

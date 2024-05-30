@@ -114,13 +114,14 @@ export interface StageProps {
 }
 
 export interface DataSetProps {
-  dataSetId: number;
-  dataSetName: string;
-  taskInfo: string;
-  objectCnt: number;
-  objects: string[];
-  owner?: boolean;
-  claim?: boolean;
+  dataSetId: number; //数据集id
+  dataSetName: string; //数据集名称
+  taskInfo: string; //任务描述
+  objectCnt: number; //标签数量（可以没有）
+  objects: string[]; //标签
+  owner?: boolean; //自己拥有
+  claim?: boolean; //认领？
+  indexImg?: string; //封面图
   datas?:
     | {
         imgUrl: string;
@@ -128,7 +129,7 @@ export interface DataSetProps {
         id: number;
       }[]
     | null;
-  schedule?: string | null;
-  total?: number | null;
-  finished?: number | null;
+  schedule?: string | null; //截至日期
+  total?: number | null; //图片总数
+  finished?: number | null; //我完成的
 }

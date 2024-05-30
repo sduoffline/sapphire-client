@@ -1,5 +1,5 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { Dataset } from '../types';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { Dataset } from "../types";
 
 async function fetchDatasets({ pageParam = 0 }): Promise<Dataset[]> {
   // 延迟几秒，模拟网络请求
@@ -8,15 +8,15 @@ async function fetchDatasets({ pageParam = 0 }): Promise<Dataset[]> {
   // });
   return Array.from({ length: 10 }, (_, index) => ({
     name: `Dataset ${pageParam + index + 1}`,
-    description: 'Description',
+    description: "Description",
     id: pageParam + index + 1,
-    creator: 'Creator',
+    creator: "Creator",
     img: `https://api.r10086.com/樱道随机图片api接口.php?图片系列=风景系列1`,
-    time: '2021-10-01',
-    type: 'Type',
+    time: "2021-10-01",
+    type: "Type",
     category: [
       {
-        name: 'Category',
+        name: "Category",
         count: 10,
       },
     ],
@@ -26,7 +26,7 @@ async function fetchDatasets({ pageParam = 0 }): Promise<Dataset[]> {
 
 export default function useDatasets() {
   return useInfiniteQuery({
-    queryKey: ['datasets'],
+    queryKey: ["datasets"],
     queryFn: fetchDatasets,
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => pages.length + 1,

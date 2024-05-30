@@ -658,7 +658,6 @@ const Stage = ({
             padding: 2,
             width: "92%",
             margin: 2,
-            height: "110px",
             overflow: "hidden",
           }}
         >
@@ -667,10 +666,6 @@ const Stage = ({
           </Typography>
           <Typography>
             数据集ID:<strong>{info.dataSetId}</strong>
-          </Typography>
-          <Typography>任务描述:</Typography>
-          <Typography sx={{ color: "red" }} variant="body2">
-            {info.taskInfo}
           </Typography>
         </Paper>
         <SegmentDrawer

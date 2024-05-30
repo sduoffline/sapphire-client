@@ -7,6 +7,7 @@ import BaseRouter from "./router/index";
 import { useEffect } from "react";
 import "./assets/scss/App.scss";
 import AppContextProvider from "./components/hooks/context";
+import { queryClient } from "./queries/CustomQueryClient";
 import { SnackbarProvider } from "notistack";
 const darkTheme = createTheme({
   palette: {
@@ -26,7 +27,7 @@ const lightTheme = createTheme({
   },
 });
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 export default function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -35,14 +36,16 @@ export default function App() {
   return (
     <div className="App">
       <SnackbarProvider>
-        <AppContextProvider>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <BaseRouter />
-            </ThemeProvider>
-          </QueryClientProvider>
-        </AppContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <AppContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <BaseRouter />
+              </ThemeProvider>
+            </QueryClientProvider>
+          </AppContextProvider>
+        </QueryClientProvider>
       </SnackbarProvider>
     </div>
   );

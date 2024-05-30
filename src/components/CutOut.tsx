@@ -21,7 +21,7 @@ export default function CutOut({ info }: CutOutProps) {
   return (
     <div
       className={`transition-all overflow-hidden my-2 rounded-xl px-4 py-2 cursor-pointer outline-blue-700 outline outline-[2.5px]`}
-      style={{ outlineColor: "#9c0c13" }}
+      style={{ outlineColor: "#9c0c13", height: "100%" }}
     >
       <div className="flex">
         <svg
@@ -58,7 +58,10 @@ export default function CutOut({ info }: CutOutProps) {
           查看已标区域
         </p>
 
-        <div className="overflow-y-auto h-[30rem] text-center">
+        <div
+          className="overflow-y-auto h-[30rem] text-center"
+          style={{ height: "80%" }}
+        >
           {stickers.map((el, i) => (
             <>
               <img

@@ -1,0 +1,39 @@
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Hidden,
+} from "@mui/material";
+
+import { List } from "echarts";
+import React, { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import MyDialog from "../../components/MyDialog";
+import ReactDom from "react-dom";
+export default function ThanksList(props) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Box>
+      <Button
+        onClick={() => {
+          props.setOpen(true);
+          // setInterval(() => {
+          //   setTop(top - 1);
+          //   console.log(top);
+          // }, 60);
+        }}
+        // onClick={() => setDialogOpen(true)}
+        variant="contained"
+        color="secondary"
+      >
+        致谢
+      </Button>
+    </Box>
+  );
+}
