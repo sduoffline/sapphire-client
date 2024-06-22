@@ -579,7 +579,12 @@ export default function DatasetDetail() {
                   startIcon={<DownloadIcon />}
                 >
                   上传数据
-                  <input type="file" hidden onChange={handleFileChange} />
+                  <input
+                    type="file"
+                    accept=".zip"
+                    hidden
+                    onChange={handleFileChange}
+                  />
                 </Button>
               </>
             )}

@@ -6,6 +6,7 @@ import {
   IconButton,
   Container,
   CircularProgress,
+  Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "@mui/icons-material";
@@ -161,11 +162,16 @@ export default function TitlebarImageList() {
         display: "flex",
         flex: "row",
         flexWrap: "wrap",
+        justifyContent: "space-around",
       }}
     >
       {isSuccess &&
         data?.data?.data?.map((item: any) => {
-          return <MyDataSet dataset={item} />;
+          return (
+            <Box sx={{ width: "28%" }}>
+              <MyDataSet dataset={item} />
+            </Box>
+          );
         })}
       {isLoading && <Loading />}
     </div>

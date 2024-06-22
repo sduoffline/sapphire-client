@@ -412,10 +412,13 @@ export default function WorkDesk() {
   });
 
   useEffect(() => {
-    if (datasetId && (!tasks?.data.data || tasks?.data.data.length == 0)) {
-      // localStorage.removeItem("workingDatasetId");
-      enqueueSnackbar("当前数据集没有任务", { variant: "warning" });
-      navigate("/workshop");
+    if (taskSuccess) {
+      if (datasetId && (!tasks?.data.data || tasks?.data.data.length == 0)) {
+        // localStorage.removeItem("workingDatasetId");
+        console.log(tasks);
+        enqueueSnackbar("当前数据集没有任务", { variant: "warning" });
+        navigate("/workshop");
+      }
     }
   }, [taskSuccess]);
   const {

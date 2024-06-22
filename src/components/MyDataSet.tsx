@@ -13,7 +13,7 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
   return (
     <Paper
       elevation={2}
-      sx={{ p: 2, borderRadius: 2, minWidth: 218, width: "28%", margin: 3 }}
+      sx={{ p: 2, borderRadius: 2, minWidth: 218, margin: 3 }}
     >
       <Stack direction="column" spacing={2}>
         <Stack direction="row" spacing={2}>
@@ -28,7 +28,7 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
             查看
           </Button>
         </Stack>
-        <Box sx={{ height: "20px" }}>
+        <Box sx={{ height: "50px", overflow: "hidden" }}>
           <Typography variant="caption">{dataset.taskInfo}</Typography>
         </Box>
         <div style={{ flexGrow: 1 }} />
