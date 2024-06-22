@@ -9,6 +9,8 @@ import "./assets/scss/App.scss";
 import AppContextProvider from "./components/hooks/context";
 import { queryClient } from "./queries/CustomQueryClient";
 import { SnackbarProvider } from "notistack";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -36,16 +38,18 @@ export default function App() {
   return (
     <div className="App">
       <SnackbarProvider>
-        <QueryClientProvider client={queryClient}>
-          <AppContextProvider>
-            <QueryClientProvider client={queryClient}>
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <BaseRouter />
-              </ThemeProvider>
-            </QueryClientProvider>
-          </AppContextProvider>
-        </QueryClientProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <QueryClientProvider client={queryClient}>
+            <AppContextProvider>
+              <QueryClientProvider client={queryClient}>
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  <BaseRouter />
+                </ThemeProvider>
+              </QueryClientProvider>
+            </AppContextProvider>
+          </QueryClientProvider>
+        </LocalizationProvider>
       </SnackbarProvider>
     </div>
   );

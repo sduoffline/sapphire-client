@@ -4,3 +4,4 @@ export const all_datasets_url = base_url + "dataset/user/list";
 export const dataset_detail_url = base_url + "dataset";
 export const annotate_url = base_url + "annotate";
 export const claim_url = base_url + "dataset/join";
+export const create_dataset_url = base_url + "dataset/create";

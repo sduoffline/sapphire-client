@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import WorkTools from "./WorkTools";
 import AppContextProvider from "../../components/hooks/context";
 import AppContext from "../../components/hooks/createContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useQuery } from "@tanstack/react-query";
 import { annotate_url, dataset_detail_url } from "../../constants/url";
@@ -363,16 +363,33 @@ const mockData = {
     },
   ],
 };
+
+/**
+ * 狗屎狗屎
+ * 全是狗屎代码
+ */
 export default function WorkDesk() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [datasetId, setDatasetId] = useState(
     localStorage.getItem("workingDatasetId")
   );
+
+  useEffect(() => {
+    if (searchParams.get("datasetId")) {
+      // console.log(searchParams.get("t"));
+      setDatasetId(searchParams.get("datasetId"));
+      localStorage.setItem("workingDatasetId", searchParams.get("datasetId")!);
+    }
+  }, [searchParams]);
+
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     if (!datasetId) {
       enqueueSnackbar("请先选择数据集", { variant: "error" });
-      navigate("/datasets");
+      navigate("/workshop");
     }
   }, [datasetId]);
 
@@ -383,14 +400,21 @@ export default function WorkDesk() {
     isSuccess: taskSuccess,
     error: taskError,
   } = useQuery({
-    queryKey: [annotate_url + `/${datasetId}`, { params: { size: 10 } }],
+    queryKey: [
+      annotate_url +
+        `/${
+          searchParams.get("datasetId") ??
+          localStorage.getItem("workingDatasetId")!
+        }`,
+      { params: { size: 10 } },
+    ],
     queryFn: queryFn,
   });
 
   useEffect(() => {
-    if (!tasks?.data.data || tasks?.data.data.length == 0) {
-      localStorage.removeItem("workingDatasetId");
-      enqueueSnackbar("当前数据集没有任务", { variant: "error" });
+    if (datasetId && (!tasks?.data.data || tasks?.data.data.length == 0)) {
+      // localStorage.removeItem("workingDatasetId");
+      enqueueSnackbar("当前数据集没有任务", { variant: "warning" });
       navigate("/workshop");
     }
   }, [taskSuccess]);
@@ -402,7 +426,10 @@ export default function WorkDesk() {
     error: infoError,
   } = useQuery({
     queryKey: [
-      dataset_detail_url + "/" + datasetId,
+      dataset_detail_url +
+        "/" +
+        (searchParams.get("datasetId") ??
+          localStorage.getItem("workingDatasetId")),
       { params: { user_id: localStorage.getItem("userId") } },
     ],
     queryFn: queryFn,

@@ -13,7 +13,7 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
   return (
     <Paper
       elevation={2}
-      sx={{ p: 2, borderRadius: 2, minWidth: 218, margin: 3 }}
+      sx={{ p: 2, borderRadius: 2, minWidth: 218, width: "28%", margin: 3 }}
     >
       <Stack direction="column" spacing={2}>
         <Stack direction="row" spacing={2}>
@@ -52,9 +52,7 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
                   "workingDatasetId",
                   dataset!.dataSetId.toString()
                 );
-                setTimeout(() => {
-                  navigate("/workdesk");
-                }, 500);
+                navigate("/workdesk?datasetId=" + dataset!.dataSetId);
               }}
             >
               开工

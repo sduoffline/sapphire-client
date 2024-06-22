@@ -22,9 +22,10 @@ import useSingleDataset from "../../queries/useSingleDataset";
 import AddIcon from "@mui/icons-material/Add";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryFn } from "../../queries/queryFn";
-import { claim_url, dataset_detail_url } from "../../constants/url";
+import { base_url, claim_url, dataset_detail_url } from "../../constants/url";
 import { DataSetProps } from "../../components/helpers/Interface";
 import { postQueryFn } from "../../queries/postQueryFn";
+import { useSnackbar } from "notistack";
 // const data = {
 //   dataSetId: 1, //数据集id
 //   dataSetName: "抓马", //数据集名称
@@ -389,6 +390,7 @@ export default function DatasetDetail() {
   const [claim, setClaim] = useState(false);
 
   const { id } = useParams();
+
   const { isSuccess, data, isFetching, isError, error } = useQuery({
     queryKey: [
       dataset_detail_url + "/" + id,
@@ -423,6 +425,31 @@ export default function DatasetDetail() {
     });
   };
   const navigate = useNavigate();
+
+  const { enqueueSnackbar } = useSnackbar();
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      // formData.append("dataset_id", dataset?.dataSetId.toString() || "");
+
+      fetch(base_url + "dataset/upload/" + id, {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("token") + "",
+        },
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          enqueueSnackbar("上传成功", { variant: "success" });
+        })
+        .catch((error) => {
+          enqueueSnackbar("上传失败", { variant: "error" });
+        });
+    }
+  };
+
   return (
     <>
       {isError && <div>加载失败</div>}
@@ -509,9 +536,7 @@ export default function DatasetDetail() {
                       "workingDatasetId",
                       dataset!.dataSetId.toString()
                     );
-                    setTimeout(() => {
-                      navigate("/workdesk");
-                    }, 500);
+                    navigate("/workdesk?datasetId=" + dataset!.dataSetId);
                   }}
                 >
                   开始标注
@@ -554,6 +579,7 @@ export default function DatasetDetail() {
                   startIcon={<DownloadIcon />}
                 >
                   上传数据
+                  <input type="file" hidden onChange={handleFileChange} />
                 </Button>
               </>
             )}
@@ -572,10 +598,13 @@ export default function DatasetDetail() {
       >
         <Tab value="one" label="进度" />
         <Tab value="two" label="数据预览" />
-        <Tab value="three" label="Issues" />
+        <Tab value="three" label="讨论" />
       </Tabs>
       <div>{value === "one" && <ProgressTab />}</div>
       <div>{value === "two" && <PreviewTab imgs={dataset?.datas} />}</div>
+      <div>
+        {value === "two" && dataset?.datas?.length == 0 && <div>暂无数据</div>}
+      </div>
       <div>{value === "three" && <div>暂无Issues</div>}</div>
     </>
   );

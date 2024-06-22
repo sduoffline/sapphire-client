@@ -6,7 +6,7 @@ export const postQueryFn = async (param) => {
   const token = localStorage.getItem("token");
   const headers = {
     "Content-Type": "application/json",
-    token: token,
+    Authorization: token,
   };
   const { data } = await request({
     method: "get",

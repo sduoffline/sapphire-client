@@ -6,7 +6,7 @@ export const queryFn = async (param) => {
   const token = localStorage.getItem("token");
   const headers = {
     "Content-Type": "application/json",
-    token: token,
+    Authorization: token,
   };
   const { data } = await request({
     method: param.method ?? "get",
