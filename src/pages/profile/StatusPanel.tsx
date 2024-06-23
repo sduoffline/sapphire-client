@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography } from "@mui/material";
 
 function StatusItem({ title, value }: { title: string; value: string }) {
   return (
@@ -8,9 +8,9 @@ function StatusItem({ title, value }: { title: string; value: string }) {
         variant="h5"
         sx={{
           // 鼠标悬停时放大
-          '&:hover': {
-            transform: 'scale(1.1)',
-            transition: 'all 0.2s',
+          "&:hover": {
+            transform: "scale(1.1)",
+            transition: "all 0.2s",
           },
         }}
       >
@@ -20,18 +20,18 @@ function StatusItem({ title, value }: { title: string; value: string }) {
   );
 }
 
-export default function StatusPanel() {
+export default function StatusPanel({ dataset }: { dataset: any }) {
   return (
     <div>
       <Stack
         direction="row"
         spacing={2}
-        sx={{ justifyContent: 'space-around' }}
+        sx={{ justifyContent: "space-around" }}
       >
-        <StatusItem title="积分" value="100" />
-        <StatusItem title="参与数量" value="12" />
-        <StatusItem title="标注数量" value="30" />
-        <StatusItem title="连续打卡" value="3" />
+        <StatusItem title="积分" value={dataset?.score} />
+        <StatusItem title="参与数量" value={dataset?.joinedCount} />
+        <StatusItem title="标注数量" value={dataset?.annotatedCount} />
+        <StatusItem title="创建数量" value={dataset?.createdCount} />
       </Stack>
     </div>
   );

@@ -130,6 +130,8 @@ export interface DataSetProps {
       }[]
     | null;
   schedule?: string | null; //截至日期
-  total?: number | null; //图片总数
+  totalCount?: number | null; //图片总数
   finished?: number | null; //我完成的
+  annotationCount?: number | null;
+  embeddingCount?: number | null;
 }

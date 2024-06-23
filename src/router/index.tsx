@@ -39,6 +39,7 @@ import Datasets from "../pages/datasets/Datasets";
 import Login from "../pages/login";
 import UpdDataset from "../pages/dataset/UpdDataset";
 import Setting from "../pages/setting/Setting";
+import About from "../pages/about/About";
 
 const drawerWidth = 240;
 
@@ -219,7 +220,7 @@ function BaseWrapper(props: any) {
               <ListItemText primary="设置" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => handleClick("/about")}>
             <ListItemButton>
               <ListItemText primary="关于" />
             </ListItemButton>
@@ -307,6 +308,14 @@ function BaseRouter() {
             element={
               <Index name="设置">
                 <Setting />
+              </Index>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Index name="关于">
+                <About />
               </Index>
             }
           />

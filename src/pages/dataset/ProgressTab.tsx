@@ -27,7 +27,11 @@ export default function ProgressTab(props: any) {
       </Typography>
       <LinearProgress
         variant="determinate"
-        value={80}
+        value={
+          dataset.totalCount
+            ? (dataset.annotationCount / dataset.totalCount) * 100
+            : 0
+        }
         sx={{ ml: 2, flexGrow: 1, marginRight: 4, height: 6 }}
       />
 
@@ -38,7 +42,7 @@ export default function ProgressTab(props: any) {
 
       {/* 时间线 */}
       <Typography variant="h6" sx={{ m: 2 }}>
-        时间线
+        embedding计算进度
       </Typography>
       <Timeline
         sx={{
@@ -47,7 +51,7 @@ export default function ProgressTab(props: any) {
           },
         }}
       >
-        <TimelineItem>
+        {/* <TimelineItem>
           <TimelineOppositeContent>2024-04-10</TimelineOppositeContent>
           <TimelineSeparator>
             <TimelineDot color="primary" variant="outlined" />
@@ -62,17 +66,59 @@ export default function ProgressTab(props: any) {
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent>进度达到60%</TimelineContent>
-        </TimelineItem>
+        </TimelineItem> */}
+        {dataset.embeddingCount < dataset.totalCount && (
+          <TimelineItem>
+            {/* <TimelineOppositeContent>2024-04-10</TimelineOppositeContent> */}
+            <TimelineSeparator>
+              <TimelineDot color="primary" variant="outlined" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>持续计算中</TimelineContent>
+          </TimelineItem>
+        )}
+        {dataset.embeddingCount == dataset.totalCount && (
+          <TimelineItem>
+            {/* <TimelineOppositeContent>2024-04-10</TimelineOppositeContent> */}
+            <TimelineSeparator>
+              <TimelineDot color="success" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              计算完成，共{dataset.totalCount}张数据
+            </TimelineContent>
+          </TimelineItem>
+        )}
+        {dataset.embeddingCount / dataset.totalCount >= 0.9 && (
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="success" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>进度达到90%</TimelineContent>
+          </TimelineItem>
+        )}
+        {dataset.embeddingCount / dataset.totalCount >= 0.6 && (
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="success" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>进度达到60%</TimelineContent>
+          </TimelineItem>
+        )}
+        {dataset.embeddingCount / dataset.totalCount >= 0.3 && (
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot color="success" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>进度达到30%</TimelineContent>
+          </TimelineItem>
+        )}
+
         <TimelineItem>
-          <TimelineOppositeContent>2024-04-10</TimelineOppositeContent>
-          <TimelineSeparator>
-            <TimelineDot color="primary" variant="outlined" />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>进度达到30%</TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineOppositeContent>2024-04-10</TimelineOppositeContent>
+          {/* <TimelineOppositeContent>2024-04-10</TimelineOppositeContent> */}
           <TimelineSeparator>
             <TimelineDot color="success" />
           </TimelineSeparator>

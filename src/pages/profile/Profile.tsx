@@ -72,7 +72,7 @@ export default function Profile() {
       </Grid>
       <Grid item xs={12}>
         <Container sx={{ marginTop: 2, marginBottom: 2 }}>
-          <StatusPanel />
+          {isSuccess && <StatusPanel dataset={data?.data.data} />}
         </Container>
       </Grid>
 

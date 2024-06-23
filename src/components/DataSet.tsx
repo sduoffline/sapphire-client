@@ -33,7 +33,7 @@ export default function DataSet({ dataset }: MyDataSetProps) {
           <Typography variant="caption">截止时间:{dataset.schedule}</Typography>
           <div style={{ flexGrow: 1 }} />
           <Typography variant="caption">
-            {dataset.finished + "/" + dataset.total}
+            {dataset.finished + "/" + dataset.totalCount}
           </Typography>
         </Stack>
       </Stack>
