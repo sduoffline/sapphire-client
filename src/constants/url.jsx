@@ -8,3 +8,4 @@ export const create_dataset_url = base_url + "dataset/create";
 export const get_joined_dataset_url = base_url + "dataset/joined/list";
 export const get_created_dataset_url = base_url + "dataset/created/list";
 export const running_dataset_url = base_url + "dataset/user/list";
+export const upd_dataset_url = base_url + "dataset/update";

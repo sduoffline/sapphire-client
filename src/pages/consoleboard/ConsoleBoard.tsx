@@ -1,8 +1,11 @@
-import { Stack, Typography, Divider, Avatar, Grid } from '@mui/material';
-import OngoingTaskPanal from './OngoingTaskPanal';
-import NewsPanel from './NewsPanel';
-import SkillPanel from './SkillPanel';
-import NotificationPanel from './NotificationPanel';
+import { Stack, Typography, Divider, Avatar, Grid } from "@mui/material";
+import OngoingTaskPanal from "./OngoingTaskPanal";
+import NewsPanel from "./NewsPanel";
+import SkillPanel from "./SkillPanel";
+import NotificationPanel from "./NotificationPanel";
+import { useQuery } from "@tanstack/react-query";
+import { running_dataset_url } from "../../constants/url";
+import { queryFn } from "../../queries/queryFn";
 
 function HeaderInfoItem({ title, value }: { title: string; value: string }) {
   return (
@@ -14,6 +17,15 @@ function HeaderInfoItem({ title, value }: { title: string; value: string }) {
 }
 
 export default function ConsoleBoard() {
+  const {
+    data: running_dataset,
+    isSuccess: running_Success,
+    isError: running_Error,
+    isLoading: running_Loading,
+  } = useQuery({
+    queryKey: [running_dataset_url],
+    queryFn: queryFn,
+  });
   return (
     <>
       <Stack direction="row" spacing={2}>
@@ -22,10 +34,14 @@ export default function ConsoleBoard() {
           src="https://cloud.icooper.cc/apps/sharingpath/PicSvr/PicMain/Sapphire_transparentbg.png"
           sx={{ width: 64, height: 64 }}
         />
-        <Typography variant="h6">早安, Sapphire, 又是标数据的一天</Typography>
+        <Typography variant="h6">
+          早安, {localStorage.getItem("name")}, 又是标数据的一天
+        </Typography>
         <div style={{ flexGrow: 1 }} />
-        <HeaderInfoItem title="任务" value="10" />
-        <HeaderInfoItem title="团队内排名" value="3/10" />
+        <HeaderInfoItem
+          title="任务"
+          value={running_dataset?.data.data.length}
+        />
         <HeaderInfoItem title="访问次数" value="30" />
       </Stack>
       <div style={{ height: 8 }} />

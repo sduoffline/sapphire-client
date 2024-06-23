@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography } from "@mui/material";
 import {
   Timeline,
   TimelineItem,
@@ -7,11 +7,17 @@ import {
   TimelineDot,
   TimelineConnector,
   TimelineContent,
-} from '@mui/lab';
-import { timelineOppositeContentClasses } from '@mui/lab/TimelineOppositeContent';
-import DayHeatmap from '../../components/DayHeatMap';
+} from "@mui/lab";
+import { timelineOppositeContentClasses } from "@mui/lab/TimelineOppositeContent";
+import DayHeatmap from "../../components/DayHeatMap";
+import { DataSetProps } from "../../components/helpers/Interface";
+import { useEffect } from "react";
 
-export default function ProgressTab() {
+export default function ProgressTab(props: any) {
+  const { dataset } = props;
+  useEffect(() => {
+    console.log(dataset);
+  }, []);
   return (
     <div>
       {/* 具体进度 */}
@@ -26,8 +32,8 @@ export default function ProgressTab() {
       />
 
       {/* 日历热力图 */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
-        <DayHeatmap />
+      <Box sx={{ display: "flex", justifyContent: "center", m: 2 }}>
+        <DayHeatmap type="task" id={dataset?.dataSetId} />
       </Box>
 
       {/* 时间线 */}

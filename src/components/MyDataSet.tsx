@@ -43,7 +43,16 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
           {!dataset.claim && !dataset.owner && (
             <Button variant="contained">认领</Button>
           )}
-          {dataset.owner && <Button variant="contained">编辑</Button>}
+          {dataset.owner && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate("/dataset/update/" + dataset.dataSetId);
+              }}
+            >
+              编辑
+            </Button>
+          )}
           {dataset.claim && (
             <Button
               variant="contained"

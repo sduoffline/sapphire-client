@@ -394,7 +394,7 @@ export default function DatasetDetail() {
   const { isSuccess, data, isFetching, isError, error } = useQuery({
     queryKey: [
       dataset_detail_url + "/" + id,
-      { params: { user_id: localStorage.getItem("userId") } },
+      // { params: { user_id: localStorage.getItem("userId") } },
     ],
     queryFn: queryFn,
   });
@@ -605,12 +605,20 @@ export default function DatasetDetail() {
         <Tab value="two" label="数据预览" />
         <Tab value="three" label="讨论" />
       </Tabs>
-      <div>{value === "one" && <ProgressTab />}</div>
-      <div>{value === "two" && <PreviewTab imgs={dataset?.datas} />}</div>
-      <div>
-        {value === "two" && dataset?.datas?.length == 0 && <div>暂无数据</div>}
-      </div>
-      <div>{value === "three" && <div>暂无Issues</div>}</div>
+      {isSuccess && (
+        <>
+          <div>
+            {value === "one" && <ProgressTab dataset={data.data.data} />}
+          </div>
+          <div>{value === "two" && <PreviewTab imgs={dataset?.datas} />}</div>
+          <div>
+            {value === "two" && dataset?.datas?.length == 0 && (
+              <div>暂无数据</div>
+            )}
+          </div>
+          <div>{value === "three" && <div>暂无Issues</div>}</div>
+        </>
+      )}
     </>
   );
 }

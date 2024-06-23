@@ -37,6 +37,7 @@ import WorkDesk from "../pages/workdesk/WorkDesk";
 import { Avatar, Box, Menu, MenuItem, Tooltip } from "@mui/material";
 import Datasets from "../pages/datasets/Datasets";
 import Login from "../pages/login";
+import UpdDataset from "../pages/dataset/UpdDataset";
 
 const drawerWidth = 240;
 
@@ -284,10 +285,10 @@ function BaseRouter() {
               }
             />
             <Route
-              path="create"
+              path="update/:datasetId"
               element={
                 <Index name="创建数据集">
-                  <CreateDataset />
+                  <UpdDataset />
                 </Index>
               }
             />

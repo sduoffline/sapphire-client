@@ -85,6 +85,7 @@ export default function Datasets() {
           })}
         </Box>
       )}
+
       {type == 0 && joined_Loading && <Loading />}
       {type == 2 && created_Success && (
         <Box sx={{ maxWidth: "1000px", width: "100%" }}>

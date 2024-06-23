@@ -1,6 +1,10 @@
 import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import DataSet from "../../components/DataSet";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { running_dataset_url } from "../../constants/url";
+import { queryFn } from "../../queries/queryFn";
+import Loading from "../../components/loading";
 
 const mockData = [
   {
@@ -68,6 +72,16 @@ const mockData = [
 
 export default function OngoingTaskPanal() {
   const navigate = useNavigate();
+  const {
+    data: running_dataset,
+    isSuccess: running_Success,
+    isError: running_Error,
+    isLoading: running_Loading,
+  } = useQuery({
+    queryKey: [running_dataset_url],
+    queryFn: queryFn,
+  });
+
   return (
     <Paper sx={{ borderRadius: 2 }}>
       <Box sx={{ p: 2 }}>
@@ -100,9 +114,13 @@ export default function OngoingTaskPanal() {
           flexWrap="wrap"
           justifyContent="space-around"
         >
-          {mockData.map((item) => (
-            <DataSet dataset={item} />
-          ))}
+          {running_Success &&
+            running_dataset.data.data.slice(0, 3).map((item: any) => (
+              <Box sx={{ width: "30%" }}>
+                <DataSet dataset={item} />
+              </Box>
+            ))}
+          {running_Loading && <Loading />}
         </Stack>
       </Box>
     </Paper>

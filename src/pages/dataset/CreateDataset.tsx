@@ -15,7 +15,7 @@ import { postQueryFn } from "../../queries/postQueryFn";
 import { useSnackbar } from "notistack";
 import { create_dataset_url } from "../../constants/url";
 import { on } from "events";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 export default function CreateDataset() {
   const [info, setInfo] = useState<{
     name?: string;
@@ -23,10 +23,14 @@ export default function CreateDataset() {
     date?: string;
     tags?: string[];
   }>({});
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [tempValue, setTempValue] = useState<string | null>(null);
   const { mutate, isPending, isError, isSuccess, data } = useMutation({
     mutationFn: postQueryFn,
   });
+
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const handleCreate = () => {
@@ -58,6 +62,7 @@ export default function CreateDataset() {
       navigate(`/dataset/detail/${data.data.data.dataSetId}`);
     }
   }, [isSuccess]);
+
   return (
     <div>
       <Typography component="h1" variant="h5">

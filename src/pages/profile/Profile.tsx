@@ -1,6 +1,7 @@
-import { Avatar, Container, Grid, Typography } from '@mui/material';
-import HistoryInfoPanel from './HistoryInfoPanel';
-import StatusPanel from './StatusPanel';
+import { Avatar, Box, Container, Grid, Typography } from "@mui/material";
+import HistoryInfoPanel from "./HistoryInfoPanel";
+import StatusPanel from "./StatusPanel";
+import DayHeatmap from "../../components/DayHeatMap";
 
 export default function Profile() {
   return (
@@ -8,9 +9,9 @@ export default function Profile() {
       <Grid item xs={12}>
         <Container
           sx={{
-            alignItems: 'center',
-            display: 'flex',
-            justifyContent: 'center',
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <div>
@@ -19,13 +20,13 @@ export default function Profile() {
               sx={{
                 width: 128,
                 height: 128,
-                border: '2px solid #fff',
-                boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)',
+                border: "2px solid #fff",
+                boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
                 // hover时放大并添加阴影
-                '&:hover': {
-                  transform: 'scale(1.05)',
-                  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',
-                  transition: 'all 0.3s',
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.2)",
+                  transition: "all 0.3s",
                 },
               }}
             />
@@ -33,7 +34,7 @@ export default function Profile() {
             <Typography
               variant="h6"
               sx={{
-                textAlign: 'center',
+                textAlign: "center",
               }}
             >
               Sapphire
@@ -46,9 +47,19 @@ export default function Profile() {
           <StatusPanel />
         </Container>
       </Grid>
+      {/* <Grid item xs={12}>
+        <Container><HistoryInfoPanel /></Container>
+      </Grid> */}
       <Grid item xs={12}>
-        <Container>
-          <HistoryInfoPanel />
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: 3,
+          }}
+        >
+          <DayHeatmap type="user" id={localStorage.getItem("userId")} />
         </Container>
       </Grid>
     </Grid>
