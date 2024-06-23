@@ -6,6 +6,7 @@ import NotificationPanel from "./NotificationPanel";
 import { useQuery } from "@tanstack/react-query";
 import { running_dataset_url } from "../../constants/url";
 import { queryFn } from "../../queries/queryFn";
+import dayjs from "dayjs";
 
 function HeaderInfoItem({ title, value }: { title: string; value: string }) {
   return (
@@ -35,7 +36,14 @@ export default function ConsoleBoard() {
           sx={{ width: 64, height: 64 }}
         />
         <Typography variant="h6">
-          早安, {localStorage.getItem("name")}, 又是标数据的一天
+          {dayjs().hour() <= 10
+            ? "早安"
+            : dayjs().hour() <= 14
+            ? "中午好"
+            : dayjs().hour() <= 18
+            ? "下午好"
+            : "晚上好"}
+          , {localStorage.getItem("name")}, 又是标数据的一天
         </Typography>
         <div style={{ flexGrow: 1 }} />
         <HeaderInfoItem

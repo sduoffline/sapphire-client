@@ -32,12 +32,13 @@ import ConsoleBoard from "../pages/consoleboard/ConsoleBoard";
 import DatasetDetail from "../pages/dataset/DatasetDetail";
 import Profile from "../pages/profile/Profile";
 import CreateDataset from "../pages/dataset/CreateDataset";
-import Setting from "../pages/setting/Setting";
+// import Setting from "../pages/setting/Setting.tsx";
 import WorkDesk from "../pages/workdesk/WorkDesk";
 import { Avatar, Box, Menu, MenuItem, Tooltip } from "@mui/material";
 import Datasets from "../pages/datasets/Datasets";
 import Login from "../pages/login";
 import UpdDataset from "../pages/dataset/UpdDataset";
+import Setting from "../pages/setting/Setting";
 
 const drawerWidth = 240;
 
@@ -100,7 +101,7 @@ function BaseWrapper(props: any) {
                 sx={{ p: 0 }}
               >
                 <Avatar
-                  alt="Remy Sharp"
+                  alt={localStorage.getItem("name") as string}
                   src={localStorage.getItem("avatar") as string}
                 />
               </IconButton>
