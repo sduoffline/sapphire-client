@@ -623,7 +623,12 @@ export default function DatasetDetail() {
             >
               {users.data?.data?.map((e: any) => (
                 <Tooltip title={e.name}>
-                  <IconButton sx={{ mr: 1 }}>
+                  <IconButton
+                    sx={{ mr: 1 }}
+                    onClick={() => {
+                      navigate("/profile?id=" + e.ID);
+                    }}
+                  >
                     <Avatar src={e.avatar} alt={e.name} />
                   </IconButton>
                 </Tooltip>

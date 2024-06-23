@@ -7,9 +7,13 @@ import { useQuery } from "@tanstack/react-query";
 import { queryFn } from "../../queries/queryFn";
 import { get_user_info } from "../../constants/url";
 import { grey } from "@mui/material/colors";
+import { useState } from "react";
 
 export default function Profile() {
   const [params, setParams] = useSearchParams();
+  const [id, setId] = useState(
+    params.get("id") ?? localStorage.getItem("userId")
+  );
   const { isLoading, isSuccess, data } = useQuery({
     queryKey: [
       `${get_user_info}/${params.get("id") ?? localStorage.getItem("userId")} `,
@@ -81,7 +85,13 @@ export default function Profile() {
             marginTop: 3,
           }}
         >
-          <DayHeatmap type="user" id={localStorage.getItem("userId")} />
+          <DayHeatmap type="user" id={id} />
+        </Container>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Container sx={{ marginTop: 3 }}>
+          <HistoryInfoPanel id={id} />
         </Container>
       </Grid>
     </Grid>

@@ -1,10 +1,10 @@
 # Details
 
-Date : 2024-06-22 19:31:00
+Date : 2024-06-23 22:37:59
 
 Directory f:\\学习\\大三下\\项目实训\\sapphire-client
 
-Total : 100 files,  41005 codes, 1179 comments, 1083 blanks, all 43267 lines
+Total : 102 files,  41149 codes, 1170 comments, 1127 blanks, all 43446 lines
 
 [Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
@@ -23,7 +23,7 @@ Total : 100 files,  41005 codes, 1179 comments, 1083 blanks, all 43267 lines
 | [.github/workflows/test.yml](/.github/workflows/test.yml) | YAML | 27 | 0 | 8 | 35 |
 | [README.md](/README.md) | Markdown | 46 | 8 | 30 | 84 |
 | [package-lock.json](/package-lock.json) | JSON | 20,750 | 0 | 1 | 20,751 |
-| [package.json](/package.json) | JSON | 89 | 0 | 1 | 90 |
+| [package.json](/package.json) | JSON | 91 | 0 | 1 | 92 |
 | [postcss.config.js](/postcss.config.js) | JavaScript | 6 | 0 | 1 | 7 |
 | [public/assets/Github.svg](/public/assets/Github.svg) | XML | 3 | 0 | 1 | 4 |
 | [public/assets/Meta.svg](/public/assets/Meta.svg) | XML | 78 | 0 | 1 | 79 |
@@ -39,16 +39,19 @@ Total : 100 files,  41005 codes, 1179 comments, 1083 blanks, all 43267 lines
 | [public/manifest.json](/public/manifest.json) | JSON | 25 | 0 | 1 | 26 |
 | [src/App.css](/src/App.css) | CSS | 49 | 1 | 10 | 60 |
 | [src/App.tsx](/src/App.tsx) | TypeScript JSX | 50 | 2 | 5 | 57 |
+| [src/api/getHeat.jsx](/src/api/getHeat.jsx) | JavaScript JSX | 31 | 1 | 4 | 36 |
 | [src/api/getUser.jsx](/src/api/getUser.jsx) | JavaScript JSX | 11 | 0 | 2 | 13 |
 | [src/assets/manifest.json](/src/assets/manifest.json) | JSON | 0 | 0 | 1 | 1 |
 | [src/assets/scss/App.scss](/src/assets/scss/App.scss) | SCSS | 652 | 9 | 78 | 739 |
 | [src/components/Canvas.tsx](/src/components/Canvas.tsx) | TypeScript JSX | 683 | 4 | 27 | 714 |
 | [src/components/CutOut.tsx](/src/components/CutOut.tsx) | TypeScript JSX | 81 | 0 | 4 | 85 |
-| [src/components/DataSet.tsx](/src/components/DataSet.tsx) | TypeScript JSX | 28 | 0 | 4 | 32 |
-| [src/components/DayHeatMap.tsx](/src/components/DayHeatMap.tsx) | TypeScript JSX | 51 | 0 | 3 | 54 |
+| [src/components/DataSet.tsx](/src/components/DataSet.tsx) | TypeScript JSX | 39 | 0 | 4 | 43 |
+| [src/components/DayHeatMap.tsx](/src/components/DayHeatMap.tsx) | TypeScript JSX | 44 | 18 | 3 | 65 |
 | [src/components/Gallery.tsx](/src/components/Gallery.tsx) | TypeScript JSX | 101 | 0 | 8 | 109 |
+| [src/components/LoadingButton.jsx](/src/components/LoadingButton.jsx) | JavaScript JSX | 76 | 10 | 4 | 90 |
 | [src/components/LoadingModal.tsx](/src/components/LoadingModal.tsx) | TypeScript JSX | 48 | 0 | 6 | 54 |
-| [src/components/MyDataSet.tsx](/src/components/MyDataSet.tsx) | TypeScript JSX | 64 | 0 | 4 | 68 |
+| [src/components/MyDataSet.tsx](/src/components/MyDataSet.tsx) | TypeScript JSX | 71 | 0 | 4 | 75 |
+| [src/components/MyTextArea.jsx](/src/components/MyTextArea.jsx) | JavaScript JSX | 25 | 10 | 5 | 40 |
 | [src/components/SegmentDrawer.tsx](/src/components/SegmentDrawer.tsx) | TypeScript JSX | 275 | 79 | 10 | 364 |
 | [src/components/SegmentOptions.tsx](/src/components/SegmentOptions.tsx) | TypeScript JSX | 97 | 12 | 3 | 112 |
 | [src/components/Stage.tsx](/src/components/Stage.tsx) | TypeScript JSX | 737 | 8 | 39 | 784 |
@@ -67,32 +70,31 @@ Total : 100 files,  41005 codes, 1179 comments, 1083 blanks, all 43267 lines
 | [src/components/loading.css](/src/components/loading.css) | CSS | 15 | 0 | 2 | 17 |
 | [src/components/loading.jsx](/src/components/loading.jsx) | JavaScript JSX | 20 | 1 | 1 | 22 |
 | [src/constants/mockdata.jsx](/src/constants/mockdata.jsx) | JavaScript JSX | 355 | 0 | 3 | 358 |
-| [src/constants/url.jsx](/src/constants/url.jsx) | JavaScript JSX | 7 | 0 | 1 | 8 |
+| [src/constants/url.jsx](/src/constants/url.jsx) | JavaScript JSX | 16 | 1 | 1 | 18 |
 | [src/index.css](/src/index.css) | CSS | 12 | 0 | 2 | 14 |
 | [src/index.tsx](/src/index.tsx) | TypeScript JSX | 16 | 0 | 7 | 23 |
 | [src/logo.svg](/src/logo.svg) | XML | 1 | 0 | 0 | 1 |
 | [src/pages/common/404.tsx](/src/pages/common/404.tsx) | TypeScript JSX | 19 | 0 | 3 | 22 |
-| [src/pages/consoleboard/ConsoleBoard.tsx](/src/pages/consoleboard/ConsoleBoard.tsx) | TypeScript JSX | 47 | 0 | 3 | 50 |
+| [src/pages/consoleboard/ConsoleBoard.tsx](/src/pages/consoleboard/ConsoleBoard.tsx) | TypeScript JSX | 71 | 0 | 4 | 75 |
 | [src/pages/consoleboard/NewsPanel.tsx](/src/pages/consoleboard/NewsPanel.tsx) | TypeScript JSX | 54 | 12 | 4 | 70 |
 | [src/pages/consoleboard/NotificationPanel.tsx](/src/pages/consoleboard/NotificationPanel.tsx) | TypeScript JSX | 16 | 0 | 2 | 18 |
-| [src/pages/consoleboard/OngoingTaskPanal.tsx](/src/pages/consoleboard/OngoingTaskPanal.tsx) | TypeScript JSX | 87 | 20 | 4 | 111 |
+| [src/pages/consoleboard/OngoingTaskPanal.tsx](/src/pages/consoleboard/OngoingTaskPanal.tsx) | TypeScript JSX | 104 | 20 | 5 | 129 |
 | [src/pages/consoleboard/SkillPanel.tsx](/src/pages/consoleboard/SkillPanel.tsx) | TypeScript JSX | 27 | 0 | 2 | 29 |
-| [src/pages/dataset/CreateDataset.tsx](/src/pages/dataset/CreateDataset.tsx) | TypeScript JSX | 130 | 41 | 6 | 177 |
-| [src/pages/dataset/DatasetDetail.tsx](/src/pages/dataset/DatasetDetail.tsx) | TypeScript JSX | 239 | 362 | 12 | 613 |
+| [src/pages/dataset/CreateDataset.tsx](/src/pages/dataset/CreateDataset.tsx) | TypeScript JSX | 142 | 41 | 9 | 192 |
+| [src/pages/dataset/DatasetDetail.tsx](/src/pages/dataset/DatasetDetail.tsx) | TypeScript JSX | 291 | 363 | 14 | 668 |
 | [src/pages/dataset/PreviewTab.tsx](/src/pages/dataset/PreviewTab.tsx) | TypeScript JSX | 42 | 27 | 5 | 74 |
-| [src/pages/dataset/ProgressTab.tsx](/src/pages/dataset/ProgressTab.tsx) | TypeScript JSX | 71 | 3 | 5 | 79 |
-| [src/pages/datasets/Datasets.tsx](/src/pages/datasets/Datasets.tsx) | TypeScript JSX | 41 | 0 | 2 | 43 |
-| [src/pages/login/Introduction/Introduction.css](/src/pages/login/Introduction/Introduction.css) | CSS | 15 | 0 | 0 | 15 |
-| [src/pages/login/Introduction/Introduction.jsx](/src/pages/login/Introduction/Introduction.jsx) | JavaScript JSX | 692 | 3 | 8 | 703 |
-| [src/pages/login/index.jsx](/src/pages/login/index.jsx) | JavaScript JSX | 230 | 119 | 13 | 362 |
+| [src/pages/dataset/ProgressTab.tsx](/src/pages/dataset/ProgressTab.tsx) | TypeScript JSX | 77 | 3 | 5 | 85 |
+| [src/pages/dataset/UpdDataset.tsx](/src/pages/dataset/UpdDataset.tsx) | TypeScript JSX | 176 | 41 | 11 | 228 |
+| [src/pages/datasets/Datasets.tsx](/src/pages/datasets/Datasets.tsx) | TypeScript JSX | 94 | 0 | 6 | 100 |
+| [src/pages/login/index.jsx](/src/pages/login/index.jsx) | JavaScript JSX | 230 | 16 | 14 | 260 |
 | [src/pages/login/login.css](/src/pages/login/login.css) | CSS | 204 | 10 | 29 | 243 |
-| [src/pages/profile/HistoryInfoPanel.tsx](/src/pages/profile/HistoryInfoPanel.tsx) | TypeScript JSX | 50 | 0 | 2 | 52 |
-| [src/pages/profile/Profile.tsx](/src/pages/profile/Profile.tsx) | TypeScript JSX | 54 | 1 | 2 | 57 |
+| [src/pages/profile/HistoryInfoPanel.tsx](/src/pages/profile/HistoryInfoPanel.tsx) | TypeScript JSX | 65 | 1 | 3 | 69 |
+| [src/pages/profile/Profile.tsx](/src/pages/profile/Profile.tsx) | TypeScript JSX | 94 | 1 | 5 | 100 |
 | [src/pages/profile/StatusPanel.tsx](/src/pages/profile/StatusPanel.tsx) | TypeScript JSX | 35 | 1 | 3 | 39 |
-| [src/pages/setting/Setting.tsx](/src/pages/setting/Setting.tsx) | TypeScript JSX | 43 | 0 | 5 | 48 |
-| [src/pages/workdesk/WorkDesk.tsx](/src/pages/workdesk/WorkDesk.tsx) | TypeScript JSX | 469 | 7 | 11 | 487 |
+| [src/pages/setting/Setting.jsx](/src/pages/setting/Setting.jsx) | JavaScript JSX | 319 | 11 | 12 | 342 |
+| [src/pages/workdesk/WorkDesk.tsx](/src/pages/workdesk/WorkDesk.tsx) | TypeScript JSX | 488 | 9 | 16 | 513 |
 | [src/pages/workdesk/WorkTools.tsx](/src/pages/workdesk/WorkTools.tsx) | TypeScript JSX | 353 | 32 | 29 | 414 |
-| [src/pages/workshop/DetailList.tsx](/src/pages/workshop/DetailList.tsx) | TypeScript JSX | 165 | 1 | 8 | 174 |
+| [src/pages/workshop/DetailList.tsx](/src/pages/workshop/DetailList.tsx) | TypeScript JSX | 171 | 1 | 8 | 180 |
 | [src/pages/workshop/LeaderBoard.tsx](/src/pages/workshop/LeaderBoard.tsx) | TypeScript JSX | 80 | 6 | 3 | 89 |
 | [src/pages/workshop/Workshop.tsx](/src/pages/workshop/Workshop.tsx) | TypeScript JSX | 89 | 1 | 7 | 97 |
 | [src/queries/CustomQueryClient.js](/src/queries/CustomQueryClient.js) | JavaScript | 21 | 0 | 4 | 25 |
@@ -103,7 +105,7 @@ Total : 100 files,  41005 codes, 1179 comments, 1083 blanks, all 43267 lines
 | [src/queries/useSingleDataset.tsx](/src/queries/useSingleDataset.tsx) | TypeScript JSX | 16 | 0 | 3 | 19 |
 | [src/react-app-env.d.ts](/src/react-app-env.d.ts) | TypeScript | 0 | 1 | 1 | 2 |
 | [src/reportWebVitals.ts](/src/reportWebVitals.ts) | TypeScript | 13 | 0 | 3 | 16 |
-| [src/router/index.tsx](/src/router/index.tsx) | TypeScript JSX | 286 | 25 | 12 | 323 |
+| [src/router/index.tsx](/src/router/index.tsx) | TypeScript JSX | 287 | 26 | 12 | 325 |
 | [src/router/routes.tsx](/src/router/routes.tsx) | TypeScript JSX | 46 | 8 | 3 | 57 |
 | [src/setupTests.ts](/src/setupTests.ts) | TypeScript | 1 | 4 | 1 | 6 |
 | [src/types/index.d.ts](/src/types/index.d.ts) | TypeScript | 1 | 0 | 1 | 2 |

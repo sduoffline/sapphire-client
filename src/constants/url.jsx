@@ -1,6 +1,7 @@
-export const base_url = "http://localhost:8080/";
+// export const base_url = "http://localhost:8080/";
+export const base_url = "http://121.250.213.178:8080/";
 export const login_url = base_url + "user/login";
-export const all_datasets_url = base_url + "dataset/user/list";
+export const all_datasets_url = base_url + "dataset/list";
 export const dataset_detail_url = base_url + "dataset";
 export const annotate_url = base_url + "annotate";
 export const claim_url = base_url + "dataset/join";
@@ -14,3 +15,5 @@ export const upload_img = base_url + "img/upload";
 export const upd_user_info = base_url + "user/info/change";
 export const get_user_info = base_url + "user/profile";
 export const upd_user_pwd = base_url + "user/passwd/change";
+export const signUP_url = base_url + "user/register";
+// export const all_dataset_url = base_url + "dataset/list";

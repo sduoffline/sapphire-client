@@ -11,6 +11,8 @@ const hashCode = (str) => {
 };
 
 export const getHeatmap = (type, id) => {
+  if (type == "user" && id >= 23) return [];
+  if (type !== "user" && id >= 35) return [];
   if (type == "user") id += 10000;
 
   let data = [];

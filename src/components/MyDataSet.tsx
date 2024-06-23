@@ -1,8 +1,14 @@
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { DataSetProps } from "./helpers/Interface";
 import { useNavigate } from "react-router-dom";
+import { claim_url } from "../constants/url";
+import { useMutation } from "@tanstack/react-query";
+import { postQueryFn } from "../queries/postQueryFn";
+import Loading from "./loading";
+import { LoadingButton } from "@mui/lab";
+import { useSnackbar } from "notistack";
 
 interface MyDataSetProps {
   dataset: DataSetProps;
@@ -10,6 +16,20 @@ interface MyDataSetProps {
 
 export default function MyDataSet({ dataset }: MyDataSetProps) {
   const navigate = useNavigate();
+  const {
+    isPending: claimPending,
+    isSuccess: claimSuccess,
+    mutate: claimMutate,
+  } = useMutation({
+    mutationFn: postQueryFn,
+  });
+  const { enqueueSnackbar } = useSnackbar();
+  useEffect(() => {
+    if (claimSuccess) {
+      enqueueSnackbar("认领成功", { variant: "success" });
+      navigate("/dataset/detail/" + dataset!.dataSetId);
+    }
+  }, [claimSuccess]);
   return (
     <Paper
       elevation={2}
@@ -41,7 +61,21 @@ export default function MyDataSet({ dataset }: MyDataSetProps) {
           </Typography>
           <div style={{ flexGrow: 1 }} />
           {!dataset.claim && !dataset.owner && (
-            <Button variant="contained">认领</Button>
+            <LoadingButton
+              variant="contained"
+              onClick={() => {
+                claimMutate({
+                  url: claim_url + "/" + dataset?.dataSetId,
+                  params: {
+                    creator_id: localStorage.getItem("userId"),
+                  },
+                  method: "POST",
+                });
+              }}
+              loading={claimPending}
+            >
+              认领
+            </LoadingButton>
           )}
           {dataset.owner && (
             <Button

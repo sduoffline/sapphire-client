@@ -36,7 +36,7 @@ import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useMutation } from "@tanstack/react-query";
 import { postQueryFn } from "../../queries/postQueryFn";
-import { login_url } from "../../constants/url";
+import { login_url, signUP_url } from "../../constants/url";
 export default function Login() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [theName, setTheName] = useState(1);
@@ -74,7 +74,16 @@ export default function Login() {
   } = useMutation({
     mutationFn: postQueryFn,
   });
-
+  const {
+    isPending: signUpPending,
+    isSuccess: signUpSuccess,
+    isError: signUpIsError,
+    data: signUpData,
+    mutate: signUpMutate,
+    error: signUpError,
+  } = useMutation({
+    mutationFn: postQueryFn,
+  });
   const Login = () => {
     //实现登录接口
     if (loginUserName === "" || loginUserPsw === "") {
@@ -122,9 +131,11 @@ export default function Login() {
     }
   }, [loginIsError]);
 
+  // const {mutate} = useMutation({})
+
   const handleReset = () => {
     if (vertifyCode == "") {
-      enqueueSnackbar("请填写验证码", { variant: "warning" });
+      enqueueSnackbar("请填写密码", { variant: "warning" });
       return;
     }
     if (email == "") {
@@ -132,10 +143,29 @@ export default function Login() {
       return;
     }
     if (loginUserName == "") {
-      enqueueSnackbar("学号不能为空", { variant: "warning" });
+      enqueueSnackbar("用户名不能为空", { variant: "warning" });
       return;
     }
+
+    signUpMutate({
+      url: signUP_url,
+      data: {
+        name: loginUserName,
+        passwd: vertifyCode,
+        email: email,
+        avatar: "http://t",
+      },
+      method: "post",
+    });
   };
+
+  useEffect(() => {
+    if (signUpSuccess) {
+      enqueueSnackbar("注册成功,请登录", { variant: "success" });
+      changeClass();
+    }
+  }, [signUpSuccess]);
+
   const innerTheme = useMemo(() =>
     createTheme({
       palette: {
@@ -156,10 +186,10 @@ export default function Login() {
           <div className="test">
             <div className="container__form container--signup">
               <div className="form" id="form1">
-                <h2 className="form__title">忘记密码</h2>
+                <h2 className="form__title">注册用户</h2>
                 <TextField
                   size="small"
-                  label="学号"
+                  label="用户名"
                   value={loginUserName}
                   onChange={(e) => {
                     setLoginUserName(e.target.value);
@@ -184,8 +214,8 @@ export default function Login() {
                   value={vertifyCode}
                   onChange={changeVrCode}
                   size="small"
-                  label="验证码"
-                  type="email"
+                  label="密码"
+                  type="password"
                   className="input"
                 />
 
@@ -194,7 +224,7 @@ export default function Login() {
                   variant="contained"
                   onClick={handleReset}
                 >
-                  重置密码
+                  注册
                 </Button>
               </div>
             </div>
@@ -203,7 +233,7 @@ export default function Login() {
               <div className="form" id="form2">
                 <h2 className="form__title">登录</h2>
                 <TextField
-                  label="学号"
+                  label="用户名"
                   type="text"
                   size="small"
                   onChange={changeLgName}
@@ -245,116 +275,13 @@ export default function Login() {
                 </div>
                 <div className="overlay__panel overlay--right">
                   <button className="btn" id="signUp" onClick={changeClass}>
-                    忘记密码
+                    注册
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* <div>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Button
-              onClick={() => setDialogOpen(true)}
-              variant="contained"
-              color="secondary"
-              sx={{ marginRight: 10 }}
-            >
-              关于我们
-            </Button>
-            <ThanksList setOpen={setOpen} />
-          </Box>
-
-          <MyDialog
-            showCancel={false}
-            open={dialogOpen}
-            onClose={() => setDialogOpen(false)}
-            title="个人页面"
-          >
-            <List>
-              <ListItem
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Link
-                  sx={{ cursor: "pointer" }}
-                  href="http://home.wxyww.top"
-                  underline="none"
-                  target="_blank"
-                >
-                  吴羲勇
-                </Link>
-              </ListItem>
-              <Divider />
-              <ListItem
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Link
-                  href="https://surui.vercel.app"
-                  target="_blank"
-                  sx={{ cursor: "pointer" }}
-                  underline="none"
-                >
-                  郭苏睿
-                </Link>
-              </ListItem>
-              <Divider />
-              <ListItem
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Link
-                  href="https://xuinrz.github.io/pp/"
-                  target="_blank"
-                  sx={{ cursor: "pointer" }}
-                  underline="none"
-                >
-                  许子璇
-                </Link>
-              </ListItem>
-              <Divider />
-              <ListItem
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Link
-                  sx={{ cursor: "pointer" }}
-                  // onClick={handleClick}
-                  href="/#/introduction"
-                  underline="none"
-                  target="_blank"
-                >
-                  王治松
-                </Link>
-              </ListItem>
-              <Divider />
-              <ListItem
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Link sx={{ cursor: "pointer" }} underline="none">
-                  吕俊安
-                </Link>
-              </ListItem>
-            </List>
-          </MyDialog>
-        </div> */}
       </div>
     </ThemeProvider>
   );
