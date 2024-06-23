@@ -143,7 +143,7 @@ const mockData = [
   },
 ];
 
-export default function TitlebarImageList() {
+export default function TitlebarImageList({ filter }: any) {
   const { data, isLoading, isError, error, isSuccess } = useQuery({
     queryKey: [
       all_datasets_url,
@@ -151,11 +151,14 @@ export default function TitlebarImageList() {
     ],
     queryFn: queryFn,
   });
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     console.log(data.data.data);
+  //   }
+  // }, [isSuccess]);
   useEffect(() => {
-    if (isSuccess) {
-      console.log(data.data.data);
-    }
-  }, [isSuccess]);
+    console.log("filter", filter);
+  }, []);
   return (
     <div
       style={{
@@ -168,9 +171,11 @@ export default function TitlebarImageList() {
       {isSuccess &&
         data?.data?.data?.map((item: any) => {
           return (
-            <Box sx={{ width: "28%" }}>
-              <MyDataSet dataset={item} />
-            </Box>
+            item.dataSetName.indexOf(filter) !== -1 && (
+              <Box sx={{ width: "32%" }}>
+                <MyDataSet dataset={item} />
+              </Box>
+            )
           );
         })}
       {isLoading && <Loading />}

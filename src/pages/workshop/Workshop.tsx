@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Typography,
   Button,
@@ -10,19 +10,19 @@ import {
   Box,
   Divider,
   Modal,
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
 
-import TitlebarImageList from './DetailList';
-import LeaderBoard from './LeaderBoard';
-import CreateDataset from '../dataset/CreateDataset';
+import TitlebarImageList from "./DetailList";
+import LeaderBoard from "./LeaderBoard";
+import CreateDataset from "../dataset/CreateDataset";
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 512,
   boxShadow: 24,
 };
@@ -33,7 +33,7 @@ function Workshop() {
   const handleCreateClick = () => {
     setModalOpen(true);
   };
-
+  const [filterHandle, setFilterHandle] = useState("");
   return (
     <div>
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
@@ -49,17 +49,22 @@ function Workshop() {
             component="form"
             elevation={1}
             sx={{
-              p: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
               flex: 1,
               // 圆角
-              borderRadius: '18px',
+              borderRadius: "18px",
             }}
           >
             <Typography sx={{ ml: 1 }}>搜索</Typography>
-            <InputBase sx={{ ml: 1, flex: 1 }} placeholder="搜索数据集" />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+            <InputBase
+              value={filterHandle}
+              onChange={(e: any) => setFilterHandle(e.target.value)}
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="搜索数据集"
+            />
+            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <SearchIcon />
             </IconButton>
           </Paper>
@@ -68,9 +73,9 @@ function Workshop() {
             variant="contained"
             endIcon={<AddIcon />}
             sx={{
-              borderRadius: '14px',
-              '&:hover': {
-                shadow: 'none',
+              borderRadius: "14px",
+              "&:hover": {
+                shadow: "none",
               },
             }}
           >
@@ -83,7 +88,7 @@ function Workshop() {
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={9}>
-          <TitlebarImageList />
+          <TitlebarImageList filter={filterHandle} />
         </Grid>
         <Grid item xs={3}>
           <LeaderBoard />

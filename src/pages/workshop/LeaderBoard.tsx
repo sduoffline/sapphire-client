@@ -8,9 +8,14 @@ import {
   Avatar,
   ListItemText,
   ListItemSecondaryAction,
+  IconButton,
   // IconButton,
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
+import { useQuery } from "@tanstack/react-query";
+import { queryFn } from "../../queries/queryFn";
+import { ranklist_url } from "../../constants/url";
+import { useNavigate } from "react-router-dom";
 // import InfoIcon from '@mui/icons-material/Info';
 
 const itemData = [
@@ -53,6 +58,11 @@ const itemData = [
 ];
 
 export default function LeaderBoard() {
+  const { isSuccess, isLoading, data, isError } = useQuery({
+    queryKey: [ranklist_url],
+    queryFn: queryFn,
+  });
+  const navigate = useNavigate();
   return (
     <Paper elevation={1}>
       <Box sx={{ p: 2 }}>
@@ -60,28 +70,35 @@ export default function LeaderBoard() {
         <Typography variant="h6" gutterBottom>
           排行榜
         </Typography>
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
-          {itemData.map((item) => (
-            <ListItem key={item.description}>
-              <ListItemAvatar>
-                <Avatar
-                  alt={item.description}
-                  sx={{ bgcolor: deepPurple[500] }}
-                >
-                  {item.description.slice(0, 1)}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={item.description} />
-              <ListItemSecondaryAction>
-                {/* <IconButton edge="end" aria-label="info">
+        {isSuccess && (
+          <List
+            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          >
+            {data.data.data.map((item: any) => (
+              <ListItem key={item.description}>
+                <ListItemAvatar>
+                  <IconButton
+                    onClick={() => {
+                      navigate("/profile?id=" + item.id);
+                    }}
+                  >
+                    <Avatar
+                      alt={item.name}
+                      src={item.avatar}
+                      sx={{ bgcolor: deepPurple[500] }}
+                    />
+                  </IconButton>
+                </ListItemAvatar>
+                <ListItemText primary={item.name} />
+                <ListItemSecondaryAction>
+                  {/* <IconButton edge="end" aria-label="info">
                   <InfoIcon />
                 </IconButton> */}
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        )}
       </Box>
     </Paper>
   );

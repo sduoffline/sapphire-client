@@ -18,3 +18,4 @@ export const upd_user_pwd = base_url + "user/passwd/change";
 export const signUP_url = base_url + "user/register";
 // export const all_dataset_url = base_url + "dataset/list";
 export const message_url = base_url + "message/list";
+export const ranklist_url = base_url + "user/rank/list";
