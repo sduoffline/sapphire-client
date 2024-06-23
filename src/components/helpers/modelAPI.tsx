@@ -76,7 +76,7 @@ const queryModelReturnTensors = async ({
   //       body: blob,
   //     });
 
-  const segRequest = fetch(`${imgName}`);
+  const segRequest = fetch(`${imgName?.replace(/.*\//, "/embeddings/")}`);
 
   /*
   segRequest.then(async (segResponse) => {

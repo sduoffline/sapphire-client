@@ -55,7 +55,7 @@ export default function PreviewTab({ imgs }: PreviewTabProps) {
       <ImageList sx={{ padding: 2 }} cols={4}>
         {imgs !== null &&
           imgs !== undefined &&
-          imgs!.slice(0, 8).map((item) => (
+          imgs!.slice(0, 10).map((item) => (
             // <ImageListItem key={item.imgUrl}>
             <img
               src={item.imgUrl}

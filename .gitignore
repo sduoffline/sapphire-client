@@ -128,3 +128,4 @@ yarn-error.log*
 
 *.onnx
 *.wasm
+*.npy

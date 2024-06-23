@@ -420,8 +420,16 @@ export default function WorkDesk() {
     if (taskSuccess) {
       if (datasetId && (!tasks?.data.data || tasks?.data.data.length == 0)) {
         // localStorage.removeItem("workingDatasetId");
-        console.log(tasks);
+        // console.log(tasks);
         enqueueSnackbar("当前数据集没有任务", { variant: "warning" });
+        navigate("/workshop");
+      }
+      if (datasetId && tasks?.data?.data[0]?.embeddingUrl == "") {
+        // localStorage.removeItem("workingDatasetId");
+        // console.log(tasks);
+        enqueueSnackbar("embedding尚未计算完成，请耐心等待", {
+          variant: "warning",
+        });
         navigate("/workshop");
       }
     }
@@ -528,7 +536,10 @@ export default function WorkDesk() {
             pos={[nowPos, setPos]}
             handleNextImg={handleNextImg}
             handleLastImg={handleLastImg}
-            imgUrl={tasks.data.data[nowPos].imgUrl}
+            imgUrl={tasks.data.data[nowPos].imgUrl.replace(
+              /.*\//,
+              "/dataimgs/"
+            )}
             embeddingUrl={tasks.data.data[nowPos].embeddingUrl}
             updateData={upLoadData}
           />

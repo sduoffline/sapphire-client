@@ -22,3 +22,4 @@ export const ranklist_url = base_url + "user/rank/list";
 export const annotate_upd_url = base_url + "annotate/make";
 export const put_comment_url = base_url + "discussion/create";
 export const get_comments_url = base_url + "discussion/list";
+export const downoad_result_url = base_url + "dataset/download";

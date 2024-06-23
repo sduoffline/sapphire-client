@@ -80,6 +80,7 @@ export default function DatasetComments({ datasetId }: { datasetId: any }) {
               </Paper>
             ))}
           <CommentArea action={fetchComments} datasetId={datasetId} />
+          <Box sx={{ height: "200px" }}></Box>
         </Box>
       </Box>
     </div>

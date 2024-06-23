@@ -17,6 +17,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import ProgressTab from "./ProgressTab";
@@ -32,6 +33,7 @@ import {
   claim_url,
   dataset_detail_url,
   dataset_joined_users,
+  downoad_result_url,
 } from "../../constants/url";
 import { DataSetProps } from "../../components/helpers/Interface";
 import { postQueryFn } from "../../queries/postQueryFn";
@@ -39,6 +41,7 @@ import { useSnackbar } from "notistack";
 import Loading from "../../components/loading";
 import UploadIcon from "@mui/icons-material/Upload";
 import DatasetComments from "./DatasetComments";
+import { LoadingButton } from "@mui/lab";
 // const data = {
 //   dataSetId: 1, //数据集id
 //   dataSetName: "抓马", //数据集名称
@@ -450,12 +453,13 @@ export default function DatasetDetail() {
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
+  const [updPending, setUpdPending] = useState(false);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const formData = new FormData();
       formData.append("file", event.target.files[0]);
       // formData.append("dataset_id", dataset?.dataSetId.toString() || "");
-
+      setUpdPending(true);
       fetch(base_url + "dataset/upload/" + id, {
         method: "POST",
         headers: {
@@ -465,6 +469,7 @@ export default function DatasetDetail() {
       })
         .then((response) => response.json())
         .then((data) => {
+          setUpdPending(false);
           enqueueSnackbar("上传成功", { variant: "success" });
         })
         .catch((error) => {
@@ -472,6 +477,30 @@ export default function DatasetDetail() {
         });
     }
   };
+  const {
+    mutate: downMutate,
+    isSuccess: downSuccess,
+    data: result,
+    isPending: downPending,
+  } = useMutation({
+    mutationFn: postQueryFn,
+  });
+  const downloadFile = async () => {
+    const url = result?.data.data.url; // 替换为你的文件 URL
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "results.txt";
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+  useEffect(() => {
+    if (downSuccess) {
+      console.log(result.data.data.url);
+      downloadFile();
+    }
+  }, [downSuccess]);
 
   return (
     <>
@@ -583,23 +612,31 @@ export default function DatasetDetail() {
               )}
               {dataset?.owner && (
                 <>
-                  <Button
+                  <LoadingButton
                     sx={{ mt: 2 }}
                     component="label"
                     role={undefined}
                     variant="contained"
                     tabIndex={-1}
                     startIcon={<DownloadIcon />}
+                    onClick={() => {
+                      downMutate({
+                        url: downoad_result_url + "/" + dataset?.dataSetId,
+                        method: "POST",
+                      });
+                    }}
+                    loading={downPending}
                   >
                     下载结果
-                  </Button>
-                  <Button
+                  </LoadingButton>
+                  <LoadingButton
                     sx={{ mt: 2 }}
                     component="label"
                     role={undefined}
                     variant="contained"
                     tabIndex={-1}
                     startIcon={<UploadIcon />}
+                    loading={updPending}
                   >
                     上传数据
                     <input
@@ -608,7 +645,7 @@ export default function DatasetDetail() {
                       hidden
                       onChange={handleFileChange}
                     />
-                  </Button>
+                  </LoadingButton>
                 </>
               )}
             </Box>

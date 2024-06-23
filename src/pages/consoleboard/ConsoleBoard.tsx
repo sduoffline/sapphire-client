@@ -55,18 +55,18 @@ export default function ConsoleBoard() {
       </Stack>
       <div style={{ height: 8 }} />
       <Divider />
-      <div style={{ height: 8 }} />
+      <div style={{ height: 20 }} />
       <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <OngoingTaskPanal />
           <div style={{ height: 24 }} />
           <NewsPanel />
         </Grid>
-        <Grid item xs={4}>
+        {/* <Grid item xs={4}>
           <SkillPanel />
           <div style={{ height: 24 }} />
           <NotificationPanel />
-        </Grid>
+        </Grid> */}
       </Grid>
       <div style={{ height: 24 }} />
     </>
