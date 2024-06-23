@@ -38,6 +38,7 @@ import { postQueryFn } from "../../queries/postQueryFn";
 import { useSnackbar } from "notistack";
 import Loading from "../../components/loading";
 import UploadIcon from "@mui/icons-material/Upload";
+import DatasetComments from "./DatasetComments";
 // const data = {
 //   dataSetId: 1, //数据集id
 //   dataSetName: "抓马", //数据集名称
@@ -664,7 +665,11 @@ export default function DatasetDetail() {
               <div>暂无数据</div>
             )}
           </div>
-          <div>{value === "three" && <div>暂无Issues</div>}</div>
+          <div>
+            {value === "three" && (
+              <DatasetComments datasetId={dataset?.dataSetId} />
+            )}
+          </div>
         </>
       )}
     </>

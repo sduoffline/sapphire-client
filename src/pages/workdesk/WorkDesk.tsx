@@ -4,10 +4,15 @@ import AppContextProvider from "../../components/hooks/context";
 import AppContext from "../../components/hooks/createContext";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { useQuery } from "@tanstack/react-query";
-import { annotate_url, dataset_detail_url } from "../../constants/url";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  annotate_upd_url,
+  annotate_url,
+  dataset_detail_url,
+} from "../../constants/url";
 import { queryFn } from "../../queries/queryFn";
 import Loading from "../../components/loading";
+import { postQueryFn } from "../../queries/postQueryFn";
 const mockData = {
   dataSetId: 1, //数据集id
   dataSetName: "抓马", //数据集名称
@@ -449,38 +454,57 @@ export default function WorkDesk() {
   } = useContext(AppContext)!;
 
   const [nowPos, setPos] = useState(0);
+
+  const {
+    mutate: updMutate,
+    isPending: updPending,
+    isSuccess: updSuccess,
+  } = useMutation({
+    mutationFn: postQueryFn,
+  });
+
   const upLoadData = (pos: number, data: {}[]) => {
     /**
      * 实现抠图数据的上传
      */
-    console.log("上传数据", {
-      id: mockData.datas[pos].id,
-      data: data,
+    // console.log("上传数据", {
+    //   id: tasks?.data.data[pos].ID,
+    //   datasetId: info?.data.data.dataSetId,
+    //   data: data,
+    // });
+    if (data.length == 0) return;
+    updMutate({
+      data: {
+        imgId: tasks?.data.data[pos].ID,
+        datasetId: info?.data.data.dataSetId,
+        marks: data,
+      },
+      url: annotate_upd_url,
+      method: "post",
     });
   };
 
   const handleNextImg = () => {
-    // console.log(nowPos);
+    upLoadData(
+      nowPos,
+      stickers.map((e) => e.stickerData)
+    );
     if (nowPos == tasks?.data.data.length - 1) {
       enqueueSnackbar("已经是最后一张图片", { variant: "warning" });
       return;
     }
-
+    setPos(nowPos + 1);
+  };
+  const handleLastImg = () => {
     upLoadData(
       nowPos,
       stickers.map((e) => e.stickerData)
     );
-    setPos(nowPos + 1);
-  };
-  const handleLastImg = () => {
+
     if (nowPos == 0) {
       enqueueSnackbar("已经是第一张图片", { variant: "warning" });
       return;
     }
-    upLoadData(
-      nowPos,
-      stickers.map((e) => e.stickerData)
-    );
 
     setPos(nowPos - 1);
   };

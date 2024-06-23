@@ -19,3 +19,6 @@ export const signUP_url = base_url + "user/register";
 // export const all_dataset_url = base_url + "dataset/list";
 export const message_url = base_url + "message/list";
 export const ranklist_url = base_url + "user/rank/list";
+export const annotate_upd_url = base_url + "annotate/make";
+export const put_comment_url = base_url + "discussion/create";
+export const get_comments_url = base_url + "discussion/list";
