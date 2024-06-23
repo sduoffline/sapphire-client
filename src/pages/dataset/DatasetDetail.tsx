@@ -34,6 +34,7 @@ import {
   dataset_detail_url,
   dataset_joined_users,
   downoad_result_url,
+  quit_dataset_url,
 } from "../../constants/url";
 import { DataSetProps } from "../../components/helpers/Interface";
 import { postQueryFn } from "../../queries/postQueryFn";
@@ -440,6 +441,25 @@ export default function DatasetDetail() {
   } = useMutation({
     mutationFn: postQueryFn,
   });
+  const {
+    isPending: quitPending,
+    isSuccess: quitSuccess,
+    mutate: quitMutate,
+  } = useMutation({
+    mutationFn: postQueryFn,
+  });
+  const handleQuit = () => {
+    setClaim(false);
+    quitMutate({
+      url: quit_dataset_url + "/" + dataset?.dataSetId,
+      method: "post",
+    });
+  };
+  useEffect(() => {
+    if (quitSuccess) {
+      enqueueSnackbar("退出成功", { variant: "success" });
+    }
+  }, [quitSuccess]);
   const handleClaim = () => {
     setClaim(true);
     claimMutate({
@@ -608,6 +628,20 @@ export default function DatasetDetail() {
                   onClick={handleClaim}
                 >
                   {claim ? "已认领" : "认领"}
+                </Button>
+              )}
+              {!dataset?.owner && claim && (
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  sx={{ mt: 2 }}
+                  startIcon={<AddIcon />}
+                  // disabled={claim}
+                  onClick={handleQuit}
+                >
+                  退出任务
                 </Button>
               )}
               {dataset?.owner && (
