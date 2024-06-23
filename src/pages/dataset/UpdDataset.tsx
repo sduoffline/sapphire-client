@@ -49,6 +49,7 @@ export default function UpdDataset() {
   useEffect(() => {
     if (getSuccess) {
       const data = dateset.data.data;
+      // console.log(data.objects);
       setInfo({
         name: data.dataSetName,
         description: data.taskInfo,
@@ -74,7 +75,7 @@ export default function UpdDataset() {
       data: {
         name: info.name,
         description: info.description,
-        endTime: info.date,
+        endTime: info.date + " 23:59:59",
         tags: info.tags,
       },
       url: upd_dataset_url + "/" + datasetId,
@@ -98,81 +99,82 @@ export default function UpdDataset() {
         alignItems: "center",
       }}
     >
-      <Box sx={{ width: "800px", maxWidth: "90%" }}>
-        <Typography component="h1" variant="h5">
-          修改数据集信息
-        </Typography>
-        <Box component="form" sx={{ mt: 1 }}>
-          <TextField
-            variant="standard"
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="数据集名称"
-            name="name"
-            autoComplete="name"
-            autoFocus
-            value={info?.name}
-            onChange={(e) => {
-              setInfo({ ...info, name: e.target.value });
-            }}
-          />
-          <TextField
-            variant="standard"
-            margin="normal"
-            required
-            fullWidth
-            id="description"
-            label="数据集描述"
-            name="description"
-            autoComplete="description"
-            value={info?.description}
-            onChange={(e) => {
-              setInfo({ ...info, description: e.target.value });
-            }}
-          />
-          {/* <Box sx={{}}> */}
-          <DateField
-            required
-            margin="normal"
-            variant="standard"
-            fullWidth
-            label="截止时间"
-            format="YYYY年MM月DD日"
-            value={dayjs(info?.date)}
-            onChange={(date) => {
-              console.log(date?.format("YYYY-MM-DD"));
-              setInfo({ ...info, date: date?.format("YYYY-MM-DD") });
-            }}
-          />
+      {getSuccess && (
+        <Box sx={{ width: "800px", maxWidth: "90%" }}>
+          <Typography component="h1" variant="h5">
+            修改数据集信息
+          </Typography>
+          <Box component="form" sx={{ mt: 1 }}>
+            <TextField
+              variant="standard"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="数据集名称"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              value={info?.name}
+              onChange={(e) => {
+                setInfo({ ...info, name: e.target.value });
+              }}
+            />
+            <TextField
+              variant="standard"
+              margin="normal"
+              required
+              fullWidth
+              id="description"
+              label="数据集描述"
+              name="description"
+              autoComplete="description"
+              value={info?.description}
+              onChange={(e) => {
+                setInfo({ ...info, description: e.target.value });
+              }}
+            />
+            {/* <Box sx={{}}> */}
+            <DateField
+              required
+              margin="normal"
+              variant="standard"
+              fullWidth
+              label="截止时间"
+              format="YYYY年MM月DD日"
+              value={dayjs(info?.date)}
+              onChange={(date) => {
+                console.log(date?.format("YYYY-MM-DD"));
+                setInfo({ ...info, date: date?.format("YYYY-MM-DD") });
+              }}
+            />
 
-          <Autocomplete
-            multiple
-            id="tags-standard"
-            options={tempValue ? [tempValue] : []}
-            getOptionLabel={(option) => option}
-            value={info?.tags}
-            onChange={(e, value) => {
-              console.log(value);
-              setInfo({ ...info, tags: value });
-            }}
-            renderInput={(params) => (
-              <TextField
-                margin="normal"
-                required
-                {...params}
-                variant="standard"
-                label="标签"
-                placeholder="标注内容"
-                onChange={(e) => setTempValue(e.target.value)}
-              />
-            )}
-          />
+            <Autocomplete
+              multiple
+              id="tags-standard"
+              options={tempValue ? [tempValue] : []}
+              getOptionLabel={(option) => option}
+              value={info?.tags}
+              onChange={(e, value) => {
+                // console.log(value);
+                setInfo({ ...info, tags: value });
+              }}
+              renderInput={(params) => (
+                <TextField
+                  margin="normal"
+                  required
+                  {...params}
+                  variant="standard"
+                  label="标签"
+                  placeholder="标注内容"
+                  onChange={(e) => setTempValue(e.target.value)}
+                />
+              )}
+            />
 
-          {/* </Box> */}
-          {/* 上传数据集封面图片 */}
-          {/* <Stack
+            {/* </Box> */}
+            {/* 上传数据集封面图片 */}
+            {/* <Stack
           direction="row"
           spacing={2}
           sx={{ mt: 2, alignItems: 'center', paddingX: 2 }}
@@ -210,18 +212,19 @@ export default function UpdDataset() {
           </Stack>
         </Stack> */}
 
-          <LoadingButton
-            // type="submit"
-            loading={isPending}
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={handleCreate}
-          >
-            修改数据集
-          </LoadingButton>
+            <LoadingButton
+              // type="submit"
+              loading={isPending}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleCreate}
+            >
+              修改数据集
+            </LoadingButton>
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 }

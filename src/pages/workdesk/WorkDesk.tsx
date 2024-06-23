@@ -365,8 +365,8 @@ const mockData = {
 };
 
 /**
- * 狗屎狗屎
- * 全是狗屎代码
+ * 工作台上层
+ * 负责任务切换
  */
 export default function WorkDesk() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -460,8 +460,9 @@ export default function WorkDesk() {
   };
 
   const handleNextImg = () => {
-    console.log(nowPos);
-    if (nowPos == mockData.datas.length - 1) {
+    // console.log(nowPos);
+    if (nowPos == tasks?.data.data.length - 1) {
+      enqueueSnackbar("已经是最后一张图片", { variant: "warning" });
       return;
     }
 
@@ -473,6 +474,7 @@ export default function WorkDesk() {
   };
   const handleLastImg = () => {
     if (nowPos == 0) {
+      enqueueSnackbar("已经是第一张图片", { variant: "warning" });
       return;
     }
     upLoadData(
