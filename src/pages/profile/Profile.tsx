@@ -2,8 +2,21 @@ import { Avatar, Box, Container, Grid, Typography } from "@mui/material";
 import HistoryInfoPanel from "./HistoryInfoPanel";
 import StatusPanel from "./StatusPanel";
 import DayHeatmap from "../../components/DayHeatMap";
+import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { queryFn } from "../../queries/queryFn";
+import { get_user_info } from "../../constants/url";
+import { grey } from "@mui/material/colors";
 
 export default function Profile() {
+  const [params, setParams] = useSearchParams();
+  const { isLoading, isSuccess, data } = useQuery({
+    queryKey: [
+      `${get_user_info}/${params.get("id") ?? localStorage.getItem("userId")} `,
+    ],
+    queryFn: queryFn,
+  });
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -14,32 +27,43 @@ export default function Profile() {
             justifyContent: "center",
           }}
         >
-          <div>
-            <Avatar
-              src="https://cloud.icooper.cc/apps/sharingpath/PicSvr/PicMain/Sapphire_transparentbg.png"
-              sx={{
-                width: 128,
-                height: 128,
-                border: "2px solid #fff",
-                boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-                // hover时放大并添加阴影
-                "&:hover": {
-                  transform: "scale(1.05)",
-                  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.2)",
-                  transition: "all 0.3s",
-                },
-              }}
-            />
-            <div style={{ height: 16 }} />
-            <Typography
-              variant="h6"
-              sx={{
-                textAlign: "center",
-              }}
-            >
-              Sapphire
-            </Typography>
-          </div>
+          {isSuccess && (
+            <div>
+              <Avatar
+                src={data.data.data.avatar}
+                sx={{
+                  width: 128,
+                  height: 128,
+                  border: "2px solid #fff",
+                  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+                  // hover时放大并添加阴影
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.2)",
+                    transition: "all 0.3s",
+                  },
+                }}
+              />
+              <div style={{ height: 16 }} />
+              <Typography
+                variant="h6"
+                sx={{
+                  textAlign: "center",
+                }}
+              >
+                {data.data.data.name}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  textAlign: "center",
+                }}
+                color={grey[500]}
+              >
+                {data.data.data.description}
+              </Typography>
+            </div>
+          )}
         </Container>
       </Grid>
       <Grid item xs={12}>
@@ -47,9 +71,7 @@ export default function Profile() {
           <StatusPanel />
         </Container>
       </Grid>
-      {/* <Grid item xs={12}>
-        <Container><HistoryInfoPanel /></Container>
-      </Grid> */}
+
       <Grid item xs={12}>
         <Container
           sx={{

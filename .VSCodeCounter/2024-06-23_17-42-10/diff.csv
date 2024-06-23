@@ -1,0 +1,13 @@
+"filename", "language", "JSON", "JavaScript JSX", "TypeScript JSX", "comment", "blank", "total"
+"f:\学习\大三下\项目实训\sapphire-client\package.json", "JSON", 2, 0, 0, 0, 0, 2
+"f:\学习\大三下\项目实训\sapphire-client\src\api\getHeat.jsx", "JavaScript JSX", 0, 1, 0, 0, 1, 2
+"f:\学习\大三下\项目实训\sapphire-client\src\components\LoadingButton.jsx", "JavaScript JSX", 0, 76, 0, 10, 4, 90
+"f:\学习\大三下\项目实训\sapphire-client\src\components\MyTextArea.jsx", "JavaScript JSX", 0, 25, 0, 10, 5, 40
+"f:\学习\大三下\项目实训\sapphire-client\src\constants\url.jsx", "JavaScript JSX", 0, 5, 0, 0, 0, 5
+"f:\学习\大三下\项目实训\sapphire-client\src\pages\consoleboard\ConsoleBoard.tsx", "TypeScript JSX", 0, 0, 8, 0, 0, 8
+"f:\学习\大三下\项目实训\sapphire-client\src\pages\dataset\DatasetDetail.tsx", "TypeScript JSX", 0, 0, 40, 0, 1, 41
+"f:\学习\大三下\项目实训\sapphire-client\src\pages\profile\Profile.tsx", "TypeScript JSX", 0, 0, 23, -3, 2, 22
+"f:\学习\大三下\项目实训\sapphire-client\src\pages\setting\Setting.jsx", "JavaScript JSX", 0, 319, 0, 11, 12, 342
+"f:\学习\大三下\项目实训\sapphire-client\src\pages\setting\Setting.tsx", "TypeScript JSX", 0, 0, -43, 0, -5, -48
+"f:\学习\大三下\项目实训\sapphire-client\src\router\index.tsx", "TypeScript JSX", 0, 0, 0, 1, 0, 1
+"Total", "-", 2, 426, 28, 29, 20, 505

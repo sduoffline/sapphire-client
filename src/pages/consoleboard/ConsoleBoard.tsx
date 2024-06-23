@@ -27,12 +27,13 @@ export default function ConsoleBoard() {
     queryKey: [running_dataset_url],
     queryFn: queryFn,
   });
+
   return (
     <>
       <Stack direction="row" spacing={2}>
         <Avatar
           alt="Sapphire"
-          src="https://cloud.icooper.cc/apps/sharingpath/PicSvr/PicMain/Sapphire_transparentbg.png"
+          src={localStorage.getItem("avatar")?.toString()}
           sx={{ width: 64, height: 64 }}
         />
         <Typography variant="h6">

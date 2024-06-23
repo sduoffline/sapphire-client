@@ -22,6 +22,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import ProgressTab from "./ProgressTab";
 import PreviewTab from "./PreviewTab";
 import AndroidIcon from "@mui/icons-material/Android";
+import BackupIcon from "@mui/icons-material/Backup";
 import useSingleDataset from "../../queries/useSingleDataset";
 import AddIcon from "@mui/icons-material/Add";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -36,6 +37,7 @@ import { DataSetProps } from "../../components/helpers/Interface";
 import { postQueryFn } from "../../queries/postQueryFn";
 import { useSnackbar } from "notistack";
 import Loading from "../../components/loading";
+import UploadIcon from "@mui/icons-material/Upload";
 // const data = {
 //   dataSetId: 1, //数据集id
 //   dataSetName: "抓马", //数据集名称
@@ -588,7 +590,7 @@ export default function DatasetDetail() {
                     tabIndex={-1}
                     startIcon={<DownloadIcon />}
                   >
-                    下载
+                    下载结果
                   </Button>
                   <Button
                     sx={{ mt: 2 }}
@@ -596,7 +598,7 @@ export default function DatasetDetail() {
                     role={undefined}
                     variant="contained"
                     tabIndex={-1}
-                    startIcon={<DownloadIcon />}
+                    startIcon={<UploadIcon />}
                   >
                     上传数据
                     <input

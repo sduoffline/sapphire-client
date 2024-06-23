@@ -1,0 +1,48 @@
+Date : 2024-06-23 17:42:10
+Directory : f:\学习\大三下\项目实训\sapphire-client
+Total : 11 files,  456 codes, 29 comments, 20 blanks, all 505 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |          5 |        426 |         31 |         22 |        479 |
+| TypeScript JSX |          5 |         28 |         -2 |         -2 |         24 |
+| JSON           |          1 |          2 |          0 |          0 |          2 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                   | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                      |         11 |        456 |         29 |         20 |        505 |
+| . (Files)                                                              |          1 |          2 |          0 |          0 |          2 |
+| src                                                                    |         10 |        454 |         29 |         20 |        503 |
+| src\api                                                                |          1 |          1 |          0 |          1 |          2 |
+| src\components                                                         |          2 |        101 |         20 |          9 |        130 |
+| src\constants                                                          |          1 |          5 |          0 |          0 |          5 |
+| src\pages                                                              |          5 |        347 |          8 |         10 |        365 |
+| src\pages\consoleboard                                                 |          1 |          8 |          0 |          0 |          8 |
+| src\pages\dataset                                                      |          1 |         40 |          0 |          1 |         41 |
+| src\pages\profile                                                      |          1 |         23 |         -3 |          2 |         22 |
+| src\pages\setting                                                      |          2 |        276 |         11 |          7 |        294 |
+| src\router                                                             |          1 |          0 |          1 |          0 |          1 |
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                               | language       | code       | comment    | blank      | total      |
++------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| f:\学习\大三下\项目实训\sapphire-client\package.json                            | JSON           |          2 |          0 |          0 |          2 |
+| f:\学习\大三下\项目实训\sapphire-client\src\api\getHeat.jsx                     | JavaScript JSX |          1 |          0 |          1 |          2 |
+| f:\学习\大三下\项目实训\sapphire-client\src\components\LoadingButton.jsx        | JavaScript JSX |         76 |         10 |          4 |         90 |
+| f:\学习\大三下\项目实训\sapphire-client\src\components\MyTextArea.jsx           | JavaScript JSX |         25 |         10 |          5 |         40 |
+| f:\学习\大三下\项目实训\sapphire-client\src\constants\url.jsx                   | JavaScript JSX |          5 |          0 |          0 |          5 |
+| f:\学习\大三下\项目实训\sapphire-client\src\pages\consoleboard\ConsoleBoard.tsx | TypeScript JSX |          8 |          0 |          0 |          8 |
+| f:\学习\大三下\项目实训\sapphire-client\src\pages\dataset\DatasetDetail.tsx     | TypeScript JSX |         40 |          0 |          1 |         41 |
+| f:\学习\大三下\项目实训\sapphire-client\src\pages\profile\Profile.tsx           | TypeScript JSX |         23 |         -3 |          2 |         22 |
+| f:\学习\大三下\项目实训\sapphire-client\src\pages\setting\Setting.jsx           | JavaScript JSX |        319 |         11 |         12 |        342 |
+| f:\学习\大三下\项目实训\sapphire-client\src\pages\setting\Setting.tsx           | TypeScript JSX |        -43 |          0 |         -5 |        -48 |
+| f:\学习\大三下\项目实训\sapphire-client\src\router\index.tsx                    | TypeScript JSX |          0 |          1 |          0 |          1 |
+| Total                                                                  |                |        456 |         29 |         20 |        505 |
++------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
